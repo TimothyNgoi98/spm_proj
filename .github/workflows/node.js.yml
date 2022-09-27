@@ -1,0 +1,51 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: SPM_CI_PIPELINE
+
+env:
+  SCREENER_API_KEY: ${{secrets.SCREENER_API_KEY}}
+  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Install Dependendencies
+      run: |
+        cd spm_project
+        npm ci
+    - name: Build the application
+      run: |
+        cd spm_project
+        npm run build
+    - name: Run component tests
+      run: |
+        cd spm_project
+        npm run test
+    - name: Starting the application
+      run: |
+        cd spm_project
+        npm start &
+        npm wait on --timeout 60000
+
