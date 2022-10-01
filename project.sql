@@ -131,10 +131,13 @@ create Table Learning_Journey
     LearningJourney_ID int not null,
     Staff_ID int not null,
     JobRole_ID int not null,
+    Course_ID int not null,
     Is_Active int not null,
     CONSTRAINT  primary key (LearningJourney_ID),
     CONSTRAINT Learning_Journey_fk foreign key (Staff_ID) References Staff(Staff_ID),
-    CONSTRAINT Learning_Journey_fk2 foreign key (JobRole_ID) References Job_Role(JobRole_ID)
+    CONSTRAINT Learning_Journey_fk2 foreign key (JobRole_ID) References Job_Role(JobRole_ID),
+    CONSTRAINT Learning_Journey_fk3 foreign key (Course_ID) References Course(Course_ID)
+
 );
 
 create Table Registration
