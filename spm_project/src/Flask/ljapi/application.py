@@ -4,18 +4,21 @@ application.py
 """
 
 from flask import Flask
+from flask_cors import CORS
 
 def create_app(app_name='LJ_API'):
     app = Flask(app_name)
+    CORS(app)
     app.config.from_object('ljapi.config.BaseConfig')
 
     from ljapi.api import api
     app.register_blueprint(api, url_prefix="/api")
 
-    from ljapi.api import role
-    app.register_blueprint(role, url_prefix="/api")
+    # from ljapi.api import role
+    # app.register_blueprint(role, url_prefix="/api")
     
     from ljapi.models import db
     db.init_app(app)
 
     return app
+
