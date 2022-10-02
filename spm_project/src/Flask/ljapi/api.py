@@ -18,4 +18,3 @@ def surveys():
             "data": [role.to_dict() for role in roles]
         }
     )
-    

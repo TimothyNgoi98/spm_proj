@@ -11,6 +11,9 @@ def create_app(app_name='LJ_API'):
 
     from ljapi.api import api
     app.register_blueprint(api, url_prefix="/api")
+
+    from ljapi.api import role
+    app.register_blueprint(role, url_prefix="/api")
     
     from ljapi.models import db
     db.init_app(app)

@@ -5,7 +5,12 @@ config.py
 
 class BaseConfig(object):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root@localhost:3306/spm_project'
+    # Windows:
+    # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root@localhost:3306/spm_project'
+    # MacBook
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://localhost:3306/spm_project'
+
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # used for encryption and session management
     # SECRET_KEY = 'mysecretkey'
