@@ -8,7 +8,7 @@ import {useNavigate} from 'react-router-dom';
 
 // Import All Redux ToolKit here
 import { useSelector, useDispatch } from 'react-redux';
-import { setstaffid, setstafffname, setstafflname, setdept, setemail, setroleid } from '../reduxslice/sessionSlice'
+import { setstaffid, setstafffname, setstafflname, setdept, setemail, setroleid, setrolename} from '../reduxslice/sessionSlice'
 
 // Import all the molecules files here
 
@@ -61,6 +61,7 @@ function Signin() {
                 dispatch(setdept(data.data.dept))
                 dispatch(setemail(data.data.email))
                 dispatch(setroleid(data.data.role_id))
+                dispatch(setrolename(data.role.role_name))
 
                 // Route them to Nav View
                 navigate("/", {replace: true})
@@ -81,7 +82,7 @@ function Signin() {
     }
 
     return (
-        <Grid container marginTop={"25px"}>
+        <Grid container marginTop="5%">
             
             <Grid item xs={12}>
                 <Typography variant="h6">Log in to your User Account</Typography>
