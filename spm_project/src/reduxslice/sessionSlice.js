@@ -6,7 +6,8 @@ const initialState = {
     staff_lname: "",
     dept: "",
     email: "",
-    role_id: ""
+    role_id: "",
+    rolename: ""
 }
 
 export const const_session_slice = createSlice({
@@ -31,6 +32,9 @@ export const const_session_slice = createSlice({
         setroleid: (state, action) => {
             state.role_id = action.payload
         },
+        setrolename: (state, action) => {
+            state.rolename = action.payload
+        },
 
     }
 })
@@ -42,6 +46,6 @@ export const const_session_slice = createSlice({
 // We can change the state directly via state.login = payload.actions 
 
 // The list of reducers (Functions)
-export const { setstaffid, setstafffname ,setstafflname, setdept, setemail, setroleid} = const_session_slice.actions;
+export const { setstaffid, setstafffname ,setstafflname, setdept, setemail, setroleid, setrolename} = const_session_slice.actions;
 
 export default const_session_slice.reducer
