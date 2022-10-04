@@ -44,7 +44,7 @@ def create_app(app_name='LJ_API'):
 
     # staffroute
     from ljapi.routes.staffroute import staff
-    app.register_blueprint(staff,url_prefix="/skill")
+    app.register_blueprint(staff,url_prefix="/staff")
 
 
 
