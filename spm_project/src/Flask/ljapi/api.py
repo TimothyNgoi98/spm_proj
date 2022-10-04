@@ -42,11 +42,16 @@ def signin(LoginID):
 
         server_id = server_side['staff_id']
 
+        # Get the Role name as well. 
+        role_id = server_side['role_id']
+        server_role_query = Role.query.filter_by(role_id=role_id).first().to_dict()
+
         if received_id == server_id:
             return jsonify({
                 "code":200,
                 "message" : "Login is successful",
-                "data": server_side
+                "data": server_side,
+                "role": server_role_query
             })
         
         else:
@@ -55,3 +60,5 @@ def signin(LoginID):
                 "message": "Password is wrong."
             })
 # End of Authentication Function
+
+
