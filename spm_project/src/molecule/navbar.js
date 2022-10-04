@@ -121,13 +121,13 @@ const Navbar = () => {
                             <Box display="flex">
                                 <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hradmin">
                                     <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
-                                        HR Dashboard 
+                                        Skills Management
                                     </Button>
                                 </NavLink>
 
                                 <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/">
                                     <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
-                                        Add a Course
+                                        Roles Management
                                     </Button>
                                 </NavLink>
                             </Box>

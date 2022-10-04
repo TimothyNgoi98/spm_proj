@@ -4,6 +4,7 @@ api.py
 REST requests and responses
 """
 from flask import Blueprint, jsonify, request
+from sqlalchemy import true
 from .models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
 
 
@@ -60,5 +61,25 @@ def signin(LoginID):
                 "message": "Password is wrong."
             })
 # End of Authentication Function
+
+# Viewing of Skills 
+# Created by: Song Yu Xiang 
+@api.route("/viewskills", methods=['GET'])
+def viewskills():
+    skills = Skill.query.all()
+
+    print(type(skills))
+
+    result_list = []
+
+    for element in skills:
+        result_list.append(element.to_dict())
+
+    return jsonify({
+        "data":result_list
+    })
+
+# End of Viewing of Skills 
+
 
 
