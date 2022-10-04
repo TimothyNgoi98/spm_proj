@@ -17,6 +17,7 @@ import Navbar from './molecule/navbar';
 import ProtectedRoutesforUser from './ProtectedRoutes/protectedroutesforuser';
 import ProtectedRoutesforhr from './ProtectedRoutes/protectedroutesforhr';
 import ProtectedRoutesformanager from './ProtectedRoutes/protectedroutesformanager';
+import User from './molecule/user'
 
 // Import ALL material UI things here
 
@@ -31,7 +32,7 @@ function App() {
             <Route path="/signin" element ={<Signin />} />
             {/* Protected Routes for User */}
             <Route element = {<ProtectedRoutesforUser />}>
-
+              <Route path="/user" element ={<User />} />
             </Route>
 
             {/* Protected Routes for HR */}
