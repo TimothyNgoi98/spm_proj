@@ -23,9 +23,9 @@ skill_to_course = db.Table('skill_to_course',
 )
 
 # Association table job role to skill
-skill_to_jobrole = db.Table('skill_to_jobrole',
-    db.Column('skill_id',db.Integer,db.ForeignKey('Skill.skill_id')),
-    db.Column('jobrole_id',db.Integer,db.ForeignKey('Jobrole.jobrole_id'))
+job_role_to_skill = db.Table('job_role_to_skill',
+    db.Column('skill_id',db.Integer,db.ForeignKey('skill.skill_id')),
+    db.Column('jobrole_id',db.Integer,db.ForeignKey('job_role.jobrole_id'))
 )
 
 # Multivalue table for course_id in learningjourney
@@ -44,10 +44,6 @@ class Role(db.Model):
     # Specify the one to many relationship of  the staff
     staffs = db.relationship('Staff',backref="role")
 
-
-    # def __init__(self, role_id, role_name):
-    #     self.role_id= role_id
-    #     self.role_name = role_name
 
     def to_dict(self):
         """
@@ -70,7 +66,9 @@ class Jobrole(db.Model):
     jobrole_id = db.Column(db.Integer, primary_key=True)
     jobrole_name = db.Column(db.String(100), nullable=False)
     jobrole_desc = db.Column(db.String(100), nullable=False)
-    learningjourneys = db.relationship('Learningjourney',backref="jobrole")
+    skills = db.relationship('Skill',secondary="job_role_to_skill", backref="jobrole" ,lazy="select")
+    learningjourneys = db.relationship('Learningjourney',backref="jobrole", lazy="joined")
+    # staffs = db.relationship('Staff',back_populates="staff")
 
 
 
@@ -102,8 +100,9 @@ class Course(db.Model):
     course_status = db.Column(db.Integer, nullable=False)
     course_type = db.Column(db.String(200), nullable=False)
     course_category = db.Column(db.String(100), nullable=False)
-    registrations = db.relationship('Registration', backref='course')
-    learningjourneys = db.relationship('Learningjourney',backref='course')
+    registrations = db.relationship('Registration', backref='course',lazy="select", uselist=False)
+    learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
+    skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select")
 
 
     
@@ -174,9 +173,9 @@ class Staff(db.Model):
     email = db.Column(db.String(100), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey("role.role_id"))
     # One to many relationship with registration
-    registrations = db.relationship('Registration', backref='staff')
+    registrations = db.relationship('Registration', backref='staff',lazy="select", uselist=False)
     learningjourneys = db.relationship('Learningjourney',backref='staff')
-
+    # staffs = db.relationship('Role',back_populates="staff")
     # def __init__(self, staff_id, staff_fname, staff_lname,dept,email,role_id):
     #     self.staff_id = staff_id
     #     self.staff_fname = staff_fname

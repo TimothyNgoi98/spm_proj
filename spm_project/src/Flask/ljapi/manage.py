@@ -2,7 +2,7 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
 from ljapi.application import create_app
-from ljapi.models import db, Role, Jobrole,Skill,Staff,Learningjourney,Registration
+from ljapi.models import db, Role, Jobrole,Skill,Staff,Learningjourney,Registration,Course
 
 # This page would just be for debugging purposes
 app = create_app()
