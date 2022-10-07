@@ -4,6 +4,7 @@ import { useState,useEffect, useCallback } from 'react';
 
 
 // Import All Router Links here
+import {useNavigate} from 'react-router-dom';
 
 // Import All Redux ToolKit here
 
@@ -30,12 +31,12 @@ import TableRow from '@mui/material/TableRow';
 
 function Hrskills() {
 
+  // UseNavigate, for internal routing. 
+  let navigate = useNavigate()
+
   const [output , handleoutput] = useState([])
 
-//   const handleusername = (data) => {
-//     setlogin(event.target.value)
-// }
-  
+  // Fetching Async 
   useEffect(() => {
 
     const fetchMyAPI = async () => {
@@ -50,7 +51,9 @@ function Hrskills() {
   console.log(typeof output)
   console.log(output)
 
-  
+  const addbutton = () => {
+    navigate("/Hraddskill", {replace: true})
+  }
 
 
   return (
@@ -68,7 +71,7 @@ function Hrskills() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button>Add</Button>
+                <Button onClick={addbutton}>Add</Button>
                 <Button>Delete</Button>
                 <Button>Update</Button>
               </ButtonGroup>

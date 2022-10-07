@@ -12,20 +12,20 @@ def route1():
     # Simulate assigning and adding new skills
     staff.skills.append(skill1)
     staff.skills.append(skill2)
-
-    
-
     array = []
-
     for item in staff.skills:
         array.append(
             item.to_dict()
         )
-        
-
     return jsonify(
         {   
             "jobrole" : staff.to_dict(),
             "skillassociated": array
         }
     )
+
+# Adding Skills 
+@skill.route('/addskill/')
+def addskill():
+    data = request.get_json()
+    print(data)

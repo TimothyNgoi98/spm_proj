@@ -17,6 +17,7 @@ import ProtectedRoutesforUser from './ProtectedRoutes/protectedroutesforuser';
 import ProtectedRoutesforhr from './ProtectedRoutes/protectedroutesforhr';
 import ProtectedRoutesformanager from './ProtectedRoutes/protectedroutesformanager';
 import Hrskills from './molecule/hrskills';
+import Hraddskill from './molecule/hraddskill';
 
 // Import ALL material UI things here
 
@@ -37,6 +38,8 @@ function App() {
             {/* Protected Routes for HR */}
             <Route element = {<ProtectedRoutesforhr />}>
               <Route path="/Hradmin" element = {<Hrskills/>}/>
+              <Route path="/Hraddskill" element = {<Hraddskill/>}/>
+
             </Route>
 
             {/* Protected Routes for Manager  */}
