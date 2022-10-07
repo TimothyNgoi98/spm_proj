@@ -102,7 +102,7 @@ class Course(db.Model):
     course_category = db.Column(db.String(100), nullable=False)
     registrations = db.relationship('Registration', backref='course',lazy="select", uselist=False)
     learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
-    skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select")
+    # skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select", uselist=False)
 
 
     
@@ -138,7 +138,7 @@ class Skill(db.Model):
     skill_name = db.Column(db.String(100), nullable=False)
     skill_desc = db.Column(db.String(100), nullable=False)
     skills_status = db.Column(db.Integer, nullable=False)
-    skills_to_course = db.relationship('Course', secondary="skill_to_course",backref="skill")
+    courses= db.relationship('Course', secondary="skill_to_course",backref="skill")
 
     # def __init__(self, skill_id, skill_name, skill_desc,skill_status):
     #     self.skill_id = skill_id
