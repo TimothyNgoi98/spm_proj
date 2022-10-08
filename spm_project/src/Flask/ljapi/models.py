@@ -18,20 +18,20 @@ CORS()
 # ======= Association table ========
 # Association table Skills to course (Apparently have to put this infront first)
 skill_to_course = db.Table('skill_to_course',
-    db.Column('skill_id',db.Integer,db.ForeignKey('skill.skill_id')),
-    db.Column('course_id',db.Integer,db.ForeignKey('course.course_id'))
+    db.Column('skill_id',db.String(20),db.ForeignKey('skill.skill_id')),
+    db.Column('course_id',db.String(20),db.ForeignKey('course.course_id'))
 )
 
 # Association table job role to skill
 skill_to_jobrole = db.Table('skill_to_jobrole',
-    db.Column('skill_id',db.Integer,db.ForeignKey('Skill.skill_id')),
+    db.Column('skill_id',db.String(20),db.ForeignKey('Skill.skill_id')),
     db.Column('jobrole_id',db.Integer,db.ForeignKey('Jobrole.jobrole_id'))
 )
 
 # Multivalue table for course_id in learningjourney
 learning_journey_detailed = db.Table('learning_journey_detailed',
-    db.Column('learningjourney_id',db.Integer,db.ForeignKey('learning_journey.learningjourney_id')),
-    db.Column('course_id',db.Integer,db.ForeignKey('course.course_id'))
+    db.Column('learningjourney_id',db.String(20),db.ForeignKey('learning_journey.learningjourney_id')),
+    db.Column('course_id',db.String(20),db.ForeignKey('course.course_id'))
 )
 
 
@@ -40,7 +40,7 @@ learning_journey_detailed = db.Table('learning_journey_detailed',
 class Role(db.Model):
     __tablename__="role"
     role_id = db.Column(db.Integer, primary_key=True)
-    role_name = db.Column(db.String(100), nullable=False)
+    role_name = db.Column(db.String(20), nullable=False)
     # Specify the one to many relationship of  the staff
     staffs = db.relationship('Staff',backref="role")
 
@@ -68,8 +68,8 @@ class Role(db.Model):
 class Jobrole(db.Model):
     __tablename__="job_role"
     jobrole_id = db.Column(db.Integer, primary_key=True)
-    jobrole_name = db.Column(db.String(100), nullable=False)
-    jobrole_desc = db.Column(db.String(100), nullable=False)
+    jobrole_name = db.Column(db.String(20), nullable=False)
+    jobrole_desc = db.Column(db.String(255), nullable=False)
     learningjourneys = db.relationship('Learningjourney',backref="jobrole")
 
 
@@ -96,12 +96,12 @@ class Jobrole(db.Model):
 # Class Course LMS
 class Course(db.Model):
     __tablename__="course"
-    course_id = db.Column(db.Integer, primary_key=True)
-    course_name = db.Column(db.String(100), nullable=False)
-    course_desc = db.Column(db.String(100), nullable=False)
-    course_status = db.Column(db.Integer, nullable=False)
-    course_type = db.Column(db.String(200), nullable=False)
-    course_category = db.Column(db.String(100), nullable=False)
+    course_id = db.Column(db.String(20), primary_key=True)
+    course_name = db.Column(db.String(50), nullable=False)
+    course_desc = db.Column(db.String(255), nullable=False)
+    course_status = db.Column(db.String(15), nullable=False)
+    course_type = db.Column(db.String(10), nullable=False)
+    course_category = db.Column(db.String(50), nullable=False)
     registrations = db.relationship('Registration', backref='course')
     learningjourneys = db.relationship('Learningjourney',backref='course')
 
@@ -135,10 +135,10 @@ class Course(db.Model):
 # Class Skill
 class Skill(db.Model):
     __tablename__= "skill"
-    skill_id = db.Column(db.Integer, primary_key=True)
-    skill_name = db.Column(db.String(100), nullable=False)
-    skill_desc = db.Column(db.String(100), nullable=False)
-    skills_status = db.Column(db.Integer, nullable=False)
+    skill_id = db.Column(db.String(20), primary_key=True)
+    skill_name = db.Column(db.String(50), nullable=False)
+    skill_desc = db.Column(db.String(255), nullable=False)
+    skills_status = db.Column(db.String(15), nullable=False)
     skills_to_course = db.relationship('Course', secondary="skill_to_course",backref="skill")
 
     # def __init__(self, skill_id, skill_name, skill_desc,skill_status):
@@ -168,10 +168,10 @@ class Skill(db.Model):
 class Staff(db.Model):
     __tablename__= "staff"
     staff_id = db.Column(db.Integer, primary_key=True)
-    staff_fname = db.Column(db.String(100), nullable=False)
-    staff_lname = db.Column(db.String(100), nullable=False)
-    dept = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
+    staff_fname = db.Column(db.String(50), nullable=False)
+    staff_lname = db.Column(db.String(50), nullable=False)
+    dept = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey("role.role_id"))
     # One to many relationship with registration
     registrations = db.relationship('Registration', backref='staff')
@@ -202,13 +202,13 @@ class Staff(db.Model):
 # Class Learning Journey
 class Learningjourney(db.Model):
     __tablename__= "learning_journey"
-    learningjourney_id = db.Column(db.Integer, primary_key=True)
+    learningjourney_id = db.Column(db.String(25), primary_key=True)
     staff_id = db.Column(db.Integer, db.ForeignKey("staff.staff_id"))
     # Foreign key is based on the table name
     jobrole_id = db.Column(db.Integer, db.ForeignKey("job_role.jobrole_id"))
-    course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"))
-    courses_taken = db.relationship('Course',secondary="learning_journey_detailed",backref="course")
-    is_active = db.Column(db.Integer, nullable=False)
+    course_id = db.Column(db.String(20), db.ForeignKey("course.course_id"))
+    # courses_taken = db.relationship('Course',secondary="learning_journey_detailed",backref="course")
+    is_active = db.Column(db.Boolean, nullable=False)
 
     def to_dict(self):
         """
@@ -228,10 +228,10 @@ class Learningjourney(db.Model):
 class Registration(db.Model):
     __tablename__= "registration"
     reg_id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"))
+    course_id = db.Column(db.String(20), db.ForeignKey("course.course_id"))
     staff_id = db.Column(db.Integer,db.ForeignKey("staff.staff_id"))
-    reg_status = db.Column(db.Integer, nullable=False)
-    complete_status = db.Column(db.Integer, nullable=False)
+    reg_status = db.Column(db.String(20), nullable=False)
+    completion_status = db.Column(db.String(20), nullable=False)
     # Need to account for the foreign keys here
     def to_dict(self):
         """
