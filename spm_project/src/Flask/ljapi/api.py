@@ -85,3 +85,12 @@ def viewskills():
 
 
 
+
+@api.route('/jobrole')
+def getjobroles():
+    jobroles = Jobrole.query.all()
+    return jsonify(
+        {
+            "data": [jobrole.to_dict() for jobrole in jobroles]
+        }
+    )
