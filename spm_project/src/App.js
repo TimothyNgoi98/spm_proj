@@ -11,13 +11,13 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 // Import all the molecules files here
 import Home from './molecule/home';
 import Signin from "./molecule/signin";
-import HRadmin from './molecule/hradmin';
 import Manager from './molecule/manager';
 import Navbar from './molecule/navbar';
 import ProtectedRoutesforUser from './ProtectedRoutes/protectedroutesforuser';
 import ProtectedRoutesforhr from './ProtectedRoutes/protectedroutesforhr';
 import ProtectedRoutesformanager from './ProtectedRoutes/protectedroutesformanager';
 import User from './molecule/user'
+import Hrskills from './molecule/hrskills';
 
 // Import ALL material UI things here
 
@@ -37,7 +37,7 @@ function App() {
 
             {/* Protected Routes for HR */}
             <Route element = {<ProtectedRoutesforhr />}>
-              <Route path="/Hradmin" element = {<HRadmin/>}/>
+              <Route path="/Hradmin" element = {<Hrskills/>}/>
             </Route>
 
             {/* Protected Routes for Manager  */}
