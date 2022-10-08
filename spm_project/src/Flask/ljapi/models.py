@@ -39,10 +39,10 @@ learning_journey_detailed = db.Table('learning_journey_detailed',
 # class Role (From the LMS side)
 class Role(db.Model):
     __tablename__="role"
-    role_id = db.Column(db.Integer, primary_key=True)
+    role_id= db.Column(db.Integer, primary_key=True)
     role_name = db.Column(db.String(100), nullable=False)
     # Specify the one to many relationship of  the staff
-    staffs = db.relationship('Staff',backref="role")
+    staffs = db.relationship('Staff',backref="indiv_role")
 
 
     def to_dict(self):
@@ -137,7 +137,7 @@ class Skill(db.Model):
     skill_id = db.Column(db.Integer, primary_key=True)
     skill_name = db.Column(db.String(100), nullable=False)
     skill_desc = db.Column(db.String(100), nullable=False)
-    skills_status = db.Column(db.Integer, nullable=False)
+    skill_status = db.Column(db.Integer, nullable=False)
     courses= db.relationship('Course', secondary="skill_to_course",backref="skill")
 
     # def __init__(self, skill_id, skill_name, skill_desc,skill_status):
@@ -171,7 +171,7 @@ class Staff(db.Model):
     staff_lname = db.Column(db.String(100), nullable=False)
     dept = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    role_id = db.Column(db.Integer, db.ForeignKey("role.role_id"))
+    role = db.Column(db.Integer, db.ForeignKey("role.role_id"))
     # One to many relationship with registration
     registrations = db.relationship('Registration', backref='staff',lazy="select", uselist=False)
     learningjourneys = db.relationship('Learningjourney',backref='staff')
@@ -230,7 +230,7 @@ class Registration(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"))
     staff_id = db.Column(db.Integer,db.ForeignKey("staff.staff_id"))
     reg_status = db.Column(db.Integer, nullable=False)
-    complete_status = db.Column(db.Integer, nullable=False)
+    completion_status = db.Column(db.Integer, nullable=False)
     # Need to account for the foreign keys here
     def to_dict(self):
         """
