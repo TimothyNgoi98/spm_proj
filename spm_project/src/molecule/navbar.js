@@ -137,6 +137,12 @@ const Navbar = () => {
                                         Roles Management
                                     </Button>
                                 </NavLink>
+
+                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/mappings">
+                                    <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
+                                        Manage Mappings
+                                    </Button>
+                                </NavLink>
                             </Box>
                             <Box display="flex"justifyContent="flex-end">
                             {/* <Link to="/signup"> */}
