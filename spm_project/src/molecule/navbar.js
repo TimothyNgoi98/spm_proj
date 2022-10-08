@@ -104,6 +104,13 @@ const Navbar = () => {
                                         Learning Journey
                                     </Button>
                                 </NavLink>
+
+                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/user">
+                                    <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
+                                        userCourse
+                                    </Button>
+                                </NavLink>
+
                             </Box>
                             <Box display="flex"justifyContent="flex-end">
                             {/* <Link to="/signup"> */}
