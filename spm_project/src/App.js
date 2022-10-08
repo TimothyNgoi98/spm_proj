@@ -18,6 +18,8 @@ import ProtectedRoutesforhr from './ProtectedRoutes/protectedroutesforhr';
 import ProtectedRoutesformanager from './ProtectedRoutes/protectedroutesformanager';
 import User from './molecule/user'
 import Hrskills from './molecule/hrskills';
+import Coursemapping from './molecule/coursemapping';
+import Courseskills from './molecule/courseskills'
 
 // Import ALL material UI things here
 
@@ -38,6 +40,8 @@ function App() {
             {/* Protected Routes for HR */}
             <Route element = {<ProtectedRoutesforhr />}>
               <Route path="/Hradmin" element = {<Hrskills/>}/>
+              <Route path="/mappings" element = {<Coursemapping/>}/>
+              <Route path ="/courseskills" element = {<Courseskills/>}/>
             </Route>
 
             {/* Protected Routes for Manager  */}

@@ -42,7 +42,7 @@ class Role(db.Model):
     role_id = db.Column(db.Integer, primary_key=True)
     role_name = db.Column(db.String(20), nullable=False)
     # Specify the one to many relationship of  the staff
-    staffs = db.relationship('Staff',backref="role")
+    staffs = db.relationship('Staff',backref="indiv_role")
 
 
     def to_dict(self):
@@ -102,7 +102,7 @@ class Course(db.Model):
     course_category = db.Column(db.String(50), nullable=False)
     registrations = db.relationship('Registration', backref='course',lazy="select", uselist=False)
     learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
-    skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select")
+    # skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select", uselist=False)
 
     
 
@@ -170,7 +170,8 @@ class Staff(db.Model):
     staff_lname = db.Column(db.String(50), nullable=False)
     dept = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
-    role_id = db.Column(db.Integer, db.ForeignKey("role.role_id"))
+    role = db.Column(db.Integer, db.ForeignKey("role.role_id"))
+    
     # One to many relationship with registration
     registrations = db.relationship('Registration', backref='staff',lazy="select", uselist=False)
     learningjourneys = db.relationship('Learningjourney',backref='staff')
@@ -230,6 +231,7 @@ class Registration(db.Model):
     staff_id = db.Column(db.Integer,db.ForeignKey("staff.staff_id"))
     reg_status = db.Column(db.String(20), nullable=False)
     completion_status = db.Column(db.String(20), nullable=False)
+    
     # Need to account for the foreign keys here
     def to_dict(self):
         """
