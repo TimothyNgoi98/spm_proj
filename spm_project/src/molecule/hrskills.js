@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useState,useEffect, useCallback } from 'react';
 
 
+
 // Import All Router Links here
 
 // Import All Redux ToolKit here
@@ -26,9 +27,17 @@ import TableRow from '@mui/material/TableRow';
 
 
 
+// Just to try: 
+import {useSelector} from 'react-redux';
 
 
 function Hrskills() {
+  
+  // Just to try: 
+  // state.transfer (this transfer refers to the store.js , what name you linked it to )
+  // 3rd paramter will be the initial state , one of the ojbect name 
+  const jiepeng = useSelector((state) => state.transfer.transfer)
+
 
   const [output , handleoutput] = useState([])
 
@@ -55,6 +64,7 @@ function Hrskills() {
 
   return (
       <Container>
+        {console.log(jiepeng)}
         <Box marginTop="5%">
 
           
