@@ -5,7 +5,8 @@ REST requests and responses
 """
 from flask import Blueprint, jsonify, request
 from .models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
-
+from flask import Flask
+from flask_cors import CORS
 
 api = Blueprint('api', __name__)
 
