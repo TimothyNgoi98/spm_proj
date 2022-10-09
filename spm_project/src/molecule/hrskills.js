@@ -5,6 +5,7 @@ import { useState,useEffect, useCallback } from 'react';
 
 
 // Import All Router Links here
+import {useNavigate} from 'react-router-dom';
 
 // Import All Redux ToolKit here
 
@@ -39,18 +40,20 @@ function Hrskills() {
   const jiepeng = useSelector((state) => state.transfer.transfer)
 
 
+  // UseNavigate, for internal routing. 
+  let navigate = useNavigate()
+
   const [output , handleoutput] = useState([])
 
-//   const handleusername = (data) => {
-//     setlogin(event.target.value)
-// }
-  
+  // Fetching Async 
   useEffect(() => {
 
     const fetchMyAPI = async () => {
       let response = await fetch("http://127.0.0.1:5000/api/viewskills")
       response = await response.json()
       handleoutput(response.data)
+      console.log("This is from hr Skills: " + response.data)
+      console.log(response)
     }
 
     fetchMyAPI()
@@ -59,7 +62,9 @@ function Hrskills() {
   console.log(typeof output)
   console.log(output)
 
-  
+  const addbutton = () => {
+    navigate("/Hraddskill", {replace: true})
+  }
 
 
   return (
@@ -78,7 +83,7 @@ function Hrskills() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button>Add</Button>
+                <Button onClick={addbutton}>Add</Button>
                 <Button>Delete</Button>
                 <Button>Update</Button>
               </ButtonGroup>
@@ -106,7 +111,7 @@ function Hrskills() {
                       <TableCell>{singleoutput.skill_id}</TableCell>
                       <TableCell>{singleoutput.skill_name}</TableCell>
                       <TableCell>{singleoutput.skill_desc}</TableCell>
-                      <TableCell>{singleoutput.skills_status}</TableCell>
+                      <TableCell>{singleoutput.skill_status}</TableCell>
                     </TableRow>
                     ))}
                     {/* For Loop the Content here */}

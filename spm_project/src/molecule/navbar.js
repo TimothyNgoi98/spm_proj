@@ -36,6 +36,8 @@ const Navbar = () => {
     const role_id = useSelector((state) => state.session.role_id)
     const role_name = useSelector((state) => state.session.rolename)
 
+    console.log(role_name + "This is from navbar.js. ")
+
     // Sign out will remove the global state 
     const signout = () => {
         dispatch(setstaffid(""))
@@ -90,7 +92,7 @@ const Navbar = () => {
                         
 
                         {/* User ####################################################################################################################*/}
-                        {role_name == "User" && 
+                        {(role_name == "User" || role_name == "Admin" || role_name == "Manager" || role_name == "Trainer") && 
                         <Box display="flex" >
                             <Box display="flex">
                                 <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/">
@@ -112,18 +114,12 @@ const Navbar = () => {
                                 </NavLink>
 
                             </Box>
-                            <Box display="flex"justifyContent="flex-end">
-                            {/* <Link to="/signup"> */}
-                                <Button sx={{color:"white", borderRadius:"8px"}} variant="outlined" onClick={signout}>  
-                                   Sign Out
-                                </Button>
-                            {/* </Link> */}
-                            </Box>
+
                         </Box>
                         }
 
                         {/* HR ####################################################################################################################*/}
-                        {role_name == "Human Resource" && 
+                        {role_name == "Admin" && 
                         <Box display="flex" >
                             <Box display="flex">
                                 <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hradmin">
@@ -144,13 +140,7 @@ const Navbar = () => {
                                     </Button>
                                 </NavLink>
                             </Box>
-                            <Box display="flex"justifyContent="flex-end">
-                            {/* <Link to="/signup"> */}
-                                <Button sx={{color:"white", borderRadius:"8px"}} variant="outlined" onClick={signout}>  
-                                   Sign Out
-                                </Button>
-                            {/* </Link> */}
-                            </Box>
+
                         </Box>
                         }
 
@@ -160,7 +150,7 @@ const Navbar = () => {
                             <Box display="flex">
                                 <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/">
                                     <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
-                                        Home 
+                                        Manage Page 
                                     </Button>
                                 </NavLink>
 
@@ -170,14 +160,20 @@ const Navbar = () => {
                                     </Button>
                                 </NavLink>
                             </Box>
+
+                        </Box>
+                        }
+
+                        {/* Add a signout Button as long as they are logged in.  */}
+                        {role_name != "" &&
                             <Box display="flex"justifyContent="flex-end">
                             {/* <Link to="/signup"> */}
                                 <Button sx={{color:"white", borderRadius:"8px"}} variant="outlined" onClick={signout}>  
-                                   Sign Out
+                                    Sign Out
                                 </Button>
                             {/* </Link> */}
                             </Box>
-                        </Box>
+                        
                         }
 
                     </Box>

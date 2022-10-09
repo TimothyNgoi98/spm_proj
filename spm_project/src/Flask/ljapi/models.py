@@ -136,7 +136,7 @@ class Skill(db.Model):
     skill_id = db.Column(db.String(20), primary_key=True)
     skill_name = db.Column(db.String(50), nullable=False)
     skill_desc = db.Column(db.String(255), nullable=False)
-    skills_status = db.Column(db.String(15), nullable=False)
+    skill_status = db.Column(db.String(15), nullable=False)
     skills_to_course = db.relationship('Course', secondary="skill_to_course",backref="skill")
 
     # def __init__(self, skill_id, skill_name, skill_desc,skill_status):

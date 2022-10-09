@@ -6,7 +6,7 @@ USE `SPM_Project`;
 
 create Table Role
 (
-    Role_ID int not null,
+    Role_ID int not null AUTO_INCREMENT,
     Role_Name varchar(20) not null,
     CONSTRAINT PRIMARY KEY (Role_ID)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -19,7 +19,7 @@ INSERT INTO Role (Role_ID, Role_Name )VALUES (3, "Manager");
 
 create Table Job_Role
 (
-    JobRole_ID int not null,
+    JobRole_ID int not null AUTO_INCREMENT,
     JobRole_Name varchar(20) not null,
     JobRole_Desc varchar(250) not null,
     CONSTRAINT  primary key (JobRole_ID)
@@ -33,7 +33,7 @@ INSERT INTO Job_Role (JobRole_ID, JobRole_Name,JobRole_Desc )VALUES (3, "UX UX D
 
 create Table Course
 (
-    Course_ID int not null,
+    Course_ID int not null AUTO_INCREMENT,
     Course_Name varchar(50) not null,
     Course_Desc varchar(250) not null,
     Course_Status int not null,
@@ -61,7 +61,7 @@ VALUES (5, "Customer Relations", "to engage with its customers and improve the c
 
 create Table Skill
 (
-    Skill_ID int not null,
+    Skill_ID int not null AUTO_INCREMENT,
     Skill_Name varchar(50) not null,
     Skill_Desc varchar(250) not null,
     Skills_Status int not null,
@@ -83,7 +83,7 @@ VALUES (3, "Info technology Skill", "Able to design system architecture and code
 
 create Table Staff
 (
-    Staff_ID varchar(20) not null,
+    Staff_ID varchar(20) not null ,
     Staff_FName varchar(50) not null,
     Staff_LName varchar(50) not null,
     Dept varchar(50) not null,
@@ -106,7 +106,7 @@ VALUES ("Staff_03", "Wong Jie Peng", "Wong", "Mobile Team", "jiepeng@email.com",
 
 create Table Skill_To_Course
 (
-    Skill_ID int not null,
+    Skill_ID int not null ,
     Course_ID int not null,
     CONSTRAINT  primary key (Skill_ID,Course_ID),
     CONSTRAINT Skill_To_Course_fk foreign key (Skill_ID) References Skill(Skill_ID),
@@ -129,7 +129,7 @@ create Table Job_Role_To_Skill
 
 create Table Learning_Journey
 (
-    LearningJourney_ID int not null,
+    LearningJourney_ID int not null AUTO_INCREMENT,
     Staff_ID varchar(20) not null,
     JobRole_ID int not null,
     Course_ID int not null,

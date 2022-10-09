@@ -9,7 +9,7 @@ const useAuthforhr = () => {
     const role_name = useSelector((state) => state.session.rolename)
     // alert(role_name)
 
-    if (role_name == "Human Resource") {
+    if (role_name == "Admin") {
         return true
     }
     else {
