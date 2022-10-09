@@ -32,9 +32,6 @@ function Signin() {
         setlogin(event.target.value)
     }
 
-    
-
-
     const loginbutton = () => {
         const result = {"login": login}
         const options = {
@@ -54,14 +51,25 @@ function Signin() {
             if (data.code == 200) {
                 alert("Login Successful!")
 
+                // Data Testing
+                console.log(data.data.staff_id)
+                console.log(data.data.staff_fname)
+                console.log(data.data.staff_lname)
+                console.log(data.data.dept)
+                console.log(data.data.email)
+                console.log(data.data.role)
+                console.log(data.role)
+                // End of Data Testing. 
+
                 // Store it in Global State 
                 dispatch(setstaffid(data.data.staff_id))
                 dispatch(setstafffname(data.data.staff_fname))
                 dispatch(setstafflname(data.data.staff_lname))
                 dispatch(setdept(data.data.dept))
                 dispatch(setemail(data.data.email))
-                dispatch(setroleid(data.data.role_id))
-                dispatch(setrolename(data.role.role_name))
+                dispatch(setroleid(data.data.role))
+                dispatch(setrolename(data.role))
+                // End of Storing in Global State.
 
                 // Route them to Nav View
                 navigate("/", {replace: true})

@@ -52,6 +52,8 @@ function Hrskills() {
       let response = await fetch("http://127.0.0.1:5000/api/viewskills")
       response = await response.json()
       handleoutput(response.data)
+      console.log("This is from hr Skills: " + response.data)
+      console.log(response)
     }
 
     fetchMyAPI()
@@ -109,7 +111,7 @@ function Hrskills() {
                       <TableCell>{singleoutput.skill_id}</TableCell>
                       <TableCell>{singleoutput.skill_name}</TableCell>
                       <TableCell>{singleoutput.skill_desc}</TableCell>
-                      <TableCell>{singleoutput.skills_status}</TableCell>
+                      <TableCell>{singleoutput.skill_status}</TableCell>
                     </TableRow>
                     ))}
                     {/* For Loop the Content here */}

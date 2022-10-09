@@ -36,22 +36,20 @@ function App() {
             {/* Protected Routes for User */}
             <Route element = {<ProtectedRoutesforUser />}>
               <Route path="/user" element ={<User />} />
+                {/* Protected Routes for HR */}
+                <Route element = {<ProtectedRoutesforhr />}>
+                  <Route path="/Hradmin" element = {<Hrskills/>}/>
+                  <Route path="/Hraddskill" element = {<Hraddskill/>}/>
+
+                  <Route path="/mappings" element = {<Coursemapping/>}/>
+                  <Route path ="/courseskills" element = {<Courseskills/>}/>
+                </Route>
+
+                {/* Protected Routes for Manager  */}
+                <Route element = {<ProtectedRoutesformanager />}>
+                  <Route path="/Manager" element = {<Manager/>}/>
+                </Route>
             </Route>
-
-            {/* Protected Routes for HR */}
-            <Route element = {<ProtectedRoutesforhr />}>
-              <Route path="/Hradmin" element = {<Hrskills/>}/>
-              <Route path="/Hraddskill" element = {<Hraddskill/>}/>
-
-              <Route path="/mappings" element = {<Coursemapping/>}/>
-              <Route path ="/courseskills" element = {<Courseskills/>}/>
-            </Route>
-
-            {/* Protected Routes for Manager  */}
-            <Route element = {<ProtectedRoutesformanager />}>
-              <Route path="/Manager" element = {<Manager/>}/>
-            </Route>
-
           </Routes>
     </div>
   );

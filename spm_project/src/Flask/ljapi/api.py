@@ -48,6 +48,8 @@ def signin(LoginID):
         role= server_side['role']
         server_role_query = Role.query.filter_by(role_id=role).first().to_dict()
 
+        server_role_query = server_role_query['role_name'].rstrip("\r")  
+
         if int(received_id) == int(server_id):
             return jsonify({
                 "code":200,
@@ -78,6 +80,8 @@ def viewskills():
     for element in skills:
         result_list.append(element.to_dict())
 
+    print(result_list)
+    
     return jsonify({
         "data":result_list
     })

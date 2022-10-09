@@ -42,7 +42,7 @@ function Home() {
   useEffect(() => {
 
     const LoadJobs = async () => {
-      let response = await fetch("http://127.0.0.1:5000/api/jobrole")
+      let response = await fetch("http://127.0.0.1:5000/jobrole/display/")
         response = await response.json()
         setJobroles(response.data)
     }
@@ -51,12 +51,12 @@ function Home() {
   console.log(typeof jobroles)
   console.log(jobroles)
 
-  useEffect(() => {
-    const newFilteredJobroles = jobroles.filter((jobrole) => {
-      return jobrole.jobrole_name.toLocaleLowerCase().includes(searchField);
-    });
-    setFilteredJobroles(newFilteredJobroles);
-  }, [jobroles, searchField])
+  // useEffect(() => {
+  //   const newFilteredJobroles = jobroles.filter((jobrole) => {
+  //     return jobrole.jobrole_name.toLocaleLowerCase().includes(searchField);
+  //   });
+  //   setFilteredJobroles(newFilteredJobroles);
+  // }, [jobroles, searchField])
 
 
   const onSearchChange = (event) => {
