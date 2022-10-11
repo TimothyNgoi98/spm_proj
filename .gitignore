@@ -1,5 +1,6 @@
 node_modules
-__pycache__/
+**/__pycache__
+**/.pyc
 *.py[cod]
 *$py.class
 spm_project/src/Flask/ljapi/__pycache__/api.cpython-39.pyc
