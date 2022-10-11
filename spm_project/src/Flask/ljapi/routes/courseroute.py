@@ -36,13 +36,21 @@ def viewParticularCourse(courseid):
     course = Course.query.filter_by(course_id=courseid).first()
 
     if course:
+
+        array = []
+
+        for item in course.skill:
+            array.append(
+                item.to_dict()
+            )
+            
         return jsonify(
             {   
                 "code": 200,
                 "data": {
                     "coursedetails": course.to_dict(),
                     # .skill is referencing the backref from class Skill
-                    "skills": course.skill
+                    "skills": array
                 }
             }
         ),200

@@ -1,21 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    transfer: [],
-    filtercourseskills: []
+    test: []
 }
 
-export const transfer_selected_skill_slice = createSlice({
-    name: "transfer_selected_skill",
+export const transfer_existing_skill_slice = createSlice({
+    name: "transfer_existing_skill",
     initialState,
     reducers: {
-        setTransfer: (state, action) => {
+        courseSkillTransfer: (state, action) => {
             // State.<Sth> This sth refers to the initial state one of the ojbect name of the key. 
-            state.transfer = action.payload
-        },
-
-        filterSkills: (state, action) =>{
-            state.filtercourseskills = action.payload
+            state.test = action.payload
         }
     }
 })
@@ -26,6 +21,6 @@ export const transfer_selected_skill_slice = createSlice({
 // What is return in reducers? 
 // We can change the state directly via state.login = payload.actions 
 
-export const { setTransfer, filterSkills } = transfer_selected_skill_slice.actions;
+export const { courseSkillTransfer } = transfer_existing_skill_slice.actions;
 
-export default transfer_selected_skill_slice.reducer
+export default transfer_existing_skill_slice.reducer
