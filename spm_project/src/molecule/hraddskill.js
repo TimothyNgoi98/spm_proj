@@ -78,6 +78,8 @@ function Hraddskill() {
                 },
                 body: JSON.stringify(result)
             }
+            
+
 
             
         }

@@ -12,7 +12,6 @@ def viewAllSkill():
         coursearray.append(
         item.to_dict()
     )
-
     if course:
         return jsonify(
             {   
@@ -20,7 +19,6 @@ def viewAllSkill():
                 "data": coursearray
             }
         ),200
-
     else:
         return jsonify(
             {   
@@ -28,3 +26,9 @@ def viewAllSkill():
                 "data": "Error!"
             }
         ),200
+
+
+
+# @skill.route('/hraddskills/', methods= ['POST'])
+# def hraddskills():
+
