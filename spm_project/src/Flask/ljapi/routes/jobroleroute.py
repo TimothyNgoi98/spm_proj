@@ -4,7 +4,7 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 jobrole = Blueprint('jobroleroute', __name__)
 # TO CALL API, USE /jobrole/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@jobrole.route('/display/')
+@jobrole.route('/jobroleroute/')
 def route1():
     staff = Jobrole.query.first()
     skill1 = Skill(skill_id=4,skill_name= "Conflict Management Skill Advanced",skill_desc= "Able to handle team and customer conflict effectively.",skill_status=1)
@@ -14,7 +14,6 @@ def route1():
     staff.skills.append(skill2)
 
     
-
     array = []
 
     for item in staff.skills:
