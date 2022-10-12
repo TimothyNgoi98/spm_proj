@@ -12,7 +12,6 @@ def viewAllSkill():
         coursearray.append(
         item.to_dict()
     )
-
     if course:
         return jsonify(
             {   
@@ -20,7 +19,6 @@ def viewAllSkill():
                 "data": coursearray
             }
         ),200
-
     else:
         return jsonify(
             {   
@@ -28,3 +26,11 @@ def viewAllSkill():
                 "data": "Error!"
             }
         ),200
+
+# Created by Yu Xiang, It is used to Add Skills
+# TO CALL API, USE /skill/<hraddskills/
+@skill.route('/hraddskills/', methods= ['POST'])
+def hraddskills():
+    data = request.get_json()
+    print(data)
+

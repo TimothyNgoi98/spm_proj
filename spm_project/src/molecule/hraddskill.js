@@ -79,7 +79,12 @@ function Hraddskill() {
                 body: JSON.stringify(result)
             }
 
-            
+            fetch('http://127.0.0.1:5000/skill/hraddskills/')
+            .then(response=> response.json())
+            .then(data => {
+
+            })
+
         }
     }
 

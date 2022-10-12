@@ -18,19 +18,19 @@ CORS()
 # ======= Association table ========
 # Association table Skills to course (Apparently have to put this infront first)
 skill_to_course = db.Table('skill_to_course',
-    db.Column('skill_id',db.String(20),db.ForeignKey('skill.skill_id')),
+    db.Column('skill_id',db.Integer,db.ForeignKey('skill.skill_id')),
     db.Column('course_id',db.String(20),db.ForeignKey('course.course_id'))
 )
 
 # Association table job role to skill
 job_role_to_skill = db.Table('job_role_to_skill',
-    db.Column('skill_id',db.String(20),db.ForeignKey('skill.skill_id')),
+    db.Column('skill_id',db.Integer,db.ForeignKey('skill.skill_id')),
     db.Column('jobrole_id',db.Integer,db.ForeignKey('job_role.jobrole_id'))
 )
 
 # Multivalue table for course_id in learningjourney
 learning_journey_detailed = db.Table('learning_journey_detailed',
-    db.Column('learningjourney_id',db.String(20),db.ForeignKey('learning_journey.learningjourney_id')),
+    db.Column('learningjourney_id',db.Integer,db.ForeignKey('learning_journey.learningjourney_id')),
     db.Column('course_id',db.String(20),db.ForeignKey('course.course_id'))
 )
 
@@ -133,7 +133,7 @@ class Course(db.Model):
 # Class Skill
 class Skill(db.Model):
     __tablename__= "skill"
-    skill_id = db.Column(db.String(20), primary_key=True)
+    skill_id = db.Column(db.Integer, primary_key=True)
     skill_name = db.Column(db.String(50), nullable=False)
     skill_desc = db.Column(db.String(255), nullable=False)
     skill_status = db.Column(db.String(15), nullable=False)

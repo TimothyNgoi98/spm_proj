@@ -7,11 +7,8 @@
 -- Server version: 8.0.21
 -- PHP Version: 7.4.9
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
 --
 -- Database: `spm_project`
 --
@@ -38,6 +35,210 @@ CREATE TABLE IF NOT EXISTS `course` (
 --
 -- Dumping data for table `course`
 --
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_role`
+--
+
+DROP TABLE IF EXISTS `job_role`;
+CREATE TABLE IF NOT EXISTS `job_role` (
+  `JobRole_ID` int NOT NULL AUTO_INCREMENT,
+  `JobRole_Name` varchar(20) NOT NULL,
+  `JobRole_Desc` varchar(255) NOT NULL,
+  PRIMARY KEY (`JobRole_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_role_to_skill`
+--
+
+DROP TABLE IF EXISTS `job_role_to_skill`;
+CREATE TABLE IF NOT EXISTS `job_role_to_skill` (
+  `JobRole_ID` int NOT NULL,
+  `Skill_ID` int NOT NULL,
+  KEY `Job_Role_to_Skill_fk` (`JobRole_ID`),
+  KEY `Job_Role_to_Skill_fk2` (`Skill_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `learning_journey`
+--
+
+DROP TABLE IF EXISTS `learning_journey`;
+CREATE TABLE IF NOT EXISTS `learning_journey` (
+  `LearningJourney_ID` int NOT NULL AUTO_INCREMENT,
+  `Staff_ID` int NOT NULL,
+  `JobRole_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  `Is_Active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`LearningJourney_ID`),
+  KEY `Learning_Journey_fk` (`Staff_ID`),
+  KEY `Learning_Journey_fk2` (`JobRole_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `learning_journey_detailed`
+--
+
+DROP TABLE IF EXISTS `learning_journey_detailed`;
+CREATE TABLE IF NOT EXISTS `learning_journey_detailed` (
+  `LearningJourney_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  KEY `Learning_Journey_Detailed_fk` (`LearningJourney_ID`),
+  KEY `Learning_Journey_Detailed_fk2` (`Course_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `registration`
+--
+
+DROP TABLE IF EXISTS `registration`;
+CREATE TABLE IF NOT EXISTS `registration` (
+  `Reg_ID` int NOT NULL AUTO_INCREMENT,
+  `Course_ID` varchar(20) NOT NULL,
+  `Staff_ID` int NOT NULL,
+  `Reg_Status` varchar(20) NOT NULL,
+  `Completion_Status` varchar(20) NOT NULL,
+  PRIMARY KEY (`Reg_ID`),
+  KEY `Registration_fk` (`Course_ID`),
+  KEY `Registration_fk2` (`Staff_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+--
+-- Dumping data for table `registration`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
+  `Role_ID` int NOT NULL ,
+  `Role_Name` varchar(20) NOT NULL,
+  PRIMARY KEY (`Role_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`Role_ID`, `Role_Name`) VALUES
+(1, 'Admin\r'),
+(2, 'User'),
+(3, 'Manager\r'),
+(4, 'Trainer\r');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skill`
+--
+
+DROP TABLE IF EXISTS `skill`;
+CREATE TABLE IF NOT EXISTS `skill` (
+  `Skill_ID` int NOT NULL AUTO_INCREMENT,
+  `Skill_Name` varchar(50) NOT NULL,
+  `Skill_Desc` varchar(255) NOT NULL,
+  `Skill_Status` varchar(15) NOT NULL,
+  PRIMARY KEY (`Skill_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skill_to_course`
+--
+-- Mock up Data for Skills.
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (1, "Mobile Design Architecture Skill", "Able to create Prototyping frameworks, user flows, mockups.","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired ");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (3, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
+-- End of Mock up Data for Skills. 
+
+
+DROP TABLE IF EXISTS `skill_to_course`;
+CREATE TABLE IF NOT EXISTS `skill_to_course` (
+  `Skill_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  KEY `Skill_to_Course_fk` (`Skill_ID`),
+  KEY `Skill_to_Course_fk2` (`Course_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
+--
+
+DROP TABLE IF EXISTS `staff`;
+CREATE TABLE IF NOT EXISTS `staff` (
+  `Staff_ID` int NOT NULL AUTO_INCREMENT,
+  `Staff_FName` varchar(50) NOT NULL,
+  `Staff_LName` varchar(50) NOT NULL,
+  `Dept` varchar(50) NOT NULL,
+  `Email` varchar(50) NOT NULL,
+  `Role` int NOT NULL,
+  PRIMARY KEY (`Staff_ID`),
+  KEY `Staff_fk` (`Role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+ALTER TABLE `job_role_to_skill`
+  ADD CONSTRAINT `Job_Role_to_Skill_fk` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`),
+  ADD CONSTRAINT `Job_Role_to_Skill_fk2` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`);
+
+--
+-- Constraints for table `learning_journey`
+--
+ALTER TABLE `learning_journey`
+  ADD CONSTRAINT `Learning_Journey_fk` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`),
+  ADD CONSTRAINT `Learning_Journey_fk2` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`);
+
+--
+-- Constraints for table `learning_journey_detailed`
+--
+ALTER TABLE `learning_journey_detailed`
+  ADD CONSTRAINT `Learning_Journey_Detailed_fk` FOREIGN KEY (`LearningJourney_ID`) REFERENCES `learning_journey` (`LearningJourney_ID`),
+  ADD CONSTRAINT `Learning_Journey_Detailed_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
+
+--
+-- Constraints for table `registration`
+--
+ALTER TABLE `registration`
+  ADD CONSTRAINT `Registration_fk` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`),
+  ADD CONSTRAINT `Registration_fk2` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`);
+
+--
+-- Constraints for table `skill_to_course`
+--
+ALTER TABLE `skill_to_course`
+  ADD CONSTRAINT `Skill_to_Course_fk` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`),
+  ADD CONSTRAINT `Skill_to_Course_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
+
+--
+-- Constraints for table `staff`
+--
+ALTER TABLE `staff`
+  ADD CONSTRAINT `Staff_fk` FOREIGN KEY (`Role`) REFERENCES `role` (`Role_ID`);
+COMMIT;
 
 INSERT INTO `course` (`Course_ID`, `Course_Name`, `Course_Desc`, `Course_Status`, `Course_Type`, `Course_Category`) VALUES
 ('COR001', 'Systems Thinking and Design', 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,', 'Active', 'Internal', 'Core\r'),
@@ -72,87 +273,152 @@ INSERT INTO `course` (`Course_ID`, `Course_Name`, `Course_Desc`, `Course_Status`
 ('tch018', 'Professional Project Management', 'solid foundation in the project management processes from initiating a project, through planning, execution, control,', 'Active', 'Internal', 'Technical\r'),
 ('tch019', 'Innovation and Change Management ', 'the organization that constantly reinvents itself to be relevant has a better chance of making progress', 'Active', 'External', 'Technical\r');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `job_role`
---
+INSERT INTO `staff` (`Staff_ID`, `Staff_FName`, `Staff_LName`, `Dept`, `Email`, `Role`) VALUES
+(130001, 'John', 'Sim', 'Chariman', 'jack.sim@allinone.com.sg', 1),
+(130002, 'Jack', 'Sim', 'CEO', 'jack.sim@allinone.com.sg', 1),
+(140001, 'Derek', 'Tan', 'Sales', 'Derek.Tan@allinone.com.sg', 3),
+(140002, 'Susan', 'Goh', 'Sales', 'Susan.Goh@allinone.com.sg', 2),
+(140003, 'Janice', 'Chan', 'Sales', 'Janice.Chan@allinone.com.sg', 2),
+(140004, 'Mary', 'Teo', 'Sales', 'Mary.Teo@allinone.com.sg', 2),
+(140008, 'Jaclyn', 'Lee', 'Sales', 'Jaclyn.Lee@allinone.com.sg', 2),
+(140015, 'Oliva', 'Lim', 'Sales', 'Oliva.Lim@allinone.com.sg', 2),
+(140025, 'Emma', 'Heng', 'Sales', 'Emma.Heng@allinone.com.sg', 2),
+(140036, 'Charlotte', 'Wong', 'Sales', 'Charlotte.Wong@allinone.com.sg', 2),
+(140078, 'Amelia', 'Ong', 'Sales', 'Amelia.Ong@allinone.com.sg', 2),
+(140102, 'Eva', 'Yong', 'Sales', 'Eva.Yong@allinone.com.sg', 2),
+(140103, 'Sophia', 'Toh', 'Sales', 'Sophia.Toh@allinone.com.sg', 2),
+(140108, 'Liam', 'The', 'Sales', 'Liam.The@allinone.com.sg', 2),
+(140115, 'Noah', 'Ng', 'Sales', 'Noah.Ng@allinone.com.sg', 2),
+(140525, 'Oliver', 'Tan', 'Sales', 'Oliver.Tan@allinone.com.sg', 2),
+(140736, 'William', 'Fu', 'Sales', 'William.Fu@allinone.com.sg', 2),
+(140878, 'James', 'Tong', 'Sales', 'James.Tong@allinone.com.sg', 2),
+(150008, 'Eric', 'Loh', 'Ops', 'Eric.Loh@allinone.com.sg', 3),
+(150065, 'Noah', 'Goh', 'Ops', 'Noah.Goh@allinone.com.sg', 4),
+(150075, 'Liam', 'Tan', 'Ops', 'Liam.Tan@allinone.com.sg', 4),
+(150076, 'Oliver', 'Chan', 'Ops', 'Oliver.Chan@allinone.com.sg', 4),
+(150085, 'Michael', 'Ng', 'Ops', 'Michael.Ng@allinone.com.sg', 4),
+(150095, 'Alexander', 'The', 'Ops', 'Alexander.The@allinone.com.sg', 4),
+(150096, 'Ethan', 'Tan', 'Ops', 'Ethan.Tan@allinone.com.sg', 4),
+(150115, 'Jaclyn', 'Lee', 'Ops', 'Jaclyn.Lee@allinone.com.sg', 4),
+(150118, 'William', 'Teo', 'Ops', 'William.Teo@allinone.com.sg', 4),
+(150125, 'Mary', 'Teo', 'Ops', 'Mary.Teo@allinone.com.sg', 4),
+(150126, 'Oliva', 'Lim', 'Ops', 'Oliva.Lim@allinone.com.sg', 2),
+(150138, 'Daniel', 'Fu', 'Ops', 'Daniel.Fu@allinone.com.sg', 4),
+(150142, 'James', 'Lee', 'Ops', 'James.Lee@allinone.com.sg', 4),
+(150143, 'John', 'Lim', 'Ops', 'John.Lim@allinone.com.sg', 4),
+(150148, 'Jack', 'Heng', 'Ops', 'Jack.Heng@allinone.com.sg', 4),
+(150155, 'Derek', 'Wong', 'Ops', 'Derek.Wong@allinone.com.sg', 4),
+(150162, 'Jacob', 'Tong', 'Ops', 'Jacob.Tong@allinone.com.sg', 4),
+(150163, 'Logan', 'Loh', 'Ops', 'Logan.Loh@allinone.com.sg', 4),
+(150165, 'Oliver', 'Tan', 'Ops', 'Oliver.Tan@allinone.com.sg', 2),
+(150166, 'William', 'Fu', 'Ops', 'William.Fu@allinone.com.sg', 2),
+(150168, 'Jackson', 'Tan', 'Ops', 'Jackson.Tan@allinone.com.sg', 4),
+(150175, 'Aiden', 'Tan', 'Ops', 'Aiden.Tan@allinone.com.sg', 4),
+(150192, 'Emma', 'Heng', 'Ops', 'Emma.Heng@allinone.com.sg', 2),
+(150193, 'Charlotte', 'Wong', 'Ops', 'Charlotte.Wong@allinone.com.sg', 2),
+(150198, 'Amelia', 'Ong', 'Ops', 'Amelia.Ong@allinone.com.sg', 2),
+(150205, 'Eva', 'Yong', 'Ops', 'Eva.Yong@allinone.com.sg', 2),
+(150208, 'James', 'Tong', 'Ops', 'James.Tong@allinone.com.sg', 2),
+(150215, 'Michael', 'Lee', 'Ops', 'Michael.Lee@allinone.com.sg', 2),
+(150216, 'Ethan', 'Lim', 'Ops', 'Ethan.Lim@allinone.com.sg', 2),
+(150232, 'John', 'Loh', 'Ops', 'John.Loh@allinone.com.sg', 2),
+(150233, 'Jack', 'Tan', 'Ops', 'Jack.Tan@allinone.com.sg', 2),
+(150238, 'Derek', 'Tan', 'Ops', 'Derek.Tan@allinone.com.sg', 2),
+(150245, 'Benjamin', 'Tan', 'Ops', 'Benjamin.Tan@allinone.com.sg', 2),
+(150258, 'Daniel', 'Heng', 'Ops', 'Daniel.Heng@allinone.com.sg', 2),
+(150265, 'Jaclyn', 'Tong', 'Ops', 'Jaclyn.Tong@allinone.com.sg', 2),
+(150275, 'Mary', 'Fu', 'Ops', 'Mary.Fu@allinone.com.sg', 2),
+(150276, 'Oliva', 'Loh', 'Ops', 'Oliva.Loh@allinone.com.sg', 2),
+(150282, 'Jacob', 'Wong', 'Ops', 'Jacob.Wong@allinone.com.sg', 2),
+(150283, 'Logan', 'Ong', 'Ops', 'Logan.Ong@allinone.com.sg', 2),
+(150288, 'Jackson', 'Yong', 'Ops', 'Jackson.Yong@allinone.com.sg', 2),
+(150295, 'Aiden', 'Toh', 'Ops', 'Aiden.Toh@allinone.com.sg', 2),
+(150318, 'Emma', 'Tan', 'Ops', 'Emma.Tan@allinone.com.sg', 2),
+(150342, 'Charlotte', 'Tan', 'Ops', 'Charlotte.Tan@allinone.com.sg', 2),
+(150343, 'Amelia', 'Tan', 'Ops', 'Amelia.Tan@allinone.com.sg', 2),
+(150345, 'William', 'Heng', 'Ops', 'William.Heng@allinone.com.sg', 2),
+(150348, 'Eva', 'Goh', 'Ops', 'Eva.Goh@allinone.com.sg', 2),
+(150355, 'Sophia', 'Chan', 'Ops', 'Sophia.Chan@allinone.com.sg', 2),
+(150356, 'James', 'Wong', 'Ops', 'James.Wong@allinone.com.sg', 2),
+(150398, 'John', 'Ong', 'Ops', 'John.Ong@allinone.com.sg', 2),
+(150422, 'Jack', 'Yong', 'Ops', 'Jack.Yong@allinone.com.sg', 2),
+(150423, 'Derek', 'Toh', 'Ops', 'Derek.Toh@allinone.com.sg', 2),
+(150428, 'Benjamin', 'The', 'Ops', 'Benjamin.The@allinone.com.sg', 2),
+(150435, 'Lucas', 'Ng', 'Ops', 'Lucas.Ng@allinone.com.sg', 2),
+(150445, 'Ethan', 'Loh', 'Ops', 'Ethan.Loh@allinone.com.sg', 2),
+(150446, 'Daniel', 'Tan', 'Ops', 'Daniel.Tan@allinone.com.sg', 2),
+(150488, 'Jacob', 'Tan', 'Ops', 'Jacob.Tan@allinone.com.sg', 2),
+(150512, 'Logan', 'Tan', 'Ops', 'Logan.Tan@allinone.com.sg', 2),
+(150513, 'Jackson', 'Goh', 'Ops', 'Jackson.Goh@allinone.com.sg', 2),
+(150518, 'Aiden', 'Chan', 'Ops', 'Aiden.Chan@allinone.com.sg', 2),
+(150525, 'Samuel', 'Teo', 'Ops', 'Samuel.Teo@allinone.com.sg', 2),
+(150555, 'Jaclyn', 'Wong', 'Ops', 'Jaclyn.Wong@allinone.com.sg', 2),
+(150565, 'Benjamin', 'Ong', 'Ops', 'Benjamin.Ong@allinone.com.sg', 4),
+(150566, 'Oliva', 'Ong', 'Ops', 'Oliva.Ong@allinone.com.sg', 2),
+(150585, 'Samuel', 'Tan', 'Ops', 'Samuel.Tan@allinone.com.sg', 4),
+(150608, 'Emma', 'Yong', 'Ops', 'Emma.Yong@allinone.com.sg', 2),
+(150615, 'Sophia', 'Toh', 'Ops', 'Sophia.Toh@allinone.com.sg', 2),
+(150632, 'Charlotte', 'Toh', 'Ops', 'Charlotte.Toh@allinone.com.sg', 2),
+(150633, 'Amelia', 'The', 'Ops', 'Amelia.The@allinone.com.sg', 2),
+(150638, 'Eva', 'Ng', 'Ops', 'Eva.Ng@allinone.com.sg', 2),
+(150645, 'Sophia', 'Tan', 'Ops', 'Sophia.Tan@allinone.com.sg', 2),
+(150655, 'Lucas', 'Goh', 'Ops', 'Lucas.Goh@allinone.com.sg', 2),
+(150695, 'William', 'Tan', 'Ops', 'William.Tan@allinone.com.sg', 2),
+(150705, 'Samuel', 'The', 'Ops', 'Samuel.The@allinone.com.sg', 2),
+(150765, 'Liam', 'Teo', 'Ops', 'Liam.Teo@allinone.com.sg', 2),
+(150776, 'Lucas', 'Yong', 'Ops', 'Lucas.Yong@allinone.com.sg', 4),
+(150796, 'Susan', 'Goh', 'Ops', 'Susan.Goh@allinone.com.sg', 4),
+(150826, 'Liam', 'The', 'Ops', 'Liam.The@allinone.com.sg', 2),
+(150845, 'Henry', 'Tan', 'Ops', 'Henry.Tan@allinone.com.sg', 2),
+(150866, 'Henry', 'Chan', 'Ops', 'Henry.Chan@allinone.com.sg', 2),
+(150916, 'Susan', 'Ng', 'Ops', 'Susan.Ng@allinone.com.sg', 2),
+(150918, 'Henry', 'Toh', 'Ops', 'Henry.Toh@allinone.com.sg', 4),
+(150935, 'Susan', 'Lee', 'Ops', 'Susan.Lee@allinone.com.sg', 2),
+(150938, 'Janice', 'Chan', 'Ops', 'Janice.Chan@allinone.com.sg', 4),
+(150968, 'Noah', 'Ng', 'Ops', 'Noah.Ng@allinone.com.sg', 2),
+(150976, 'Noah', 'Lee', 'Ops', 'Noah.Lee@allinone.com.sg', 2),
+(151008, 'Alexander', 'Teo', 'Ops', 'Alexander.Teo@allinone.com.sg', 2),
+(151055, 'Liam', 'Fu', 'Ops', 'Liam.Fu@allinone.com.sg', 2),
+(151056, 'Alexander', 'Fu', 'Ops', 'Alexander.Fu@allinone.com.sg', 2),
+(151058, 'Janice', 'Tan', 'Ops', 'Janice.Tan@allinone.com.sg', 2),
+(151118, 'Oliver', 'Lim', 'Ops', 'Oliver.Lim@allinone.com.sg', 2),
+(151146, 'Janice', 'Lim', 'Ops', 'Janice.Lim@allinone.com.sg', 2),
+(151198, 'Michael', 'Tong', 'Ops', 'Michael.Tong@allinone.com.sg', 2),
+(151266, 'Noah', 'Tong', 'Ops', 'Noah.Tong@allinone.com.sg', 2),
+(151288, 'Mary', 'Heng', 'Ops', 'Mary.Heng@allinone.com.sg', 2),
+(151408, 'Oliver', 'Loh', 'Ops', 'Oliver.Loh@allinone.com.sg', 2),
+(160008, 'Sally', 'Loh', 'HR', 'Sally.Loh@allinone.com.sg', 1),
+(160065, 'John', 'Tan', 'HR', 'John.Tan@allinone.com.sg', 1),
+(160075, 'James', 'Tan', 'HR', 'James.Tan@allinone.com.sg', 1),
+(160076, 'Jack', 'Goh', 'HR', 'Jack.Goh@allinone.com.sg', 1),
+(160118, 'Derek', 'Chan', 'HR', 'Derek.Chan@allinone.com.sg', 1),
+(160135, 'Jaclyn', 'Ong', 'HR', 'Jaclyn.Ong@allinone.com.sg', 2),
+(160142, 'Benjamin', 'Teo', 'HR', 'Benjamin.Teo@allinone.com.sg', 1),
+(160143, 'Lucas', 'Lee', 'HR', 'Lucas.Lee@allinone.com.sg', 1),
+(160145, 'Mary', 'Wong', 'HR', 'Mary.Wong@allinone.com.sg', 2),
+(160146, 'Oliva', 'Yong', 'HR', 'Oliva.Yong@allinone.com.sg', 2),
+(160148, 'Henry', 'Lim', 'HR', 'Henry.Lim@allinone.com.sg', 1),
+(160155, 'Alexander', 'Heng', 'HR', 'Alexander.Heng@allinone.com.sg', 1),
+(160188, 'Emma', 'Toh', 'HR', 'Emma.Toh@allinone.com.sg', 2),
+(160212, 'Charlotte', 'The', 'HR', 'Charlotte.The@allinone.com.sg', 2),
+(160213, 'Amelia', 'Ng', 'HR', 'Amelia.Ng@allinone.com.sg', 2),
+(160218, 'Eva', 'Tan', 'HR', 'Eva.Tan@allinone.com.sg', 2),
+(160225, 'Sophia', 'Fu', 'HR', 'Sophia.Fu@allinone.com.sg', 2),
+(160258, 'Michael', 'Tong', 'HR', 'Michael.Tong@allinone.com.sg', 2),
+(160282, 'Ethan', 'Loh', 'HR', 'Ethan.Loh@allinone.com.sg', 2),
+(170166, 'David', 'Yap', 'Finance', 'David.Yap@allinone.com.sg', 3),
+(170208, 'Daniel', 'Tan', 'Finance', 'Daniel.Tan@allinone.com.sg', 2),
+(170215, 'Mary', 'Wong', 'Finance', 'Mary.Wong@allinone.com.sg', 2),
+(170216, 'Jaclyn', 'Ong', 'Finance', 'Jaclyn.Ong@allinone.com.sg', 2),
+(170232, 'Jacob', 'Tan', 'Finance', 'Jacob.Tan@allinone.com.sg', 2),
+(170233, 'Logan', 'Goh', 'Finance', 'Logan.Goh@allinone.com.sg', 2),
+(170238, 'Jackson', 'Chan', 'Finance', 'Jackson.Chan@allinone.com.sg', 2),
+(170245, 'Aiden', 'Teo', 'Finance', 'Aiden.Teo@allinone.com.sg', 2),
+(170655, 'Samuel', 'Lee', 'Finance', 'Samuel.Lee@allinone.com.sg', 2),
+(170866, 'Susan', 'Lim', 'Finance', 'Susan.Lim@allinone.com.sg', 2),
+(171008, 'Janice', 'Heng', 'Finance', 'Janice.Heng@allinone.com.sg', 2);
 
-DROP TABLE IF EXISTS `job_role`;
-CREATE TABLE IF NOT EXISTS `job_role` (
-  `JobRole_ID` int NOT NULL,
-  `JobRole_Name` varchar(20) NOT NULL,
-  `JobRole_Desc` varchar(255) NOT NULL,
-  PRIMARY KEY (`JobRole_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `job_role_to_skill`
---
-
-DROP TABLE IF EXISTS `job_role_to_skill`;
-CREATE TABLE IF NOT EXISTS `job_role_to_skill` (
-  `JobRole_ID` int NOT NULL,
-  `Skill_ID` varchar(20) NOT NULL,
-  KEY `Job_Role_to_Skill_fk` (`JobRole_ID`),
-  KEY `Job_Role_to_Skill_fk2` (`Skill_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `learning_journey`
---
-
-DROP TABLE IF EXISTS `learning_journey`;
-CREATE TABLE IF NOT EXISTS `learning_journey` (
-  `LearningJourney_ID` varchar(20) NOT NULL,
-  `Staff_ID` int NOT NULL,
-  `JobRole_ID` int NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  `Is_Active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`LearningJourney_ID`),
-  KEY `Learning_Journey_fk` (`Staff_ID`),
-  KEY `Learning_Journey_fk2` (`JobRole_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `learning_journey_detailed`
---
-
-DROP TABLE IF EXISTS `learning_journey_detailed`;
-CREATE TABLE IF NOT EXISTS `learning_journey_detailed` (
-  `LearningJourney_ID` varchar(20) NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  KEY `Learning_Journey_Detailed_fk` (`LearningJourney_ID`),
-  KEY `Learning_Journey_Detailed_fk2` (`Course_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `registration`
---
-
-DROP TABLE IF EXISTS `registration`;
-CREATE TABLE IF NOT EXISTS `registration` (
-  `Reg_ID` int NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  `Staff_ID` int NOT NULL,
-  `Reg_Status` varchar(20) NOT NULL,
-  `Completion_Status` varchar(20) NOT NULL,
-  PRIMARY KEY (`Reg_ID`),
-  KEY `Registration_fk` (`Course_ID`),
-  KEY `Registration_fk2` (`Staff_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `registration`
---
 
 INSERT INTO `registration` (`Reg_ID`, `Course_ID`, `Staff_ID`, `Reg_Status`, `Completion_Status`) VALUES
 (1, 'COR002', 130001, 'Registered', 'Completed\r'),
@@ -534,278 +800,3 @@ INSERT INTO `registration` (`Reg_ID`, `Course_ID`, `Staff_ID`, `Reg_Status`, `Co
 (377, 'tch001', 150866, 'Registered', '\r'),
 (378, 'tch002', 151008, 'Waitlist', '\r'),
 (379, 'tch003', 150215, 'Waitlist', '\r');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `role`
---
-
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE IF NOT EXISTS `role` (
-  `Role_ID` int NOT NULL,
-  `Role_Name` varchar(20) NOT NULL,
-  PRIMARY KEY (`Role_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `role`
---
-
-INSERT INTO `role` (`Role_ID`, `Role_Name`) VALUES
-(1, 'Admin\r'),
-(2, 'User'),
-(3, 'Manager\r'),
-(4, 'Trainer\r');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `skill`
---
-
-DROP TABLE IF EXISTS `skill`;
-CREATE TABLE IF NOT EXISTS `skill` (
-  `Skill_ID` varchar(20) NOT NULL,
-  `Skill_Name` varchar(50) NOT NULL,
-  `Skill_Desc` varchar(255) NOT NULL,
-  `Skill_Status` varchar(15) NOT NULL,
-  PRIMARY KEY (`Skill_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `skill_to_course`
---
--- Mock up Data for Skills.
-INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES ("SKILL_01", "Mobile Design Architecture Skill", "Able to create Prototyping frameworks, user flows, mockups.","Active");
-INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES ("SKILL_02", "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired ");
-INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES ("SKILL_03", "Info technology Skill", "Able to design system architecture and code out websites.","Active");
--- End of Mock up Data for Skills. 
-
-
-DROP TABLE IF EXISTS `skill_to_course`;
-CREATE TABLE IF NOT EXISTS `skill_to_course` (
-  `Skill_ID` varchar(20) NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  KEY `Skill_to_Course_fk` (`Skill_ID`),
-  KEY `Skill_to_Course_fk2` (`Course_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `staff`
---
-
-DROP TABLE IF EXISTS `staff`;
-CREATE TABLE IF NOT EXISTS `staff` (
-  `Staff_ID` int NOT NULL,
-  `Staff_FName` varchar(50) NOT NULL,
-  `Staff_LName` varchar(50) NOT NULL,
-  `Dept` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
-  `Role` int NOT NULL,
-  PRIMARY KEY (`Staff_ID`),
-  KEY `Staff_fk` (`Role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `staff`
---
-
-INSERT INTO `staff` (`Staff_ID`, `Staff_FName`, `Staff_LName`, `Dept`, `Email`, `Role`) VALUES
-(130001, 'John', 'Sim', 'Chariman', 'jack.sim@allinone.com.sg', 1),
-(130002, 'Jack', 'Sim', 'CEO', 'jack.sim@allinone.com.sg', 1),
-(140001, 'Derek', 'Tan', 'Sales', 'Derek.Tan@allinone.com.sg', 3),
-(140002, 'Susan', 'Goh', 'Sales', 'Susan.Goh@allinone.com.sg', 2),
-(140003, 'Janice', 'Chan', 'Sales', 'Janice.Chan@allinone.com.sg', 2),
-(140004, 'Mary', 'Teo', 'Sales', 'Mary.Teo@allinone.com.sg', 2),
-(140008, 'Jaclyn', 'Lee', 'Sales', 'Jaclyn.Lee@allinone.com.sg', 2),
-(140015, 'Oliva', 'Lim', 'Sales', 'Oliva.Lim@allinone.com.sg', 2),
-(140025, 'Emma', 'Heng', 'Sales', 'Emma.Heng@allinone.com.sg', 2),
-(140036, 'Charlotte', 'Wong', 'Sales', 'Charlotte.Wong@allinone.com.sg', 2),
-(140078, 'Amelia', 'Ong', 'Sales', 'Amelia.Ong@allinone.com.sg', 2),
-(140102, 'Eva', 'Yong', 'Sales', 'Eva.Yong@allinone.com.sg', 2),
-(140103, 'Sophia', 'Toh', 'Sales', 'Sophia.Toh@allinone.com.sg', 2),
-(140108, 'Liam', 'The', 'Sales', 'Liam.The@allinone.com.sg', 2),
-(140115, 'Noah', 'Ng', 'Sales', 'Noah.Ng@allinone.com.sg', 2),
-(140525, 'Oliver', 'Tan', 'Sales', 'Oliver.Tan@allinone.com.sg', 2),
-(140736, 'William', 'Fu', 'Sales', 'William.Fu@allinone.com.sg', 2),
-(140878, 'James', 'Tong', 'Sales', 'James.Tong@allinone.com.sg', 2),
-(150008, 'Eric', 'Loh', 'Ops', 'Eric.Loh@allinone.com.sg', 3),
-(150065, 'Noah', 'Goh', 'Ops', 'Noah.Goh@allinone.com.sg', 4),
-(150075, 'Liam', 'Tan', 'Ops', 'Liam.Tan@allinone.com.sg', 4),
-(150076, 'Oliver', 'Chan', 'Ops', 'Oliver.Chan@allinone.com.sg', 4),
-(150085, 'Michael', 'Ng', 'Ops', 'Michael.Ng@allinone.com.sg', 4),
-(150095, 'Alexander', 'The', 'Ops', 'Alexander.The@allinone.com.sg', 4),
-(150096, 'Ethan', 'Tan', 'Ops', 'Ethan.Tan@allinone.com.sg', 4),
-(150115, 'Jaclyn', 'Lee', 'Ops', 'Jaclyn.Lee@allinone.com.sg', 4),
-(150118, 'William', 'Teo', 'Ops', 'William.Teo@allinone.com.sg', 4),
-(150125, 'Mary', 'Teo', 'Ops', 'Mary.Teo@allinone.com.sg', 4),
-(150126, 'Oliva', 'Lim', 'Ops', 'Oliva.Lim@allinone.com.sg', 2),
-(150138, 'Daniel', 'Fu', 'Ops', 'Daniel.Fu@allinone.com.sg', 4),
-(150142, 'James', 'Lee', 'Ops', 'James.Lee@allinone.com.sg', 4),
-(150143, 'John', 'Lim', 'Ops', 'John.Lim@allinone.com.sg', 4),
-(150148, 'Jack', 'Heng', 'Ops', 'Jack.Heng@allinone.com.sg', 4),
-(150155, 'Derek', 'Wong', 'Ops', 'Derek.Wong@allinone.com.sg', 4),
-(150162, 'Jacob', 'Tong', 'Ops', 'Jacob.Tong@allinone.com.sg', 4),
-(150163, 'Logan', 'Loh', 'Ops', 'Logan.Loh@allinone.com.sg', 4),
-(150165, 'Oliver', 'Tan', 'Ops', 'Oliver.Tan@allinone.com.sg', 2),
-(150166, 'William', 'Fu', 'Ops', 'William.Fu@allinone.com.sg', 2),
-(150168, 'Jackson', 'Tan', 'Ops', 'Jackson.Tan@allinone.com.sg', 4),
-(150175, 'Aiden', 'Tan', 'Ops', 'Aiden.Tan@allinone.com.sg', 4),
-(150192, 'Emma', 'Heng', 'Ops', 'Emma.Heng@allinone.com.sg', 2),
-(150193, 'Charlotte', 'Wong', 'Ops', 'Charlotte.Wong@allinone.com.sg', 2),
-(150198, 'Amelia', 'Ong', 'Ops', 'Amelia.Ong@allinone.com.sg', 2),
-(150205, 'Eva', 'Yong', 'Ops', 'Eva.Yong@allinone.com.sg', 2),
-(150208, 'James', 'Tong', 'Ops', 'James.Tong@allinone.com.sg', 2),
-(150215, 'Michael', 'Lee', 'Ops', 'Michael.Lee@allinone.com.sg', 2),
-(150216, 'Ethan', 'Lim', 'Ops', 'Ethan.Lim@allinone.com.sg', 2),
-(150232, 'John', 'Loh', 'Ops', 'John.Loh@allinone.com.sg', 2),
-(150233, 'Jack', 'Tan', 'Ops', 'Jack.Tan@allinone.com.sg', 2),
-(150238, 'Derek', 'Tan', 'Ops', 'Derek.Tan@allinone.com.sg', 2),
-(150245, 'Benjamin', 'Tan', 'Ops', 'Benjamin.Tan@allinone.com.sg', 2),
-(150258, 'Daniel', 'Heng', 'Ops', 'Daniel.Heng@allinone.com.sg', 2),
-(150265, 'Jaclyn', 'Tong', 'Ops', 'Jaclyn.Tong@allinone.com.sg', 2),
-(150275, 'Mary', 'Fu', 'Ops', 'Mary.Fu@allinone.com.sg', 2),
-(150276, 'Oliva', 'Loh', 'Ops', 'Oliva.Loh@allinone.com.sg', 2),
-(150282, 'Jacob', 'Wong', 'Ops', 'Jacob.Wong@allinone.com.sg', 2),
-(150283, 'Logan', 'Ong', 'Ops', 'Logan.Ong@allinone.com.sg', 2),
-(150288, 'Jackson', 'Yong', 'Ops', 'Jackson.Yong@allinone.com.sg', 2),
-(150295, 'Aiden', 'Toh', 'Ops', 'Aiden.Toh@allinone.com.sg', 2),
-(150318, 'Emma', 'Tan', 'Ops', 'Emma.Tan@allinone.com.sg', 2),
-(150342, 'Charlotte', 'Tan', 'Ops', 'Charlotte.Tan@allinone.com.sg', 2),
-(150343, 'Amelia', 'Tan', 'Ops', 'Amelia.Tan@allinone.com.sg', 2),
-(150345, 'William', 'Heng', 'Ops', 'William.Heng@allinone.com.sg', 2),
-(150348, 'Eva', 'Goh', 'Ops', 'Eva.Goh@allinone.com.sg', 2),
-(150355, 'Sophia', 'Chan', 'Ops', 'Sophia.Chan@allinone.com.sg', 2),
-(150356, 'James', 'Wong', 'Ops', 'James.Wong@allinone.com.sg', 2),
-(150398, 'John', 'Ong', 'Ops', 'John.Ong@allinone.com.sg', 2),
-(150422, 'Jack', 'Yong', 'Ops', 'Jack.Yong@allinone.com.sg', 2),
-(150423, 'Derek', 'Toh', 'Ops', 'Derek.Toh@allinone.com.sg', 2),
-(150428, 'Benjamin', 'The', 'Ops', 'Benjamin.The@allinone.com.sg', 2),
-(150435, 'Lucas', 'Ng', 'Ops', 'Lucas.Ng@allinone.com.sg', 2),
-(150445, 'Ethan', 'Loh', 'Ops', 'Ethan.Loh@allinone.com.sg', 2),
-(150446, 'Daniel', 'Tan', 'Ops', 'Daniel.Tan@allinone.com.sg', 2),
-(150488, 'Jacob', 'Tan', 'Ops', 'Jacob.Tan@allinone.com.sg', 2),
-(150512, 'Logan', 'Tan', 'Ops', 'Logan.Tan@allinone.com.sg', 2),
-(150513, 'Jackson', 'Goh', 'Ops', 'Jackson.Goh@allinone.com.sg', 2),
-(150518, 'Aiden', 'Chan', 'Ops', 'Aiden.Chan@allinone.com.sg', 2),
-(150525, 'Samuel', 'Teo', 'Ops', 'Samuel.Teo@allinone.com.sg', 2),
-(150555, 'Jaclyn', 'Wong', 'Ops', 'Jaclyn.Wong@allinone.com.sg', 2),
-(150565, 'Benjamin', 'Ong', 'Ops', 'Benjamin.Ong@allinone.com.sg', 4),
-(150566, 'Oliva', 'Ong', 'Ops', 'Oliva.Ong@allinone.com.sg', 2),
-(150585, 'Samuel', 'Tan', 'Ops', 'Samuel.Tan@allinone.com.sg', 4),
-(150608, 'Emma', 'Yong', 'Ops', 'Emma.Yong@allinone.com.sg', 2),
-(150615, 'Sophia', 'Toh', 'Ops', 'Sophia.Toh@allinone.com.sg', 2),
-(150632, 'Charlotte', 'Toh', 'Ops', 'Charlotte.Toh@allinone.com.sg', 2),
-(150633, 'Amelia', 'The', 'Ops', 'Amelia.The@allinone.com.sg', 2),
-(150638, 'Eva', 'Ng', 'Ops', 'Eva.Ng@allinone.com.sg', 2),
-(150645, 'Sophia', 'Tan', 'Ops', 'Sophia.Tan@allinone.com.sg', 2),
-(150655, 'Lucas', 'Goh', 'Ops', 'Lucas.Goh@allinone.com.sg', 2),
-(150695, 'William', 'Tan', 'Ops', 'William.Tan@allinone.com.sg', 2),
-(150705, 'Samuel', 'The', 'Ops', 'Samuel.The@allinone.com.sg', 2),
-(150765, 'Liam', 'Teo', 'Ops', 'Liam.Teo@allinone.com.sg', 2),
-(150776, 'Lucas', 'Yong', 'Ops', 'Lucas.Yong@allinone.com.sg', 4),
-(150796, 'Susan', 'Goh', 'Ops', 'Susan.Goh@allinone.com.sg', 4),
-(150826, 'Liam', 'The', 'Ops', 'Liam.The@allinone.com.sg', 2),
-(150845, 'Henry', 'Tan', 'Ops', 'Henry.Tan@allinone.com.sg', 2),
-(150866, 'Henry', 'Chan', 'Ops', 'Henry.Chan@allinone.com.sg', 2),
-(150916, 'Susan', 'Ng', 'Ops', 'Susan.Ng@allinone.com.sg', 2),
-(150918, 'Henry', 'Toh', 'Ops', 'Henry.Toh@allinone.com.sg', 4),
-(150935, 'Susan', 'Lee', 'Ops', 'Susan.Lee@allinone.com.sg', 2),
-(150938, 'Janice', 'Chan', 'Ops', 'Janice.Chan@allinone.com.sg', 4),
-(150968, 'Noah', 'Ng', 'Ops', 'Noah.Ng@allinone.com.sg', 2),
-(150976, 'Noah', 'Lee', 'Ops', 'Noah.Lee@allinone.com.sg', 2),
-(151008, 'Alexander', 'Teo', 'Ops', 'Alexander.Teo@allinone.com.sg', 2),
-(151055, 'Liam', 'Fu', 'Ops', 'Liam.Fu@allinone.com.sg', 2),
-(151056, 'Alexander', 'Fu', 'Ops', 'Alexander.Fu@allinone.com.sg', 2),
-(151058, 'Janice', 'Tan', 'Ops', 'Janice.Tan@allinone.com.sg', 2),
-(151118, 'Oliver', 'Lim', 'Ops', 'Oliver.Lim@allinone.com.sg', 2),
-(151146, 'Janice', 'Lim', 'Ops', 'Janice.Lim@allinone.com.sg', 2),
-(151198, 'Michael', 'Tong', 'Ops', 'Michael.Tong@allinone.com.sg', 2),
-(151266, 'Noah', 'Tong', 'Ops', 'Noah.Tong@allinone.com.sg', 2),
-(151288, 'Mary', 'Heng', 'Ops', 'Mary.Heng@allinone.com.sg', 2),
-(151408, 'Oliver', 'Loh', 'Ops', 'Oliver.Loh@allinone.com.sg', 2),
-(160008, 'Sally', 'Loh', 'HR', 'Sally.Loh@allinone.com.sg', 1),
-(160065, 'John', 'Tan', 'HR', 'John.Tan@allinone.com.sg', 1),
-(160075, 'James', 'Tan', 'HR', 'James.Tan@allinone.com.sg', 1),
-(160076, 'Jack', 'Goh', 'HR', 'Jack.Goh@allinone.com.sg', 1),
-(160118, 'Derek', 'Chan', 'HR', 'Derek.Chan@allinone.com.sg', 1),
-(160135, 'Jaclyn', 'Ong', 'HR', 'Jaclyn.Ong@allinone.com.sg', 2),
-(160142, 'Benjamin', 'Teo', 'HR', 'Benjamin.Teo@allinone.com.sg', 1),
-(160143, 'Lucas', 'Lee', 'HR', 'Lucas.Lee@allinone.com.sg', 1),
-(160145, 'Mary', 'Wong', 'HR', 'Mary.Wong@allinone.com.sg', 2),
-(160146, 'Oliva', 'Yong', 'HR', 'Oliva.Yong@allinone.com.sg', 2),
-(160148, 'Henry', 'Lim', 'HR', 'Henry.Lim@allinone.com.sg', 1),
-(160155, 'Alexander', 'Heng', 'HR', 'Alexander.Heng@allinone.com.sg', 1),
-(160188, 'Emma', 'Toh', 'HR', 'Emma.Toh@allinone.com.sg', 2),
-(160212, 'Charlotte', 'The', 'HR', 'Charlotte.The@allinone.com.sg', 2),
-(160213, 'Amelia', 'Ng', 'HR', 'Amelia.Ng@allinone.com.sg', 2),
-(160218, 'Eva', 'Tan', 'HR', 'Eva.Tan@allinone.com.sg', 2),
-(160225, 'Sophia', 'Fu', 'HR', 'Sophia.Fu@allinone.com.sg', 2),
-(160258, 'Michael', 'Tong', 'HR', 'Michael.Tong@allinone.com.sg', 2),
-(160282, 'Ethan', 'Loh', 'HR', 'Ethan.Loh@allinone.com.sg', 2),
-(170166, 'David', 'Yap', 'Finance', 'David.Yap@allinone.com.sg', 3),
-(170208, 'Daniel', 'Tan', 'Finance', 'Daniel.Tan@allinone.com.sg', 2),
-(170215, 'Mary', 'Wong', 'Finance', 'Mary.Wong@allinone.com.sg', 2),
-(170216, 'Jaclyn', 'Ong', 'Finance', 'Jaclyn.Ong@allinone.com.sg', 2),
-(170232, 'Jacob', 'Tan', 'Finance', 'Jacob.Tan@allinone.com.sg', 2),
-(170233, 'Logan', 'Goh', 'Finance', 'Logan.Goh@allinone.com.sg', 2),
-(170238, 'Jackson', 'Chan', 'Finance', 'Jackson.Chan@allinone.com.sg', 2),
-(170245, 'Aiden', 'Teo', 'Finance', 'Aiden.Teo@allinone.com.sg', 2),
-(170655, 'Samuel', 'Lee', 'Finance', 'Samuel.Lee@allinone.com.sg', 2),
-(170866, 'Susan', 'Lim', 'Finance', 'Susan.Lim@allinone.com.sg', 2),
-(171008, 'Janice', 'Heng', 'Finance', 'Janice.Heng@allinone.com.sg', 2);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `job_role_to_skill`
---
-ALTER TABLE `job_role_to_skill`
-  ADD CONSTRAINT `Job_Role_to_Skill_fk` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`),
-  ADD CONSTRAINT `Job_Role_to_Skill_fk2` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`);
-
---
--- Constraints for table `learning_journey`
---
-ALTER TABLE `learning_journey`
-  ADD CONSTRAINT `Learning_Journey_fk` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`),
-  ADD CONSTRAINT `Learning_Journey_fk2` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`);
-
---
--- Constraints for table `learning_journey_detailed`
---
-ALTER TABLE `learning_journey_detailed`
-  ADD CONSTRAINT `Learning_Journey_Detailed_fk` FOREIGN KEY (`LearningJourney_ID`) REFERENCES `learning_journey` (`LearningJourney_ID`),
-  ADD CONSTRAINT `Learning_Journey_Detailed_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
-
---
--- Constraints for table `registration`
---
-ALTER TABLE `registration`
-  ADD CONSTRAINT `Registration_fk` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`),
-  ADD CONSTRAINT `Registration_fk2` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`);
-
---
--- Constraints for table `skill_to_course`
---
-ALTER TABLE `skill_to_course`
-  ADD CONSTRAINT `Skill_to_Course_fk` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`),
-  ADD CONSTRAINT `Skill_to_Course_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
-
---
--- Constraints for table `staff`
---
-ALTER TABLE `staff`
-  ADD CONSTRAINT `Staff_fk` FOREIGN KEY (`Role`) REFERENCES `role` (`Role_ID`);
-COMMIT;
-

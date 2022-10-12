@@ -5,6 +5,8 @@ import loginSlice from "../reduxslice/exampleSlice"
 import sessionSlice from "../reduxslice/sessionSlice"
 import courseSlice from "../reduxslice/courseSlice"
 import filterskillcourseSlice from "../reduxslice/filterskillcourseSlice"
+import jobrolesSlice from "../reduxslice/jobrolesSlice";
+
 
 export const store = configureStore({
     // This reducer 
@@ -13,7 +15,8 @@ export const store = configureStore({
         login: loginSlice,
         session: sessionSlice,
         transferselectedskills: courseSlice,
-        skillfilter: filterskillcourseSlice
+        skillfilter: filterskillcourseSlice,
+        jobrole: jobrolesSlice
         // alan: alanSlice
     }
 } 
