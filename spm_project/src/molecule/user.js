@@ -34,7 +34,7 @@ function User() {
   useEffect(() => {
 
     const fetchMyAPI = async () => {
-      let response = await fetch("http://127.0.0.1:5000/api/viewskills")
+      let response = await fetch("http://127.0.0.1:5000/api/allcourse")
       response = await response.json()
       handleoutput(response.data)
     }
@@ -46,12 +46,12 @@ function User() {
   console.log(output)
 
   const addbutton = () => {
-    navigate("/Hraddskill", {replace: true})
+    navigate("/YUXUANHERE", {replace: true})
   }
 
   return (
     <div>
-        This is User.
+        UserVIew.
         <Button variant="text">Text</Button>
         <Grid container spacing={2}>
         <Grid item xs={8}>
@@ -75,7 +75,7 @@ function User() {
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Skills Management Dashboard
+                Course Dashboard
               </Typography>
             </Grid>
             <Grid item xs={2}></Grid>
@@ -96,10 +96,10 @@ function User() {
                   <TableHead>
                     <TableRow>
 
-                      <TableCell>Skill Id</TableCell>
-                      <TableCell>Skill Name</TableCell>
-                      <TableCell>Skill Description</TableCell>
-                      <TableCell>Skill Status</TableCell>
+                      <TableCell>Course Id</TableCell>
+                      <TableCell>Course Name</TableCell>
+                      <TableCell>Course Description</TableCell>
+                      <TableCell>Course Status</TableCell>
 
                     </TableRow>
                   </TableHead>
