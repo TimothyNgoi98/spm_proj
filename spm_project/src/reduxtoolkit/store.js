@@ -4,6 +4,7 @@ import { configureStore  } from "@reduxjs/toolkit";
 import loginSlice from "../reduxslice/exampleSlice"
 import sessionSlice from "../reduxslice/sessionSlice"
 import courseSlice from "../reduxslice/courseSlice"
+import jobrolesSlice from "../reduxslice/jobrolesSlice";
 
 export const store = configureStore({
     // This reducer 
@@ -11,7 +12,8 @@ export const store = configureStore({
         // Step 2: Add the imported files here. 
         login: loginSlice,
         session: sessionSlice,
-        transfer: courseSlice
+        transfer: courseSlice,
+        jobrole: jobrolesSlice
         // alan: alanSlice
     }
 } 

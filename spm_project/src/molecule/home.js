@@ -39,10 +39,24 @@ function Home() {
   const [jobroles, setJobroles] = useState([]);
   const [filteredJobroles, setFilteredJobroles] = useState(jobroles)
 
+    // const result = {'desc' : jobroles_desc, 'id': jobroles_id, 'name': jobroles_name }
+
+    // const options = {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         "Access-Control-Allow-Origin": "http://localhost:3000/Viewskills"
+    //     },
+    //     body: JSON.stringify(result)
+    // }
+
   useEffect(() => {
 
     const LoadJobs = async () => {
-      let response = await fetch("http://127.0.0.1:5000/jobrole/display/")
+      let response = await fetch("http://127.0.0.1:5000/jobrole/jobroleroute/")
+      // let response = await fetch("/jobrole/jobroleroute/", {      headers : { 
+      //   'Content-Type': 'application/json',
+      //   'Accept': 'application/json'
+      //  }})
         response = await response.json()
         setJobroles(response.data)
     }
