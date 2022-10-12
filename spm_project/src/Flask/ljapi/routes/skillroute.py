@@ -27,8 +27,10 @@ def viewAllSkill():
             }
         ),200
 
-
-
-# @skill.route('/hraddskills/', methods= ['POST'])
-# def hraddskills():
+# Created by Yu Xiang, It is used to Add Skills
+# TO CALL API, USE /skill/<hraddskills/
+@skill.route('/hraddskills/', methods= ['POST'])
+def hraddskills():
+    data = request.get_json()
+    print(data)
 
