@@ -36,7 +36,7 @@ function Coursemapping() {
     // Dispatch course existing skills into the coursemapping page (We don't want to show existing skills)
     const dispatch = useDispatch();
     // Receivedskills from courseskills page
-    const transferred_skill_courseskills = useSelector((state) => state.transfer.transfer)
+    const transferred_skill_courseskills = useSelector((state) => state.transferselectedskills.transfer)
     // Initalisation of the useNavigate instance
     const navigate = useNavigate();
     // Function to load course from db

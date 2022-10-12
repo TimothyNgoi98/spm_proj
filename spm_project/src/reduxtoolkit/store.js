@@ -12,7 +12,7 @@ export const store = configureStore({
         // Step 2: Add the imported files here. 
         login: loginSlice,
         session: sessionSlice,
-        transfer: courseSlice,
+        transferselectedskills: courseSlice,
         skillfilter: filterskillcourseSlice
         // alan: alanSlice
     }
