@@ -8,6 +8,7 @@ import { useState,useEffect, useCallback } from 'react';
 import {useNavigate} from 'react-router-dom';
 
 // Import All Redux ToolKit here
+import {useSelector} from 'react-redux';
 
 // Import all the molecules files here
 
@@ -24,20 +25,35 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
 
 
 
 
-// Just to try: 
-import {useSelector} from 'react-redux';
-
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Hrskills() {
   
   // Just to try: 
   // state.transfer (this transfer refers to the store.js , what name you linked it to )
   // 3rd paramter will be the initial state , one of the ojbect name 
-  const jiepeng = useSelector((state) => state.transfer.transfer)
+
+  const Modalstyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 
   // UseNavigate, for internal routing. 
@@ -59,20 +75,70 @@ function Hrskills() {
     fetchMyAPI()
   },[])
 
-  console.log(typeof output)
-  console.log(output)
 
   const addbutton = () => {
     navigate("/Hraddskill", {replace: true})
   }
+  // Modal Archive Input Fields
+  const [input_name, setinput_name] = useState("")
+  const [input_description, setinput_description] = useState("")
 
+  const changeinput_name = (event) => {
+    setinput_name(event.target.value)
+  }
+
+  const changeinput_description = (event) => {
+    setinput_name(event.target.value)
+  }
+
+
+  // Modal 
+  const [archive, setarchive] = useState("")
+  const [deleteitem, setDeleteitem] = useState("")
+
+  const [openArchiveModal , setArchiveModal] = useState(false)
+  const [openDeleteModal, setDeleteModal] = useState(false)
+
+  // First onClick to open up the Modal for Archive
+  const ArchiveModal = (data) => {
+    console.log("Archive Modal::", data)
+    setArchiveModal(true)
+    setarchive(data)
+  }
+  // Second OnClick to Close the Modal and return all other fields to zero
+  const closeArchiveModal = () => {
+    setArchiveModal(false)
+    setinput_name("")
+    setinput_description("")
+    setarchive("")
+  }
+  // Upon Clicking on the Submit Button in the Modal, it will update the skill description
+  const updatedatabase = () => {
+    console.log("Heehaw Updates!")
+  }
+
+  // DELETION OF SKILLS MODAL ############################################################
+  const deletebuttonclicked = (data) => {
+    setDeleteModal(true)
+    setDeleteitem(data)
+  }
+
+  const closingDeletemodal = (data) => {
+    setDeleteModal(false)
+    setDeleteitem("")
+
+  }
+  // Upon Clicking on the delete Button in the Modal, it will Delete the skill from the database. 
+  const deletefrom_database = () => {
+    console.log("Successfully deleted!")
+  }
 
   return (
       <Container>
-        {console.log(jiepeng)}
-        <Box marginTop="5%">
+        {/* {archive}
+        {openArchiveModal} */}
 
-          
+        <Box marginTop="5%">
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
@@ -83,9 +149,7 @@ function Hrskills() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Add</Button>
-                <Button>Delete</Button>
-                <Button>Update</Button>
+                <Button onClick={addbutton}>Create new skill</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -101,6 +165,8 @@ function Hrskills() {
                       <TableCell>Skill Name</TableCell>
                       <TableCell>Skill Description</TableCell>
                       <TableCell>Skill Status</TableCell>
+                      <TableCell colSpan={2}></TableCell>
+
 
                     </TableRow>
                   </TableHead>
@@ -112,17 +178,15 @@ function Hrskills() {
                       <TableCell>{singleoutput.skill_name}</TableCell>
                       <TableCell>{singleoutput.skill_desc}</TableCell>
                       <TableCell>{singleoutput.skill_status}</TableCell>
+                      <TableCell>
+                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.skill_id)}><EditIcon/></IconButton>
+                      </TableCell>
+                      <TableCell>
+                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><DeleteIcon/></IconButton>
+                      </TableCell>
                     </TableRow>
                     ))}
-                    {/* For Loop the Content here */}
-                    
 
-                                            {/* <TableRow>
-                          <TableCell>{oneoutput.skill_id}</TableCell>
-                          <TableCell>{oneoutput.skill_name}</TableCell>
-                          <TableCell>{oneoutput.skill_desc}</TableCell>
-                          <TableCell>{oneoutput.skills_status}</TableCell>
-                        </TableRow> */}
                   </TableBody>
                   {/* End of the Body Table  */}
                 </Table>
@@ -131,6 +195,50 @@ function Hrskills() {
           </Grid>
 
         </Box>
+        {/* This is the modal part for archive and Delete */}
+        {/* Model 1 For Archive of skills. ######################################################### */}
+        <Modal  
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={openArchiveModal}
+            onClose={closeArchiveModal}
+        >
+          <Fade in={openArchiveModal}>
+            <Box sx={Modalstyle}>
+              <Typography id="transition-modal-title" variant="h6" component="h2">
+                Update Skill Information
+              </Typography>
+              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                Skill_Id : {archive}
+              </Typography>
+              <TextField sx={{mt:2}} fullWidth label="Skill Name" helperText="Skill name has to be less than 50 characters." onChange={changeinput_name}/>
+              <TextField sx ={{mt: 2}} fullWidth label="Skills Description" id="fullWidth" helperText="Skill Description has to be less than 250 characters."onChange={changeinput_description} />
+              <Button sx={{mt:2}}variant="contained" color="success" onClick={updatedatabase}>
+                Update Skill 
+              </Button>
+            </Box>
+          </Fade>
+        </Modal>
+        {/* Model 2 For deletion of skills ###############################################################################################*/}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={openDeleteModal}
+          onClose={closingDeletemodal}
+          >
+            <Fade in={openDeleteModal}>
+            <Box sx={Modalstyle}>
+              <Typography id="transition-modal-title" variant="h6" component="h2">
+                Delete Skill_ID: {deleteitem}
+              </Typography>
+
+              <Alert sx={{mt:3}} severity="error">You are about to delete a Skill.</Alert>
+              <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
+                Delete Skill
+              </Button>
+            </Box>
+          </Fade>
+        </Modal>
 
         </Container>
   );

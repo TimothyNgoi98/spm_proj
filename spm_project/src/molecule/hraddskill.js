@@ -66,10 +66,8 @@ function Hraddskill() {
             alert("Please check the input fields again.")
         }
         else {
-            let activity = 1
-            if (active == "Active") {const activity = 1}
-            else {const activity = 0}
-            const result = {"skill_name": skill_name, "skill_desc": skill_desc, "active": activity}
+
+            const result = {"skill_name": skill_name, "skill_desc": skill_desc, "active": active}
             const options = {
                 method: "POST",
                 headers: {
@@ -79,11 +77,13 @@ function Hraddskill() {
                 body: JSON.stringify(result)
             }
 
-            fetch('http://127.0.0.1:5000/skill/hraddskills/')
+            fetch('http://127.0.0.1:5000/skill/hraddskills/', options)
             .then(response=> response.json())
             .then(data => {
-
+                alert(data.message)
             })
+
+
 
         }
     }
@@ -141,7 +141,7 @@ function Hraddskill() {
                     <Grid container marginTop="25px">
                         <Grid item xs={2}></Grid>
                         <Grid item xs={8} justifyContent="flex-start">
-                            <Button variant="contained" color="success">
+                            <Button variant="contained" color="success" onClick={addskill_database}>
                                 Create a Skill
                             </Button>
                         </Grid>
