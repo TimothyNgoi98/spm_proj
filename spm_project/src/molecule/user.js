@@ -45,6 +45,8 @@ function User() {
   console.log(typeof output)
   console.log(output)
 
+  // define a function and iterate through output go into each if field is active display
+  // course category is redux (one place to another)
   const addbutton = () => {
     navigate("/YUXUANHERE", {replace: true})
   }
@@ -82,9 +84,7 @@ function User() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Add</Button>
-                <Button>Delete</Button>
-                <Button>Update</Button>
+                <Button onClick={addbutton}>Add to Learning Journey</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -107,21 +107,14 @@ function User() {
                   <TableBody>
                     {output.map((singleoutput) => (
                       <TableRow>
-                      <TableCell>{singleoutput.skill_id}</TableCell>
-                      <TableCell>{singleoutput.skill_name}</TableCell>
-                      <TableCell>{singleoutput.skill_desc}</TableCell>
-                      <TableCell>{singleoutput.skills_status}</TableCell>
+                      <TableCell>{singleoutput.course_id}</TableCell>
+                      <TableCell>{singleoutput.course_name}</TableCell>
+                      <TableCell>{singleoutput.course_desc}</TableCell>
+                      <TableCell>{singleoutput.course_status}</TableCell>
                     </TableRow>
                     ))}
                     {/* For Loop the Content here */}
                     
-
-                                            {/* <TableRow>
-                          <TableCell>{oneoutput.skill_id}</TableCell>
-                          <TableCell>{oneoutput.skill_name}</TableCell>
-                          <TableCell>{oneoutput.skill_desc}</TableCell>
-                          <TableCell>{oneoutput.skills_status}</TableCell>
-                        </TableRow> */}
                   </TableBody>
                   {/* End of the Body Table  */}
                 </Table>
