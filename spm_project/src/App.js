@@ -28,7 +28,7 @@ import Viewskills from './molecule/viewskills';
 
 function App() {
   return (
-    <div className="App" style={{height: "100%", backgroundColor: "#edf2f4"}}>
+    <div className="App">
 
           <Navbar />
           <Routes>
