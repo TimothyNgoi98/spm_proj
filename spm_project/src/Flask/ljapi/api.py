@@ -89,11 +89,20 @@ def viewskills():
 # End of Viewing of Skills 
 
 
-
+# Weiting's Edits - DONT delete first 
 
 @api.route('/jobrole')
 def getjobroles():
     jobroles = Jobrole.query.all()
+    return jsonify(
+        {
+            "data": [jobrole.to_dict() for jobrole in jobroles]
+        }
+    )
+
+@api.route('/jobroleroute')
+def getjobroletoskills():
+    jobroletoskills = Jobrole.query.all()
     return jsonify(
         {
             "data": [jobrole.to_dict() for jobrole in jobroles]

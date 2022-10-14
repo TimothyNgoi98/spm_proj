@@ -23,50 +23,79 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {useSelector} from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import {courseSkillTransfer} from "../reduxslice/filterskillcourseSlice";
 
 
 
 function Coursemapping() {
-    // Receivedskills from courseskills page
-    const transferred_skill_courseskills = useSelector((state) => state.transfer.transfer)
+    // For some reason only works after i set the state here
+    const [courseName, setCourse] = useState('sdf')
+    const [existingSkills,showSkills] = useState("asd")
 
+    // Dispatch course existing skills into the coursemapping page (We don't want to show existing skills)
+    const dispatch = useDispatch();
+    // Receivedskills from courseskills page
+    const transferred_skill_courseskills = useSelector((state) => state.transferselectedskills.transfer)
     // Initalisation of the useNavigate instance
     const navigate = useNavigate();
     // Function to load course from db
-    function loadCourse() {
+    async function loadCourse() {
         // simulate a course is being clicked 
-        fetch("http://127.0.0.1:5000/course/view/1")
-        .then((response)=>response.json())
-        .then((result) => {
-            // Get the skills and put it in a relevant state
-            // console.log(result)
-            // Array object
-            console.log(result.data.skills.length)
+        const response = await fetch("http://127.0.0.1:5000/course/view/COR001")
+        const result= await response.json()
+
+        if (response.ok) {
             if (result.data.skills.length != 0) {
-                showSkills(result.data.skills)
+                console.log(result.data.skills)
+                // Transfers existing course skills to the courseskills page
             }
+            
+            showSkills(result.data.skills)
+            console.log(existingSkills)
+            dispatch(courseSkillTransfer(existingSkills))
             setCourse(result.data.coursedetails.course_name)
-        })
+        }
+        // .then((response)=>response.json())
+        // .then((result) => {
+        //     // Get the skills and put it in a relevant state
+        //     // console.log(result)
+        //     // Array object
+        //     console.log(result.data.skills.length)
+        // },[])
     }
-
-    // For some reason only works after i set the state here
-    const [courseName, setCourse] = useState('sdf')
-    const [receivedskills,showSkills] = useState("")
-
     useEffect(() => {
-        loadCourse()
+        const fetchMyAPI = async () => {
+            let response = await fetch("http://127.0.0.1:5000/course/view/COR001")
+            const result= await response.json()
+
+            if (response.ok) {
+                if (result.data.skills.length != 0) {
+                    console.log(result.data.skills)
+                    // Transfers existing course skills to the courseskills page
+                    await showSkills(result.data.skills)
+                    await setCourse(result.data.coursedetails.course_name)
+                }
+            }
+        }
+        fetchMyAPI()
+        .then(result=>{
+            dispatch(courseSkillTransfer(existingSkills))
+        })
+
     },[])
     // 2nd parameter is known as a dependency array
-
+    
     // Navigation to a new page to map the new skills
     function handleClick() {
         navigate("/courseskills")
+        dispatch(courseSkillTransfer(existingSkills))
+
     }
 
     return(
         <Container>
+            {console.log(existingSkills)}
             <Box marginTop="5%">
                 <Grid container className="header-course-mapping">
                     <Grid item xs={12}>
@@ -102,19 +131,15 @@ function Coursemapping() {
                                 </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow textAlign='center'>
-                                        {typeof receivedskills == 'object'? (receivedskills.map((singleoutput) => (
-                                    <TableRow>
-                                    <TableCell>{singleoutput.skill_id}</TableCell>
-                                    <TableCell>{singleoutput.skill_name}</TableCell>
-                                    <TableCell>{singleoutput.skill_desc}</TableCell>
-                                    <TableCell>{singleoutput.skills_status}</TableCell>
+                                        {typeof existingSkills == 'object'? (existingSkills.map((singleoutput) => (
+                                    <TableRow textAlign="center">
+                                    <TableCell align="center">{singleoutput.skill_name}</TableCell>
+                                    <TableCell align="center">{singleoutput.skill_desc}</TableCell>
                                     </TableRow>
                                     ))):(
                                         <TableCell align="center" colSpan={3}>
                                         "You do not have any mappings"
                                         </TableCell>)}
-                                    </TableRow>
                                 </TableBody>
                             </Table>
                     </Grid>
