@@ -152,7 +152,7 @@ function Hrarchiveskills() {
       }
   
       fetchMyAPI()
-    },[openDeleteModal])
+    },[openDeleteModal,deleteitem])
 
   return (
       <Container>
