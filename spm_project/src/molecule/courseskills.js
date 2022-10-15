@@ -31,9 +31,10 @@ import Checkbox from '@mui/material/Checkbox';
 
 function Courseskills() {
 
-  // useDispatch is meant for initialising the usage of Redux
-  const dispatch = useDispatch();
-  
+    // useDispatch is meant for initialising the usage of Redux
+    const dispatch = useDispatch();
+     // Initalisation of the useNavigate instance
+    const navigate = useNavigate();
      // Function to load course from db
     function loadSkillsFiltered() {
       // simulate a course is being clicked
@@ -58,6 +59,8 @@ function Courseskills() {
     // This function will dispatch course into courseSlice
     const addCourse = () => {
       dispatch(setTransfer(checked))
+      navigate("/mappings")
+
     }
     // function addCourse(data) {
     //   // Post checked items to the backend courses table
@@ -74,12 +77,6 @@ function Courseskills() {
         <Container>
           <Box marginTop="5%">
             <Grid container className="top-header-title">
-              <Grid item>
-                <Typography>
-                    Select your skill here 
-                </Typography>
-              </Grid>
-
               <Grid item>
                 <Typography>
                     Select your skill here 
@@ -135,7 +132,7 @@ function Courseskills() {
             </Grid>
 
             <Grid container className="button">
-              <Grid item  marginTop="5%" xs={12} align='center'>
+              <Grid item xs={12} align='center'>
                   {checked.length > 0? (<Button variant="contained" onClick={addCourse}>Add mapping</Button>):
                   ""}
 
