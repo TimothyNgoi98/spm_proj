@@ -34,10 +34,10 @@ import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
-function Hrskills() {
-  
-  // Just to try: 
+function Hrarchiveskills() {
+// Just to try: 
   // state.transfer (this transfer refers to the store.js , what name you linked it to )
   // 3rd paramter will be the initial state , one of the ojbect name 
 
@@ -135,8 +135,8 @@ function Hrskills() {
   }
 
   // Navigate to Archive Skills 
-  const archivepage = () => {
-    navigate("/hrarchiveskills", {replace: true})
+  const skillPage = () => {
+    navigate("/Hradmin", {replace: true})
   }
 
 
@@ -163,15 +163,14 @@ function Hrskills() {
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Skills Management Dashboard
+                Skills Archive Management
               </Typography>
             </Grid>
             <Grid item xs={2}></Grid>
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Create Skill</Button>
-                <Button onClick={archivepage}>Archive List</Button>
+                <Button onClick={skillPage}>Back to Active Skill</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -195,7 +194,7 @@ function Hrskills() {
                   {/* The body of the Table Goes here */}
                   <TableBody>
                     {output.map((singleoutput) => {
-                      if (singleoutput.skill_status == "Active") {
+                      if (singleoutput.skill_status == "Retired") {
                         return(
                       <TableRow>
                       <TableCell>{singleoutput.skill_id}</TableCell>
@@ -206,7 +205,7 @@ function Hrskills() {
                         <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.skill_id)}><EditIcon/></IconButton>
                       </TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><MoveToInboxIcon/></IconButton>
+                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><LibraryAddIcon/></IconButton>
                       </TableCell>
                     </TableRow>
                         )
@@ -268,4 +267,4 @@ function Hrskills() {
   );
 }
 
-export default Hrskills;
+export default Hrarchiveskills;

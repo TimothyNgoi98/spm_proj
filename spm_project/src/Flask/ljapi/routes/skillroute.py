@@ -67,7 +67,37 @@ def hraddskills():
 # TO CALL API, USE /skill/<archiveskill/
 @skill.route('/archiveskill/', methods= ['PUT'])
 def archiveSkill():
+    print("Soft Delete Skill Received -----")
     frontend_input = request.get_json()
-    # skill_database = Skill.query.filter_by(skill_id=skill_name)
+    skill_id = frontend_input['skill_id']
+    skill_database = Skill.query.filter_by(skill_id=skill_id).first()
 
-    return {}
+    if skill_database.skill_status == "Active":
+        skill_database.skill_status = "Retired"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Skill has been changed to Retired."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Active to Retired."
+            })
+
+    else:
+        skill_database.skill_status = "Active"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Skill has been changed to Active."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Retired to Active."
+            })
+
+

@@ -22,6 +22,7 @@ import Hraddskill from './molecule/hraddskill';
 import Coursemapping from './molecule/coursemapping';
 import Courseskills from './molecule/courseskills'
 import Viewskills from './molecule/viewskills';
+import Hrarchiveskills from './molecule/hrarchiveskills';
 
 // Import ALL material UI things here
 
@@ -44,6 +45,7 @@ function App() {
 
                   <Route path="/mappings" element = {<Coursemapping/>}/>
                   <Route path ="/courseskills" element = {<Courseskills/>}/>
+                  <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
                 </Route>
 
                 {/* Protected Routes for Manager  */}
