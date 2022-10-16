@@ -101,3 +101,37 @@ def archiveSkill():
             })
 
 
+# Created by Yu Xiang, it is used to change the retired field
+# TO CALL API, USE /skill/updatedescription/
+@skill.route('/updatedescription/', methods= ['PUT'])
+def updateDescription():
+    print("update description works -----")
+    frontend_input = request.get_json()
+
+    # Inputs from the frontend
+    skill_id = frontend_input['skill_id']
+    skill_name = frontend_input['skill_name']
+    skill_description = frontend_input['skill_description']
+
+    # Check Database of the current ID 
+    skill_database = Skill.query.filter_by(skill_id=skill_id).first()
+
+    # Check if there is an existing Skill_Name already inside the database
+    # Logic: If Skill ID is different from the current skill_id, if different then flag return
+    checking_name = Skill.query.filter_by(skill_name=skill_name).first()
+
+    # Error Tracking 
+    error_tracking = []
+    # Logic:
+    # try:
+    #     if checking_name.skill_id 
+
+    # except:
+
+
+    return {}
+
+
+
+
+
