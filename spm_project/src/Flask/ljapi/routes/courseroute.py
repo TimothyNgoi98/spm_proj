@@ -71,28 +71,42 @@ def viewParticularCourse(courseid):
 @course.route('/update/<string:courseid>', methods=['POST'])
 def UpdateParticularCourse(courseid):
     # Get relevant post request
-    data = request.json['body']
-    
+    data = request.get_json()
 
-    print(data)
-    # course = Course.query.filter_by(course_id=courseid).first()
+    # print(data)
+    course = Course.query.filter_by(course_id=courseid).first()
+    if course:
+        for item in data:
+            # Find the skill and append it to course
+            skillid = item['skill_id']
+            skillFrontend = Skill.query.filter_by(skill_id=skillid).first()
+            course.skill.append(skillFrontend)
 
-    # if course:
-    #     return jsonify(
-    #         {   
-    #             "code": 200,
-    #             "data": {
-    #                 "coursedetails": course.to_dict(),
-    #                 # .skill is referencing the backref from class Skill
-    #                 "skills": course.skill
-    #             }
-    #         }
-    #     ),200
+        # Initialise a data array
+        array = []
 
-    # else:
-    return jsonify(
-        {   
-            "code": 404,
-            "data": data
-        }
-    ),200
+        for skill in course.skill:
+            array.append(
+                skill.to_dict()
+            )
+        db.session.commit()
+
+
+        return jsonify(
+            {   
+                "code": 200,
+                "data": {
+                    "coursedetails": course.to_dict(),
+                    # .skill is referencing the backref from class Skill
+                    "skills": array
+                }
+            }
+        ),200
+
+    else:
+        return jsonify(
+            {   
+                "code": 404,
+                "data": data
+            }
+        ),200

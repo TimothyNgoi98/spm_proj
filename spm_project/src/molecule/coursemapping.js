@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { useState,useEffect, useCallback} from 'react';
 import { useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 // Import All Router Links here
 
@@ -70,13 +71,23 @@ function Coursemapping() {
 
     }
 
+    // Discard changings to the state as well 
     function discardChanges() {
         // discard and reset the localstate
         addSkillsDeleted([])
         // discard global state
         dispatch(setTransfer([]))
-        
+    
+    }
 
+    // Confirmation to end point to add to the database
+    function confirmMapping() {
+        // Get from the localstate of selectedSkillsToRemove
+        console.log(selectedSkillsToRemove)
+        // url = "http://127.0.0.1/"
+        // axios.post(selectedSkillsToRemove, {
+
+        // })
 
         
     }
@@ -85,6 +96,8 @@ function Coursemapping() {
     return(
         <Container>
             {console.log(selectedSkillsToRemove)}
+            {console.log("hi")}
+
             <Box>
 
                 <Grid container paddingTop="5%" spacing={5}>
@@ -181,7 +194,7 @@ function Coursemapping() {
                                     (
                                         <Grid container >
                                             <Grid item spacing={3} xs={12} align='center'>
-                                            <Button variant="contained" onClick={handleClick}>Confirm Mapping</Button>
+                                            <Button variant="contained" onClick={confirmMapping}>Confirm Mapping</Button>
 
                                             <Button variant="contained" onClick={discardChanges}>Discard all mapping</Button>
 
