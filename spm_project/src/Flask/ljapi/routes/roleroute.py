@@ -2,9 +2,9 @@ from flask import Blueprint, jsonify, request
 from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
 
 role= Blueprint('roleroute', __name__)
-# TO CALL API, USE /role/<route>
+# TO CALL API, USE /role/<route>Z
 # Replace and change this. This is just dummy data for you to follow the format
-@role.route('/display/')
+@role.route('/displayroles/')
 def viewAllRoles():
     course = Role.query.all()
     coursearray = []

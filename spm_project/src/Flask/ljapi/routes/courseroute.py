@@ -40,6 +40,14 @@ def viewParticularCourse(courseid):
 
 
     if course:
+
+        array = []
+
+        for item in course.skill:
+            array.append(
+                item.to_dict()
+            )
+            
         return jsonify(
             {   
                 "code": 200,

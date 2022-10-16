@@ -107,6 +107,12 @@ const Navbar = () => {
                                     </Button>
                                 </NavLink>
 
+                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/viewskills">
+                                    <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
+                                        ViewSkills
+                                    </Button>
+                                </NavLink>
+
                                 <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/user">
                                     <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
                                         userCourse

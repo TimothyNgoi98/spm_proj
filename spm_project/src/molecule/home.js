@@ -42,21 +42,23 @@ function Home() {
   useEffect(() => {
 
     const LoadJobs = async () => {
-      let response = await fetch("http://127.0.0.1:5000/jobrole/display/")
-        response = await response.json()
-        setJobroles(response.data)
+      let response = await fetch("http://127.0.0.1:5000/jobrole/jobrole/")
+      response = await response.json()
+      setJobroles(response.data)
+      
     }
-    LoadJobs();
+    LoadJobs()
   },[])
+
   console.log(typeof jobroles)
   console.log(jobroles)
 
-  // useEffect(() => {
-  //   const newFilteredJobroles = jobroles.filter((jobrole) => {
-  //     return jobrole.jobrole_name.toLocaleLowerCase().includes(searchField);
-  //   });
-  //   setFilteredJobroles(newFilteredJobroles);
-  // }, [jobroles, searchField])
+  useEffect(() => {
+    const newFilteredJobroles = jobroles.filter((jobrole) => {
+      return jobrole.jobrole_name.toLocaleLowerCase().includes(searchField);
+    });
+    setFilteredJobroles(newFilteredJobroles);
+  }, [jobroles, searchField])
 
 
   const onSearchChange = (event) => {
@@ -91,8 +93,8 @@ function Home() {
         <Grid item xs={1}></Grid>
           <Grid item xs={10}><RoleCardList jobroles={filteredJobroles}/></Grid>
         <Grid item xs={1}></Grid>
-
-        {/* <Grid item xs={1}></Grid>
+{/* 
+        <Grid item xs={1}></Grid>
           <Grid item xs={10}><Roles></Roles></Grid>
         <Grid item xs={1}></Grid> */}
       </Grid>

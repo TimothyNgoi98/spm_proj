@@ -8,6 +8,7 @@ import { useNavigate} from 'react-router-dom';
 // Import All Redux ToolKit here
 import {useSelector, useDispatch} from 'react-redux';
 import {setTransfer} from "../reduxslice/courseSlice";
+import {courseSkillTransfer} from "../reduxslice/filterskillcourseSlice";
 
 // Import all the molecules files here
 
@@ -31,53 +32,67 @@ import Paper from '@mui/material/Paper';
 
 
 
-
 function Coursemapping() {
     // For some reason only works after i set the state here
     const [courseName, setCourse] = useState([])
     const [receivedskills,showSkills] = useState([])
-    const [selectedSkillsToRemove, addSkillsDeleted] = useState(useSelector((state) => state.transfer.transfer))
-    // Receivedskills from courseskills page
-    // addSkillsDeleted(useSelector((state) => state.transfer.transfer))
+    const [selectedSkillsToRemove, addSkillsDeleted] = useState(useSelector((state) => state.transferselectedskills.transfer))
     const dispatch = useDispatch()
     // Initalisation of the useNavigate instance
     const navigate = useNavigate();
     // Function to load course from db
-    function loadCourse() {
+    async function loadCourse() {
         // simulate a course is being clicked 
-        fetch("http://127.0.0.1:5000/course/view/COR001")
-        .then((response)=>response.json())
-        .then((result) => {
-            // Get the skills and put it in a relevant state
-            // console.log(result)
-            // Array object
-            console.log(result.data.skills.length)
+
+        const response = await fetch("http://127.0.0.1:5000/course/view/COR001")
+        const result= await response.json()
+
+        if (response.ok) {
             if (result.data.skills.length != 0) {
-                showSkills(result.data.skills)
+                console.log(result.data.skills)
+                // Transfers existing course skills to the courseskills page
             }
+            
+            showSkills(result.data.skills)
+            console.log(existingSkills)
+            dispatch(courseSkillTransfer(existingSkills))
             setCourse(result.data.coursedetails.course_name)
-        })
+        }
+        // .then((response)=>response.json())
+        // .then((result) => {
+        //     // Get the skills and put it in a relevant state
+        //     // console.log(result)
+        //     // Array object
+        //     console.log(result.data.skills.length)
+        // },[])
     }
-
-    const tobeDelete = (data) => {
-        // Create a Empty 
-
-        // For Loop the List, if the data = skill_name 
-
-        // IN each Object, if the skill_Name = Input data (I dont want to append)
-        // Else append to the empty list. 
-        // addSkillsDeleted (push back the list of Object )
-    }
-
-
     useEffect(() => {
-        loadCourse()
+        const fetchMyAPI = async () => {
+            let response = await fetch("http://127.0.0.1:5000/course/view/COR001")
+            const result= await response.json()
+
+            if (response.ok) {
+                if (result.data.skills.length != 0) {
+                    console.log(result.data.skills)
+                    // Transfers existing course skills to the courseskills page
+                    await showSkills(result.data.skills)
+                    await setCourse(result.data.coursedetails.course_name)
+                }
+            }
+        }
+        fetchMyAPI()
+        .then(result=>{
+            dispatch(courseSkillTransfer(existingSkills))
+        })
+
     },[])
     // 2nd parameter is known as a dependency array
-
+    
     // Navigation to a new page to map the new skills
     function handleClick() {
         navigate("/courseskills")
+        dispatch(courseSkillTransfer(existingSkills))
+
     }
 
     function discardChanges() {
@@ -99,6 +114,7 @@ function Coursemapping() {
         <Container>
             {console.log(selectedSkillsToRemove)}
             <Box>
+
                 <Grid container paddingTop="5%" spacing={5}>
                     <Grid item>
                         <Typography component="h1" variant="outline" gutterBottom>
@@ -135,6 +151,7 @@ function Coursemapping() {
                                     <TableCell>{singleoutput.skill_name}</TableCell>
                                     <TableCell>{singleoutput.skill_desc}</TableCell>
                                     <TableCell>{singleoutput.skill_status}</TableCell>
+
                                     </TableRow>
                                     ))):(
                                         <TableRow textAlign='center'>
@@ -145,6 +162,7 @@ function Coursemapping() {
                                         </TableRow>
 
                                         )}
+
                                 </TableBody>
                             </Table>
                         </TableContainer>

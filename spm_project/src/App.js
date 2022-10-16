@@ -21,13 +21,15 @@ import Hrskills from './molecule/hrskills';
 import Hraddskill from './molecule/hraddskill';
 import Coursemapping from './molecule/coursemapping';
 import Courseskills from './molecule/courseskills'
+import Viewskills from './molecule/viewskills';
+import Hrarchiveskills from './molecule/hrarchiveskills';
 
 // Import ALL material UI things here
 
 
 function App() {
   return (
-    <div className="App" style={{height: "100%", backgroundColor: "#edf2f4"}}>
+    <div className="App">
 
           <Navbar />
           <Routes>
@@ -43,12 +45,14 @@ function App() {
 
                   <Route path="/mappings" element = {<Coursemapping/>}/>
                   <Route path ="/courseskills" element = {<Courseskills/>}/>
+                  <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
                 </Route>
 
                 {/* Protected Routes for Manager  */}
                 <Route element = {<ProtectedRoutesformanager />}>
                   <Route path="/Manager" element = {<Manager/>}/>
                 </Route>
+              <Route path="/Viewskills" element ={<Viewskills />} />
             </Route>
           </Routes>
     </div>

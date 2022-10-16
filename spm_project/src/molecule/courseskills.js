@@ -30,20 +30,48 @@ import Checkbox from '@mui/material/Checkbox';
 
 
 function Courseskills() {
-
-    // useDispatch is meant for initialising the usage of Redux
-    const dispatch = useDispatch();
-     // Initalisation of the useNavigate instance
-    const navigate = useNavigate();
-     // Function to load course from db
-    function loadSkillsFiltered() {
-      // simulate a course is being clicked
+  const transferred_skill_existing = useSelector((state) => state.skillfilter.test)
+  const [skillOutput,outputSkills] = useState([])
+  const dispatch = useDispatch();
+  // Check if state is empty for filterskills
+  // useDispatch is meant for initialising the usage of Redux
+    
+  const [checked, setChecked] = useState([]);
+  // Function to load course from db
+  function loadSkillsFiltered() {
+    // simulate a course is being clicked
+      var filterlistings = [];
       fetch("http://127.0.0.1:5000/api/viewskills")
       .then((response)=>response.json())
-      .then((result) => outputSkills(result.data))
-      // There needs to be some filtering because we don't want the skills that are already mapped to the course already
-
+      .then((result) => {
+        filterlistings = result.data
+        // There needs to be some filtering because we don't want the skills that are already mapped to the course already
+        console.log("Print the total skills here")
+        console.log(result.data)
+        console.log("print existing skills")
+        console.log(transferred_skill_existing.length)
+        // Simple filtering for existing skills
+        if (transferred_skill_existing.length > 0){
+          console.log('i am being executed')
+            for (let item of transferred_skill_existing) {
+              console.log(item)
+              console.log("hehehlo")
+              for (let i=0; i<filterlistings.length;i++) {
+                console.log("helo")
+                if (item.skill_id == filterlistings[i].skill_id) {
+                  filterlistings.splice(i,1)
+                }
+              }
+            }
+          console.log(filterlistings)
+          outputSkills(filterlistings)
+        } else {
+          // outputSkills(result.data)
+        }
+        
+      })
     }
+    
     // HandleCheck Function
     function handleCheck(event, skilloutput) {
       var updatedList = [...checked];
@@ -62,19 +90,15 @@ function Courseskills() {
       navigate("/mappings")
 
     }
-    // function addCourse(data) {
-    //   // Post checked items to the backend courses table
-    //   return ""
-
-    // }
-    const [skillOutput,outputSkills] = useState([])
-    const [checked, setChecked] = useState([]);
+    
     useEffect(() => {
           loadSkillsFiltered()
       },[])
 
     return(
         <Container>
+          {/* {console.log(skillOutput)} */}
+          {console.log(transferred_skill_existing)}
           <Box marginTop="5%">
             <Grid container className="top-header-title">
               <Grid item>
@@ -112,9 +136,9 @@ function Courseskills() {
                         <TableCell><Checkbox onChange={(event)=>handleCheck(event, singleoutput)} /></TableCell>
                       </TableRow>
                       ))}
-                      {
+                      {/* {
                         console.log(checked)
-                      }
+                      } */}
                       {/* For Loop the Content here */}
                       
                                               {/* <TableRow>
