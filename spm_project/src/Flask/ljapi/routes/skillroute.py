@@ -67,7 +67,88 @@ def hraddskills():
 # TO CALL API, USE /skill/<archiveskill/
 @skill.route('/archiveskill/', methods= ['PUT'])
 def archiveSkill():
+    print("Soft Delete Skill Received -----")
     frontend_input = request.get_json()
-    # skill_database = Skill.query.filter_by(skill_id=skill_name)
+    skill_id = frontend_input['skill_id']
+    skill_database = Skill.query.filter_by(skill_id=skill_id).first()
 
-    return {}
+    if skill_database.skill_status == "Active":
+        skill_database.skill_status = "Retired"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Skill has been changed to Retired."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Active to Retired."
+            })
+
+    else:
+        skill_database.skill_status = "Active"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Skill has been changed to Active."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Retired to Active."
+            })
+
+
+# Created by Yu Xiang, it is used to change the retired field
+# TO CALL API, USE /skill/updatedescription/
+@skill.route('/updatedescription/', methods= ['PUT'])
+def updateDescription():
+    print("update description works -----")
+    frontend_input = request.get_json()
+
+    # Inputs from the frontend
+    front_skill_id = frontend_input['skill_id']
+    front_skill_name = frontend_input['skill_name']
+    front_skill_description = frontend_input['skill_description']
+    print("This is Skill Name from frotn End ",front_skill_name)
+    print("This is Skill Description from Front End: ",front_skill_description)
+
+    # Check Database of the current ID 
+    skill_database = Skill.query.filter_by(skill_id=front_skill_id).first()
+
+    # Check if there is an existing Skill_Name already inside the database
+    # Logic: If Skill ID is different from the current skill_id, if different then flag return
+    checking_name = Skill.query.filter_by(skill_name=front_skill_name).first()
+
+    # if None Type is true, means there is no duplicate Name inside
+    if checking_name == None:
+        skill_database.skill_name = front_skill_name
+        skill_database.skill_desc = front_skill_description
+
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "Message": "Skill Information has been updated."
+            })
+        except:
+
+            return jsonify({
+                "code":404,
+                "Message": "There is something wrong with updating the database. Please try again."
+            })
+
+    else:
+        return jsonify({
+            "code": 404,
+            "Message" : "There is a similar skill name in the database, Skill Information is not updated!"
+        })
+
+
+
+
+
+
+
