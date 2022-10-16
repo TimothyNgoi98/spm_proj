@@ -71,7 +71,7 @@ function Hrskills() {
   }
 
   const changeinput_description = (event) => {
-    setinput_name(event.target.value)
+    setinput_description(event.target.value)
   }
 
 
@@ -109,9 +109,10 @@ function Hrskills() {
     fetch("http://127.0.0.1:5000/skill/updatedescription/", options)
     .then(response => response.json())
     .then(data => {
-      alert(data.message)
+      alert(data.Message)
     })
-
+    setArchiveModal(false)
+    setarchive("")
   }
 
   // Soft Delete OF SKILLS MODAL ############################################################
@@ -165,7 +166,7 @@ function Hrskills() {
       }
   
       fetchMyAPI()
-    },[openDeleteModal])
+    },[openDeleteModal,openArchiveModal])
 
   return (
       <Container>
