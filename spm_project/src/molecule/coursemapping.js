@@ -41,31 +41,6 @@ function Coursemapping() {
     // Initalisation of the useNavigate instance
     const navigate = useNavigate();
     // Function to load course from db
-    async function loadCourse() {
-        // simulate a course is being clicked 
-
-        const response = await fetch("http://127.0.0.1:5000/course/view/COR001")
-        const result= await response.json()
-
-        if (response.ok) {
-            if (result.data.skills.length != 0) {
-                console.log(result.data.skills)
-                // Transfers existing course skills to the courseskills page
-            }
-            
-            showSkills(result.data.skills)
-            console.log(existingSkills)
-            dispatch(courseSkillTransfer(existingSkills))
-            setCourse(result.data.coursedetails.course_name)
-        }
-        // .then((response)=>response.json())
-        // .then((result) => {
-        //     // Get the skills and put it in a relevant state
-        //     // console.log(result)
-        //     // Array object
-        //     console.log(result.data.skills.length)
-        // },[])
-    }
     useEffect(() => {
         const fetchMyAPI = async () => {
             let response = await fetch("http://127.0.0.1:5000/course/view/COR001")
@@ -82,7 +57,7 @@ function Coursemapping() {
         }
         fetchMyAPI()
         .then(result=>{
-            dispatch(courseSkillTransfer(existingSkills))
+            dispatch(courseSkillTransfer(receivedskills))
         })
 
     },[])
@@ -91,7 +66,7 @@ function Coursemapping() {
     // Navigation to a new page to map the new skills
     function handleClick() {
         navigate("/courseskills")
-        dispatch(courseSkillTransfer(existingSkills))
+        dispatch(courseSkillTransfer(receivedskills))
 
     }
 
@@ -106,9 +81,6 @@ function Coursemapping() {
         
     }
 
-    function deleteToBeMapped() {
-
-    }
 
     return(
         <Container>
