@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS job_role (
 	JobRole_ID int not null,
 	JobRole_Name varchar(20) not null,
     JobRole_Desc varchar(255) not null,
+    -- add department varchar(20)
     CONSTRAINT PRIMARY KEY(JobRole_ID)
 );
 -- 'job_role' table created --------------------------------------------------

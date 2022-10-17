@@ -24,29 +24,25 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 function User() {
-  
+
   // UseNavigate, for internal routing. 
   let navigate = useNavigate()
-
-  const [output , handleoutput] = useState([])
+  const [output, handleoutput] = useState([])
 
   // Fetching Async 
   useEffect(() => {
-
     const fetchMyAPI = async () => {
       let response = await fetch("http://127.0.0.1:5000/api/allcourse")
       response = await response.json()
       handleoutput(response.data)
     }
-
     fetchMyAPI()
   },[])
-
-  console.log(typeof output)
+  // console.log(typeof output)
   console.log(output)
 
-  // define a function and iterate through output go into each if field is active display
-  // course category is redux (one place to another)
+  // course category is redux (one page to another)
+
   const addbutton = () => {
     navigate("/YUXUANHERE", {replace: true})
   }
@@ -56,78 +52,74 @@ function User() {
         UserVIew.
         <Button variant="text">Text</Button>
         <Grid container spacing={2}>
-        <Grid item xs={8}>
-
+          <Grid item xs={8}>
+          </Grid>
+          <Grid item xs={4}>
+          </Grid>
+          <Grid item xs={4}>
+          </Grid>
+          <Grid item xs={8}>
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
 
-        </Grid>
-        <Grid item xs={4}>
-
-        </Grid>
-        <Grid item xs={8}>
-
-        </Grid>
-      </Grid>
-        
       <Container>
         <Box marginTop="5%">
-
-          
           <Grid container spacing={1}>
+
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
                 Course Dashboard
               </Typography>
             </Grid>
-            <Grid item xs={2}></Grid>
+
+            <Grid item xs={2}>
+            </Grid>
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Add to Learning Journey</Button>
+                <Button onClick={addbutton}>Go to Learning Journey</Button>
               </ButtonGroup>
             </Grid>
+
           </Grid>
 
           <Grid container spacing={1}>
+
             <Grid item xs={12}>
               <TableContainer>
                 <Table sx={{ minWidth: 650 }}>
+
                   <TableHead>
                     <TableRow>
-
                       <TableCell>Course Id</TableCell>
                       <TableCell>Course Name</TableCell>
                       <TableCell>Course Description</TableCell>
                       <TableCell>Course Status</TableCell>
-
                     </TableRow>
                   </TableHead>
-                  {/* The body of the Table Goes here */}
+
                   <TableBody>
                     {output.map((singleoutput) => (
-                      <TableRow>
-                      <TableCell>{singleoutput.course_id}</TableCell>
-                      <TableCell>{singleoutput.course_name}</TableCell>
-                      <TableCell>{singleoutput.course_desc}</TableCell>
-                      <TableCell>{singleoutput.course_status}</TableCell>
-                    </TableRow>
+                      singleoutput.course_status === 'Active'
+                      ? 
+                        <TableRow>
+                          <TableCell>{singleoutput.course_id}</TableCell>
+                          <TableCell>{singleoutput.course_name}</TableCell>
+                          <TableCell>{singleoutput.course_desc}</TableCell>
+                          <TableCell>{singleoutput.course_status}</TableCell>
+                      </TableRow>
+                    : null
                     ))}
-                    {/* For Loop the Content here */}
-                    
                   </TableBody>
-                  {/* End of the Body Table  */}
+
                 </Table>
               </TableContainer>
             </Grid>
           </Grid>
-
         </Box>
-
         </Container>
     </div>
 
-    
   );
 }
 
