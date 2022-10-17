@@ -4,7 +4,7 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 jobrole = Blueprint('jobroleroute', __name__)
 # TO CALL API, USE /jobrole/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@jobrole.route('/viewall/')
+@jobrole.route('/viewall')
 def viewAllJobroles():
     course = Jobrole.query.all()
     coursearray = []
@@ -27,24 +27,25 @@ def viewAllJobroles():
             }
         ),200
 
-@jobrole.route('/hraddjobrole/',method=['POST'])
+@jobrole.route('/hraddjobrole',methods=['POST'])
 def hraddskills():
     print("Hello!")
     data = request.get_json()
     jobrole_name = data['jobrole_name']
-    department = data['skill_desc']
+    department = data['jobrole_desc']
     jobrole_desc = data['jobrole_desc']
+    jobrole_status = data['jobrole_status']
 
-    if Jobrole.query.filter_by(JobRole_Name=jobrole_name).first():
+
+    if Jobrole.query.filter_by(jobrole_name=jobrole_name).first():
         return jsonify({
             "code":404,
             "message": "There exist such a Skill Name in the Database. Please check your input fields."
         })
-    # Need to include an jobrole_active! Don't forget Min Gay!
-    jobrole = Jobrole( JobRole_Name=jobrole_name,Department=department,JobRole_Desc=jobrole_desc)
+    jobrolenew = Jobrole( jobrole_name=jobrole_name,department=department,jobrole_desc=jobrole_desc,jobrole_status=jobrole_status)
     try:
         print("adding session")
-        db.session.add(jobrole)
+        db.session.add(jobrolenew)
         db.session.commit()
 
         return jsonify({
