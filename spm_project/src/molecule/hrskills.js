@@ -71,7 +71,7 @@ function Hrskills() {
   }
 
   const changeinput_description = (event) => {
-    setinput_name(event.target.value)
+    setinput_description(event.target.value)
   }
 
 
@@ -97,8 +97,22 @@ function Hrskills() {
   }
   // Upon Clicking on the Submit Button in the Modal, it will update the skill description
   const updatedatabase = () => {
-    console.log("Heehaw Updates!")
-    // 
+    const result = {'skill_id': archive, "skill_name" : input_name, "skill_description" : input_description } 
+    const options = {
+      method: "PUT",
+      headers: {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "http://localhost:3000/Hradmin"
+            },
+      body: JSON.stringify(result)
+    }
+    fetch("http://127.0.0.1:5000/skill/updatedescription/", options)
+    .then(response => response.json())
+    .then(data => {
+      alert(data.Message)
+    })
+    setArchiveModal(false)
+    setarchive("")
   }
 
   // Soft Delete OF SKILLS MODAL ############################################################
@@ -152,7 +166,7 @@ function Hrskills() {
       }
   
       fetchMyAPI()
-    },[openDeleteModal])
+    },[openDeleteModal,openArchiveModal])
 
   return (
       <Container>
