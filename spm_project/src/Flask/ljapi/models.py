@@ -66,6 +66,9 @@ class Jobrole(db.Model):
     jobrole_id = db.Column(db.Integer, primary_key=True)
     jobrole_name = db.Column(db.String(20), nullable=False)
     jobrole_desc = db.Column(db.String(255), nullable=False)
+    department = db.Column(db.String(50),nullable=False)
+    jobrole_status = db.Column(db.String(15), nullable=False)
+
     skills = db.relationship('Skill',secondary="job_role_to_skill", backref="jobrole" ,lazy="select")
     learningjourneys = db.relationship('Learningjourney',backref="jobrole", lazy="joined")
     # staffs = db.relationship('Staff',back_populates="staff")
