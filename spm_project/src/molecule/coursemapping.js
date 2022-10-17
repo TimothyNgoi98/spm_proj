@@ -28,7 +28,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
-
+import IconButton from '@mui/material/IconButton';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 
@@ -41,29 +42,6 @@ function Coursemapping() {
     const dispatch = useDispatch()
     // Initalisation of the useNavigate instance
     const navigate = useNavigate();
-    // Function to load course from db
-    useEffect(() => {
-        const fetchMyAPI = async () => {
-            let response = await fetch("http://127.0.0.1:5000/course/view/COR001")
-            const result= await response.json()
-
-            if (response.ok) {
-                if (result.data.skills.length != 0) {
-                    console.log(result.data.skills)
-                    // Transfers existing course skills to the courseskills page
-                    await showSkills(result.data.skills)
-                    await setCourse(result.data.coursedetails.course_name)
-                }
-            }
-        }
-        fetchMyAPI()
-        .then(result=>{
-            dispatch(courseSkillTransfer(receivedskills))
-        })
-
-    },[])
-    // 2nd parameter is known as a dependency array
-    
     // Navigation to a new page to map the new skills
     function handleClick() {
         navigate("/courseskills")
@@ -83,28 +61,76 @@ function Coursemapping() {
     // Confirmation to end point to add to the database
     function confirmMapping() {
         // Get from the localstate of selectedSkillsToRemove
-        console.log(selectedSkillsToRemove)
-        // url = "http://127.0.0.1/"
-        // axios.post(selectedSkillsToRemove, {
+        // console.log(selectedSkillsToRemove)
+        // Need to find a way to pass in the courseid here! Just testing this for the user story
+        var url = "http://127.0.0.1:5000/course/update/COR001"
+        const options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "http://localhost:3000/mappings"
+            },
+            body: JSON.stringify(selectedSkillsToRemove)
+        }
 
-        // })
-
+        fetch(url, options)
+        .then(response=> response.json())
+        .then(data => {
+            console.log(data) 
+            // RELOAD PAGE
+            // Remove the localchanges and update state
+            discardChanges()
+            // update the localstate for skills to display on the page
+            showSkills(data.data.skills)
+            alert("Skill has been added successfully!")
+            navigate('/mappings')
+        })
         
     }
+    // Function to load course from db
+    useEffect(() => {
+        const fetchMyAPI = async () => {
+            let response = await fetch("http://127.0.0.1:5000/course/view/COR001")
+            const result= await response.json()
+
+            if (response.ok) {
+                if (result.data.skills.length != 0) {
+                    console.log(result.data.skills)
+                    // Transfers existing course skills to the courseskills page
+                    await showSkills(result.data.skills)
+                    console.log("helo")
+                }
+                await setCourse([result.data.coursedetails.course_id,result.data.coursedetails.course_name])
+            }
+        }
+        fetchMyAPI()
+        .then(result=>{
+            console.log(result)
+            dispatch(courseSkillTransfer(receivedskills))
+        })
+
+    },[])
+    // 2nd parameter is known as a dependency array
+    
 
 
     return(
         <Container>
-            {console.log(selectedSkillsToRemove)}
+            {console.log(courseName)}
             {console.log("hi")}
 
             <Box>
 
                 <Grid container paddingTop="5%" spacing={5}>
                     <Grid item>
+                    {courseName.length > 0?
+                        (
                         <Typography component="h1" variant="outline" gutterBottom>
-                            Course selected: {courseName}
+                           {courseName[0]}: {courseName[1]}
                         </Typography>
+
+                        ):("")}
+
                     </Grid>
                 </Grid>
                 {/* Current Mapped Skills Table */}
@@ -202,7 +228,7 @@ function Coursemapping() {
                                         </Grid>
                                         
                                     ):(
-                                            <Button variant="contained" onClick={handleClick}>Add a new mapping</Button>
+                                        <IconButton color="info" onClick={handleClick} sx={{p:2}}><AddCircleIcon/></IconButton>
                                     )} 
                     </Grid>
                 </Grid>

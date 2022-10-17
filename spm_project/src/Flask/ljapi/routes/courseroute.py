@@ -72,6 +72,8 @@ def viewParticularCourse(courseid):
 def UpdateParticularCourse(courseid):
     # Get relevant post request
     data = request.get_json()
+    # Testing purposes
+    # return data[0]
 
     # print(data)
     course = Course.query.filter_by(course_id=courseid).first()
