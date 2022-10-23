@@ -31,8 +31,9 @@ def viewAllJobroles():
 def hraddskills():
     print("Hello!")
     data = request.get_json()
+    jobrole_id = data['jobrole_id']
     jobrole_name = data['jobrole_name']
-    department = data['jobrole_desc']
+    # department = data['jobrole_desc']
     jobrole_desc = data['jobrole_desc']
     jobrole_status = data['jobrole_status']
 

@@ -69,7 +69,6 @@ function Hrroles() {
     // Modal
     const [archive, setarchive] = useState("");
     const [deleteitem, setDeleteitem] = useState("");
-
     const [openArchiveModal, setArchiveModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
 
@@ -89,7 +88,7 @@ function Hrroles() {
     // Upon Clicking on the Submit Button in the Modal, it will update the skill description
     const updatedatabase = () => {
         console.log("Updated!");
-        //
+        // #.fetch + async
     };
 
     // Soft Delete OF SKILLS MODAL ############################################################
@@ -132,11 +131,11 @@ function Hrroles() {
     // Fetching Async
     useEffect(() => {
         const fetchMyAPI = async () => {
-            let response = await fetch("http://127.0.0.1:5000/api/jobrole");
+            let response = await fetch("http://127.0.0.1:5000/jobrole/viewjobroles");
             response = await response.json();
             handleoutput(response.data);
             console.log("This is from hr JobRoles: " + response.data);
-            console.log(response);
+            console.log(response.data);
         };
 
         fetchMyAPI();
@@ -183,13 +182,13 @@ function Hrroles() {
                                 {/* The body of the Table Goes here */}
                                 <TableBody>
                                     {output.map((singleoutput) => {
-                                        if (singleoutput.JobRole_Status == "Active") {
+                                        if (singleoutput.jobrole_status == "Active") {
                                             return (
                                                 <TableRow>
-                                                    <TableCell>{singleoutput.JobRole_ID}</TableCell>
-                                                    <TableCell>{singleoutput.JobRole_Name}</TableCell>
-                                                    <TableCell>{singleoutput.JobRole_Desc}</TableCell>
-                                                    <TableCell>{singleoutput.JobRole_Status}</TableCell>
+                                                    <TableCell>{singleoutput.jobrole_id}</TableCell>
+                                                    <TableCell>{singleoutput.jobrole_name}</TableCell>
+                                                    <TableCell>{singleoutput.jobrole_desc}</TableCell>
+                                                    <TableCell>{singleoutput.jobrole_status}</TableCell>
                                                     <TableCell>
                                                         <IconButton
                                                             color="primary"
