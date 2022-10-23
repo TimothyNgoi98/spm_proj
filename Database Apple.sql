@@ -48,7 +48,9 @@ DROP TABLE IF EXISTS `job_role`;
 CREATE TABLE IF NOT EXISTS `job_role` (
   `JobRole_ID` int NOT NULL AUTO_INCREMENT,
   `JobRole_Name` varchar(20) NOT NULL,
+  `Department` varchar(50) NOT NULL,
   `JobRole_Desc` varchar(255) NOT NULL,
+  `JobRole_Status` varchar(15) NOT NULL,
   PRIMARY KEY (`JobRole_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
