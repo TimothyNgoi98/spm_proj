@@ -132,10 +132,10 @@ function Hrroles() {
     // Fetching Async
     useEffect(() => {
         const fetchMyAPI = async () => {
-            let response = await fetch("http://127.0.0.1:5000/api/viewskills");
+            let response = await fetch("http://127.0.0.1:5000/api/jobrole");
             response = await response.json();
             handleoutput(response.data);
-            console.log("This is from hr Skills: " + response.data);
+            console.log("This is from hr JobRoles: " + response.data);
             console.log(response);
         };
 
@@ -161,7 +161,7 @@ function Hrroles() {
                             variant="contained"
                             aria-label="outlined primary button group"
                         >
-                            <Button onClick={addbutton}>Create Skill</Button>
+                            <Button onClick={addbutton}>Create Role</Button>
                             <Button onClick={archivepage}>Archive List</Button>
                         </ButtonGroup>
                     </Grid>
@@ -175,7 +175,7 @@ function Hrroles() {
                                     <TableRow>
                                         <TableCell>JobRole_ID</TableCell>
                                         <TableCell>JobRole_Name</TableCell>
-                                        <TableCell>Department</TableCell>
+                                        {/* <TableCell>Department</TableCell> */}
                                         <TableCell>JobRole_Desc	</TableCell>
                                         <TableCell colSpan={2}></TableCell>
                                     </TableRow>
@@ -183,18 +183,18 @@ function Hrroles() {
                                 {/* The body of the Table Goes here */}
                                 <TableBody>
                                     {output.map((singleoutput) => {
-                                        if (singleoutput.skill_status == "Active") {
+                                        if (singleoutput.JobRole_Status == "Active") {
                                             return (
                                                 <TableRow>
-                                                    <TableCell>{singleoutput.skill_id}</TableCell>
-                                                    <TableCell>{singleoutput.skill_name}</TableCell>
-                                                    <TableCell>{singleoutput.skill_desc}</TableCell>
-                                                    <TableCell>{singleoutput.skill_status}</TableCell>
+                                                    <TableCell>{singleoutput.JobRole_ID}</TableCell>
+                                                    <TableCell>{singleoutput.JobRole_Name}</TableCell>
+                                                    <TableCell>{singleoutput.JobRole_Desc}</TableCell>
+                                                    <TableCell>{singleoutput.JobRole_Status}</TableCell>
                                                     <TableCell>
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                ArchiveModal(singleoutput.skill_id)
+                                                                ArchiveModal(singleoutput.JobRole_ID)
                                                             }
                                                         >
                                                             <EditIcon />
@@ -204,7 +204,7 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                deletebuttonclicked(singleoutput.skill_id)
+                                                                deletebuttonclicked(singleoutput.JobRole_ID)
                                                             }
                                                         >
                                                             <MoveToInboxIcon />

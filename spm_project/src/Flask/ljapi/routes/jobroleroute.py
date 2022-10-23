@@ -4,7 +4,7 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 jobrole = Blueprint('jobroleroute', __name__)
 # TO CALL API, USE /jobrole/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@jobrole.route('/viewall')
+@jobrole.route('/viewjobroles')
 def viewAllJobroles():
     course = Jobrole.query.all()
     coursearray = []
