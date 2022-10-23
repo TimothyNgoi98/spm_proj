@@ -54,6 +54,14 @@ CREATE TABLE IF NOT EXISTS `job_role` (
   PRIMARY KEY (`JobRole_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+-- Mock up Data for JobRoles.
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, JobRole_Status)
+VALUES (1, "Product Manager", "The Product Manager manages the product line life cycle from strategic planning to tactical activities, acting as a liaison to support product positioning and customer demand. He/She guides product development from conception to launch, evaluating product functionalities and performance, and proposing enhancements and/or improvements to products based on market feedback. He analyses potential partner relationships for the product, and generate innovative ideas to grow market share, improve customer experience and drive growth.", "Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, JobRole_Status)
+VALUES (2, "Software Engineer", "The Software Engineer leads important projects and possesses capability to make breakthroughs in design, development, testing, debugging and implementing software applications or specialised utility programs in support of end users' needs on platforms. He/She plans and coordinates regular updates and recommends improvements to existing applications.", "Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, JobRole_Status)
+VALUES (3, "User Interface Designer", "The User Interface Designer determines business needs and user requirements for user interface (UI) design and formulates technical specifications and delivery platform requirements for UI.", "Retired");
+-- End of Mock up Data for JobRoles. 
 -- --------------------------------------------------------
 
 --

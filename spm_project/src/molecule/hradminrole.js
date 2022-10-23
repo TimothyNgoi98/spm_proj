@@ -52,7 +52,7 @@ function Hrroles() {
     const [output, handleoutput] = useState([]);
 
     const addbutton = () => {
-        navigate("/Hraddskill", { replace: true });
+        navigate("/hraddjobrole", { replace: true });
     };
     // Modal Archive Input Fields
     const [input_name, setinput_name] = useState("");
@@ -88,7 +88,7 @@ function Hrroles() {
     };
     // Upon Clicking on the Submit Button in the Modal, it will update the skill description
     const updatedatabase = () => {
-        console.log("Heehaw Updates!");
+        console.log("Updated!");
         //
     };
 
