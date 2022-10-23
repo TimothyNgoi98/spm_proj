@@ -9,126 +9,15 @@
 
 START TRANSACTION;
 SET time_zone = "+00:00";
---
+
 -- Database: `spm_project`
---
+drop schema if exists `spm_project`;
 CREATE DATABASE IF NOT EXISTS `spm_project` DEFAULT CHARACTER SET utf8;
 USE `spm_project`;
 
--- --------------------------------------------------------
+-- ---------------------------------------------------------- --------------------------------------------------------
 
---
--- Table structure for table `course`
---
-
-DROP TABLE IF EXISTS `course`;
-CREATE TABLE IF NOT EXISTS `course` (
-  `Course_ID` varchar(20) NOT NULL,
-  `Course_Name` varchar(50) NOT NULL,
-  `Course_Desc` varchar(255) NOT NULL,
-  `Course_Status` varchar(15) NOT NULL,
-  `Course_Type` varchar(10) DEFAULT NULL,
-  `Course_Category` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Course_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `course`
---
-
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `job_role`
---
-
-DROP TABLE IF EXISTS `job_role`;
-CREATE TABLE IF NOT EXISTS `job_role` (
-  `JobRole_ID` int NOT NULL AUTO_INCREMENT,
-  `JobRole_Name` varchar(20) NOT NULL,
-  `Department` varchar(50) NOT NULL,
-  `JobRole_Desc` varchar(255) NOT NULL,
-  `JobRole_Status` varchar(15) NOT NULL,
-  PRIMARY KEY (`JobRole_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `job_role_to_skill`
---
-
-DROP TABLE IF EXISTS `job_role_to_skill`;
-CREATE TABLE IF NOT EXISTS `job_role_to_skill` (
-  `JobRole_ID` int NOT NULL,
-  `Skill_ID` int NOT NULL,
-  KEY `Job_Role_to_Skill_fk` (`JobRole_ID`),
-  KEY `Job_Role_to_Skill_fk2` (`Skill_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `learning_journey`
---
-
-DROP TABLE IF EXISTS `learning_journey`;
-CREATE TABLE IF NOT EXISTS `learning_journey` (
-  `LearningJourney_ID` int NOT NULL AUTO_INCREMENT,
-  `Staff_ID` int NOT NULL,
-  `JobRole_ID` int NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  `Is_Active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`LearningJourney_ID`),
-  KEY `Learning_Journey_fk` (`Staff_ID`),
-  KEY `Learning_Journey_fk2` (`JobRole_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `learning_journey_detailed`
---
-
-DROP TABLE IF EXISTS `learning_journey_detailed`;
-CREATE TABLE IF NOT EXISTS `learning_journey_detailed` (
-  `LearningJourney_ID` int NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  KEY `Learning_Journey_Detailed_fk` (`LearningJourney_ID`),
-  KEY `Learning_Journey_Detailed_fk2` (`Course_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `registration`
---
-
-DROP TABLE IF EXISTS `registration`;
-CREATE TABLE IF NOT EXISTS `registration` (
-  `Reg_ID` int NOT NULL AUTO_INCREMENT,
-  `Course_ID` varchar(20) NOT NULL,
-  `Staff_ID` int NOT NULL,
-  `Reg_Status` varchar(20) NOT NULL,
-  `Completion_Status` varchar(20) NOT NULL,
-  PRIMARY KEY (`Reg_ID`),
-  KEY `Registration_fk` (`Course_ID`),
-  KEY `Registration_fk2` (`Staff_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
---
--- Dumping data for table `registration`
---
-
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `role`
---
-
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `Role_ID` int NOT NULL ,
@@ -136,60 +25,16 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`Role_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
---
--- Dumping data for table `role`
---
-
+-- `role` data from Product Owner
 INSERT INTO `role` (`Role_ID`, `Role_Name`) VALUES
 (1, 'Admin'),
 (2, 'User'),
 (3, 'Manager'),
 (4, 'Trainer');
 
--- --------------------------------------------------------
+-- ---------------------------------------------------------- --------------------------------------------------------
 
---
--- Table structure for table `skill`
---
-
-DROP TABLE IF EXISTS `skill`;
-CREATE TABLE IF NOT EXISTS `skill` (
-  `Skill_ID` int NOT NULL AUTO_INCREMENT,
-  `Skill_Name` varchar(50) NOT NULL,
-  `Skill_Desc` varchar(255) NOT NULL,
-  `Skill_Status` varchar(15) NOT NULL,
-  PRIMARY KEY (`Skill_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `skill_to_course`
---
--- Mock up Data for Skills.
-INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES (1, "Mobile Design Architecture Skill", "Able to create Prototyping frameworks, user flows, mockups.","Active");
-INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired ");
-INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES (3, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
--- End of Mock up Data for Skills. 
-
-
-DROP TABLE IF EXISTS `skill_to_course`;
-CREATE TABLE IF NOT EXISTS `skill_to_course` (
-  `Skill_ID` int NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  KEY `Skill_to_Course_fk` (`Skill_ID`),
-  KEY `Skill_to_Course_fk2` (`Course_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `staff`
---
-
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (
   `Staff_ID` int NOT NULL AUTO_INCREMENT,
@@ -202,80 +47,12 @@ CREATE TABLE IF NOT EXISTS `staff` (
   KEY `Staff_fk` (`Role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-
-ALTER TABLE `job_role_to_skill`
-  ADD CONSTRAINT `Job_Role_to_Skill_fk` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`),
-  ADD CONSTRAINT `Job_Role_to_Skill_fk2` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`);
-
---
--- Constraints for table `learning_journey`
---
-ALTER TABLE `learning_journey`
-  ADD CONSTRAINT `Learning_Journey_fk` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`),
-  ADD CONSTRAINT `Learning_Journey_fk2` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`);
-
---
--- Constraints for table `learning_journey_detailed`
---
-ALTER TABLE `learning_journey_detailed`
-  ADD CONSTRAINT `Learning_Journey_Detailed_fk` FOREIGN KEY (`LearningJourney_ID`) REFERENCES `learning_journey` (`LearningJourney_ID`),
-  ADD CONSTRAINT `Learning_Journey_Detailed_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
-
---
--- Constraints for table `registration`
---
-ALTER TABLE `registration`
-  ADD CONSTRAINT `Registration_fk` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`),
-  ADD CONSTRAINT `Registration_fk2` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`);
-
---
--- Constraints for table `skill_to_course`
---
-ALTER TABLE `skill_to_course`
-  ADD CONSTRAINT `Skill_to_Course_fk` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`),
-  ADD CONSTRAINT `Skill_to_Course_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
-
---
 -- Constraints for table `staff`
---
 ALTER TABLE `staff`
   ADD CONSTRAINT `Staff_fk` FOREIGN KEY (`Role`) REFERENCES `role` (`Role_ID`);
 COMMIT;
 
-INSERT INTO `course` (`Course_ID`, `Course_Name`, `Course_Desc`, `Course_Status`, `Course_Type`, `Course_Category`) VALUES
-('COR001', 'Systems Thinking and Design', 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,', 'Active', 'Internal', 'Core'),
-('COR002', 'Lean Six Sigma Green Belt Certification', 'Apply Lean Six Sigma methodology and statistical tools such as Minitab to be used in process analytics', 'Active', 'Internal', 'Core'),
-('COR004', 'Service Excellence', 'The programme provides the learner with the key foundations of what builds customer confidence in the service industr', 'Pending', 'Internal', 'Core'),
-('COR006', 'Manage Change', 'Identify risks associated with change and develop risk mitigation plans.', 'Retired', 'External', 'Core'),
-('FIN001', 'Data Collection and Analysis', 'Data is meaningless unless insights and analysis can be drawn to provide useful information for business decision-making. It is imperative that data quality, integrity and security ', 'Active', 'External', 'Finance'),
-('FIN002', 'Risk and Compliance Reporting', 'Regulatory reporting is a requirement for businesses from highly regulated sectors to demonstrate compliance with the necessary regulatory provisions.', 'Active', 'External', 'Finance'),
-('FIN003', 'Business Continuity Planning', 'Business continuity planning is essential in any business to minimise loss when faced with potential threats and disruptions.', 'Retired', 'External', 'Finance'),
-('HRD001', 'Leading and Shaping a Culture in Learning', 'This training programme, delivered by the National Centre of Excellence (Workplace Learning), aims to equip participants with the skills and knowledge of the National workplace learning certification framework,', 'Active', 'External', 'HR'),
-('MGT001', 'People Management', 'enable learners to manage team performance and development through effective communication, conflict resolution and negotiation skills.', 'Active', 'Internal', 'Management'),
-('MGT002', 'Workplace Conflict Management for Professionals', 'This course will address the gaps to build consensus and utilise knowledge of conflict management techniques to diffuse tensions and achieve resolutions effectively in the best interests of the organisation.', 'Active', 'External', 'Management'),
-('MGT003', 'Enhance Team Performance Through Coaching', 'The course aims to upskill real estate team leaders in the area of service coaching for performance.', 'Pending', 'Internal', 'Management'),
-('MGT004', 'Personal Effectiveness for Leaders', 'Learners will be able to acquire the skills and knowledge to undertake self-assessment in relation to one’s performance and leadership style', 'Active', 'External', 'Management'),
-('MGT007', 'Supervisory Management Skills', 'Supervisors lead teams, manage tasks, solve problems, report up and down the hierarchy, and much more. ', 'Retired', 'External', 'Management'),
-('SAL001', 'Risk Management for Smart Business', 'Apply risk management concepts to digital business', 'Retired', 'Internal', 'Sales'),
-('SAL002', 'CoC in Smart Living Solutions', 'Participants will acquire the knowledge and skills in setting up a smart living solution', 'Pending', 'External', 'Sales'),
-('SAL003', 'Optimising Your Brand For The Digital Spaces', 'Digital has fundamentally shifted communication between brands and their consumers from a one-way broadcast to a two-way dialogue. In a hastened bid to transform their businesses to be digital market-ready,', 'Active', 'External', 'Sales'),
-('SAL004', 'Stakeholder Management', 'Develop a stakeholder engagement plan and negotiate with stakeholders to arrive at mutually-beneficial arrangements.', 'Active', 'Internal', 'Sales'),
-('tch001', 'Print Server Setup', 'Setting up print server in enterprise environment', 'Retired', 'Internal', 'Technical'),
-('tch002', 'Canon MFC Setup', 'Setting up Canon ImageRUNNER series of products', 'Retired', 'Internal', 'Technical'),
-('tch003', 'Canon MFC Mainteance and Troubleshooting', 'Troubleshoot and fixing L2,3 issues of Canon ImageRUNNER series of products', 'Active', 'Internal', 'Technical'),
-('tch004', 'Introduction to Open Platform Communications', 'This course provides the participants with a good in-depth understanding of the SS IEC 62541 standard', 'Pending', 'Internal', 'Technical'),
-('tch005', 'An Introduction to Sustainability', 'The course provides learners with the multi-faceted basic knowledge of sustainability.', 'Active', 'External', 'Technical'),
-('tch006', 'Machine Learning DevOps Engineer ', 'The Machine Learning DevOps Engineer Nanodegree program focuses on the software engineering fundamentals needed to successfully streamline the deployment of data and machine-learning models', 'Pending', 'Internal', 'Technical'),
-('tch008', 'Technology Intelligence and Strategy', 'Participants will be able to gain knowledge and skills on: - establishing technology strategy with technology intelligence framework and tools', 'Active', 'External', 'Technical'),
-('tch009', 'Smart Sensing Technology', 'This course introduces sensors and sensing systems. The 5G infrastructure enables the many fast-growing IoT applications equipped with sensors ', 'Pending', 'External', 'Technical'),
-('tch012', 'Internet of Things', 'The Internet of Things (IoT) is integrating our digital and physical world, opening up new and exciting opportunities to deploy, automate, optimize and secure diverse use cases and applications. ', 'Active', 'Internal', 'Technical'),
-('tch013', 'Managing Cybersecurity and Risks', 'Digital security is the core of our daily lives considering that our dependence on the digital world', 'Active', 'Internal', 'Technical'),
-('tch014', 'Certified Information Privacy Professional', 'The Certified Information Privacy Professional/ Asia (CIPP/A) is the first publicly available privacy certification', 'Active', 'External', 'Technical'),
-('tch015', 'Network Security', 'Understanding of the fundamental knowledge of network security including cryptography, authentication and key distribution. The security techniques at various layers of computer networks are examined.', 'Active', 'External', 'Technical'),
-('tch018', 'Professional Project Management', 'solid foundation in the project management processes from initiating a project, through planning, execution, control,', 'Active', 'Internal', 'Technical'),
-('tch019', 'Innovation and Change Management ', 'the organization that constantly reinvents itself to be relevant has a better chance of making progress', 'Active', 'External', 'Technical');
-
-
+-- 'staff' data provided by Product Owner
 INSERT INTO `staff` (`Staff_ID`, `Staff_FName`, `Staff_LName`, `Dept`, `Email`, `Role`) VALUES
 (130001, 'John', 'Sim', 'Chariman', 'jack.sim@allinone.com.sg', 1),
 (130002, 'Jack', 'Sim', 'CEO', 'jack.sim@allinone.com.sg', 1),
@@ -420,8 +197,75 @@ INSERT INTO `staff` (`Staff_ID`, `Staff_FName`, `Staff_LName`, `Dept`, `Email`, 
 (170655, 'Samuel', 'Lee', 'Finance', 'Samuel.Lee@allinone.com.sg', 2),
 (170866, 'Susan', 'Lim', 'Finance', 'Susan.Lim@allinone.com.sg', 2),
 (171008, 'Janice', 'Heng', 'Finance', 'Janice.Heng@allinone.com.sg', 2);
+-- ---------------------------------------------------------- --------------------------------------------------------
 
+-- Table structure for table `course`
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE IF NOT EXISTS `course` (
+  `Course_ID` varchar(20) NOT NULL,
+  `Course_Name` varchar(50) NOT NULL,
+  `Course_Desc` varchar(255) NOT NULL,
+  `Course_Status` varchar(15) NOT NULL,
+  `Course_Type` varchar(10) DEFAULT NULL,
+  `Course_Category` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Course_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 'course' data provided by Product Owner
+INSERT INTO `course` (`Course_ID`, `Course_Name`, `Course_Desc`, `Course_Status`, `Course_Type`, `Course_Category`) VALUES
+('COR001', 'Systems Thinking and Design', 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,', 'Active', 'Internal', 'Core'),
+('COR002', 'Lean Six Sigma Green Belt Certification', 'Apply Lean Six Sigma methodology and statistical tools such as Minitab to be used in process analytics', 'Active', 'Internal', 'Core'),
+('COR004', 'Service Excellence', 'The programme provides the learner with the key foundations of what builds customer confidence in the service industr', 'Pending', 'Internal', 'Core'),
+('COR006', 'Manage Change', 'Identify risks associated with change and develop risk mitigation plans.', 'Retired', 'External', 'Core'),
+('FIN001', 'Data Collection and Analysis', 'Data is meaningless unless insights and analysis can be drawn to provide useful information for business decision-making. It is imperative that data quality, integrity and security ', 'Active', 'External', 'Finance'),
+('FIN002', 'Risk and Compliance Reporting', 'Regulatory reporting is a requirement for businesses from highly regulated sectors to demonstrate compliance with the necessary regulatory provisions.', 'Active', 'External', 'Finance'),
+('FIN003', 'Business Continuity Planning', 'Business continuity planning is essential in any business to minimise loss when faced with potential threats and disruptions.', 'Retired', 'External', 'Finance'),
+('HRD001', 'Leading and Shaping a Culture in Learning', 'This training programme, delivered by the National Centre of Excellence (Workplace Learning), aims to equip participants with the skills and knowledge of the National workplace learning certification framework,', 'Active', 'External', 'HR'),
+('MGT001', 'People Management', 'enable learners to manage team performance and development through effective communication, conflict resolution and negotiation skills.', 'Active', 'Internal', 'Management'),
+('MGT002', 'Workplace Conflict Management for Professionals', 'This course will address the gaps to build consensus and utilise knowledge of conflict management techniques to diffuse tensions and achieve resolutions effectively in the best interests of the organisation.', 'Active', 'External', 'Management'),
+('MGT003', 'Enhance Team Performance Through Coaching', 'The course aims to upskill real estate team leaders in the area of service coaching for performance.', 'Pending', 'Internal', 'Management'),
+('MGT004', 'Personal Effectiveness for Leaders', 'Learners will be able to acquire the skills and knowledge to undertake self-assessment in relation to one’s performance and leadership style', 'Active', 'External', 'Management'),
+('MGT007', 'Supervisory Management Skills', 'Supervisors lead teams, manage tasks, solve problems, report up and down the hierarchy, and much more. ', 'Retired', 'External', 'Management'),
+('SAL001', 'Risk Management for Smart Business', 'Apply risk management concepts to digital business', 'Retired', 'Internal', 'Sales'),
+('SAL002', 'CoC in Smart Living Solutions', 'Participants will acquire the knowledge and skills in setting up a smart living solution', 'Pending', 'External', 'Sales'),
+('SAL003', 'Optimising Your Brand For The Digital Spaces', 'Digital has fundamentally shifted communication between brands and their consumers from a one-way broadcast to a two-way dialogue. In a hastened bid to transform their businesses to be digital market-ready,', 'Active', 'External', 'Sales'),
+('SAL004', 'Stakeholder Management', 'Develop a stakeholder engagement plan and negotiate with stakeholders to arrive at mutually-beneficial arrangements.', 'Active', 'Internal', 'Sales'),
+('tch001', 'Print Server Setup', 'Setting up print server in enterprise environment', 'Retired', 'Internal', 'Technical'),
+('tch002', 'Canon MFC Setup', 'Setting up Canon ImageRUNNER series of products', 'Retired', 'Internal', 'Technical'),
+('tch003', 'Canon MFC Mainteance and Troubleshooting', 'Troubleshoot and fixing L2,3 issues of Canon ImageRUNNER series of products', 'Active', 'Internal', 'Technical'),
+('tch004', 'Introduction to Open Platform Communications', 'This course provides the participants with a good in-depth understanding of the SS IEC 62541 standard', 'Pending', 'Internal', 'Technical'),
+('tch005', 'An Introduction to Sustainability', 'The course provides learners with the multi-faceted basic knowledge of sustainability.', 'Active', 'External', 'Technical'),
+('tch006', 'Machine Learning DevOps Engineer ', 'The Machine Learning DevOps Engineer Nanodegree program focuses on the software engineering fundamentals needed to successfully streamline the deployment of data and machine-learning models', 'Pending', 'Internal', 'Technical'),
+('tch008', 'Technology Intelligence and Strategy', 'Participants will be able to gain knowledge and skills on: - establishing technology strategy with technology intelligence framework and tools', 'Active', 'External', 'Technical'),
+('tch009', 'Smart Sensing Technology', 'This course introduces sensors and sensing systems. The 5G infrastructure enables the many fast-growing IoT applications equipped with sensors ', 'Pending', 'External', 'Technical'),
+('tch012', 'Internet of Things', 'The Internet of Things (IoT) is integrating our digital and physical world, opening up new and exciting opportunities to deploy, automate, optimize and secure diverse use cases and applications. ', 'Active', 'Internal', 'Technical'),
+('tch013', 'Managing Cybersecurity and Risks', 'Digital security is the core of our daily lives considering that our dependence on the digital world', 'Active', 'Internal', 'Technical'),
+('tch014', 'Certified Information Privacy Professional', 'The Certified Information Privacy Professional/ Asia (CIPP/A) is the first publicly available privacy certification', 'Active', 'External', 'Technical'),
+('tch015', 'Network Security', 'Understanding of the fundamental knowledge of network security including cryptography, authentication and key distribution. The security techniques at various layers of computer networks are examined.', 'Active', 'External', 'Technical'),
+('tch018', 'Professional Project Management', 'solid foundation in the project management processes from initiating a project, through planning, execution, control,', 'Active', 'Internal', 'Technical'),
+('tch019', 'Innovation and Change Management ', 'the organization that constantly reinvents itself to be relevant has a better chance of making progress', 'Active', 'External', 'Technical');
+
+-- ---------------------------------------------------------- --------------------------------------------------------
+
+-- Table structure for table `registration`
+DROP TABLE IF EXISTS `registration`;
+CREATE TABLE IF NOT EXISTS `registration` (
+  `Reg_ID` int NOT NULL AUTO_INCREMENT,
+  `Course_ID` varchar(20) NOT NULL,
+  `Staff_ID` int NOT NULL,
+  `Reg_Status` varchar(20) NOT NULL,
+  `Completion_Status` varchar(20) NOT NULL,
+  PRIMARY KEY (`Reg_ID`),
+  KEY `Registration_fk` (`Course_ID`),
+  KEY `Registration_fk2` (`Staff_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- Constraints for table `registration`
+ALTER TABLE `registration`
+  ADD CONSTRAINT `Registration_fk` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`),
+  ADD CONSTRAINT `Registration_fk2` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`);
+
+-- 'registration' data provided by Product Owner
 INSERT INTO `registration` (`Reg_ID`, `Course_ID`, `Staff_ID`, `Reg_Status`, `Completion_Status`) VALUES
 (1, 'COR002', 130001, 'Registered', 'Completed'),
 (2, 'COR002', 130002, 'Registered', 'Completed'),
@@ -802,3 +646,118 @@ INSERT INTO `registration` (`Reg_ID`, `Course_ID`, `Staff_ID`, `Reg_Status`, `Co
 (377, 'tch001', 150866, 'Registered', ''),
 (378, 'tch002', 151008, 'Waitlist', ''),
 (379, 'tch003', 150215, 'Waitlist', '');
+
+-- ---------------------------------------------------------- --------------------------------------------------------
+
+-- Table structure for table `skill`
+DROP TABLE IF EXISTS `skill`;
+CREATE TABLE IF NOT EXISTS `skill` (
+  `Skill_ID` int NOT NULL AUTO_INCREMENT,
+  `Skill_Name` varchar(50) NOT NULL,
+  `Skill_Desc` varchar(255) NOT NULL,
+  `Skill_Status` varchar(15) NOT NULL,
+  PRIMARY KEY (`Skill_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- Mock Data for 'skill'.
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (1, "Mobile Design Architecture Skill", "Able to create Prototyping frameworks, user flows, mockups.","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired ");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (3, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
+-- End of Mock Data for 'skill'. 
+
+-- ---------------------------------------------------------- --------------------------------------------------------
+
+-- Table structure for table `job_role`
+DROP TABLE IF EXISTS `job_role`;
+CREATE TABLE IF NOT EXISTS `job_role` (
+  `JobRole_ID` int NOT NULL AUTO_INCREMENT,
+  `JobRole_Name` varchar(20) NOT NULL,
+  `Department` varchar(50) NOT NULL,
+  `JobRole_Desc` varchar(255) NOT NULL,
+  `JobRole_Status` varchar(15) NOT NULL,
+  PRIMARY KEY (`JobRole_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- ---------------------------------------------------------- --------------------------------------------------------
+
+-- Table structure for table `learning_journey`
+DROP TABLE IF EXISTS `learning_journey`;
+CREATE TABLE IF NOT EXISTS `learning_journey` (
+  `LearningJourney_ID` int NOT NULL AUTO_INCREMENT,
+  `Staff_ID` int NOT NULL,
+  `JobRole_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  `Is_Active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`LearningJourney_ID`),
+  KEY `Learning_Journey_fk` (`Staff_ID`),
+  KEY `Learning_Journey_fk2` (`JobRole_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- Constraints for table `learning_journey`
+ALTER TABLE `learning_journey`
+  ADD CONSTRAINT `Learning_Journey_fk` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_ID`),
+  ADD CONSTRAINT `Learning_Journey_fk2` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`);
+
+-- ---------------------------------------------------------- --------------------------------------------------------
+
+-- Table structure for table `job_role_to_skill`
+
+DROP TABLE IF EXISTS `job_role_to_skill`;
+CREATE TABLE IF NOT EXISTS `job_role_to_skill` (
+  `JobRole_ID` int NOT NULL,
+  `Skill_ID` int NOT NULL,
+  KEY `Job_Role_to_Skill_fk` (`JobRole_ID`),
+  KEY `Job_Role_to_Skill_fk2` (`Skill_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+ALTER TABLE `job_role_to_skill`
+  ADD CONSTRAINT `Job_Role_to_Skill_fk` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`),
+  ADD CONSTRAINT `Job_Role_to_Skill_fk2` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`);
+
+-- ---------------------------------------------------------- --------------------------------------------------------
+
+-- Table structure for table `skill_to_course`
+DROP TABLE IF EXISTS `skill_to_course`;
+CREATE TABLE IF NOT EXISTS `skill_to_course` (
+  `Skill_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  KEY `Skill_to_Course_fk` (`Skill_ID`),
+  KEY `Skill_to_Course_fk2` (`Course_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Constraints for table `skill_to_course`
+ALTER TABLE `skill_to_course`
+  ADD CONSTRAINT `Skill_to_Course_fk` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`),
+  ADD CONSTRAINT `Skill_to_Course_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
+
+-- Mock Data for 'skill_to_course'.
+INSERT INTO `skill_to_course` (`Skill_ID`, `Course_ID`) VALUES
+(1, 'COR001'),
+(1, 'COR002'),
+(2, 'FIN001'),
+(2, 'FIN002'),
+(3, 'MGT001'),
+(3, 'MGT002');
+-- End of Mock Data for 'skill_to_course'.
+
+-- ---------------------------------------------------------- --------------------------------------------------------
+
+-- Table structure for table `learning_journey_detailed`
+DROP TABLE IF EXISTS `learning_journey_detailed`;
+CREATE TABLE IF NOT EXISTS `learning_journey_detailed` (
+  `LearningJourney_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  KEY `Learning_Journey_Detailed_fk` (`LearningJourney_ID`),
+  KEY `Learning_Journey_Detailed_fk2` (`Course_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- Constraints for table `learning_journey_detailed`
+ALTER TABLE `learning_journey_detailed`
+  ADD CONSTRAINT `Learning_Journey_Detailed_fk` FOREIGN KEY (`LearningJourney_ID`) REFERENCES `learning_journey` (`LearningJourney_ID`),
+  ADD CONSTRAINT `Learning_Journey_Detailed_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
+
+-- ---------------------------------------------------------- --------------------------------------------------------
