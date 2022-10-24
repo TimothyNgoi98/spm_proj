@@ -174,7 +174,7 @@ function Hrroles() {
                                     <TableRow>
                                         <TableCell>JobRole_ID</TableCell>
                                         <TableCell>JobRole_Name</TableCell>
-                                        {/* <TableCell>Department</TableCell> */}
+                                        <TableCell>Department</TableCell>
                                         <TableCell>JobRole_Desc	</TableCell>
                                         <TableCell colSpan={2}></TableCell>
                                     </TableRow>
@@ -187,6 +187,7 @@ function Hrroles() {
                                                 <TableRow>
                                                     <TableCell>{singleoutput.jobrole_id}</TableCell>
                                                     <TableCell>{singleoutput.jobrole_name}</TableCell>
+                                                    <TableCell>{singleoutput.department}</TableCell>
                                                     <TableCell>{singleoutput.jobrole_desc}</TableCell>
                                                     <TableCell>{singleoutput.jobrole_status}</TableCell>
                                                     <TableCell>
