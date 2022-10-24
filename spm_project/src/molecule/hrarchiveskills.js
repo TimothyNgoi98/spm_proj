@@ -97,6 +97,11 @@ function Hrarchiveskills() {
   }
   // Upon Clicking on the Submit Button in the Modal, it will update the skill description
   const updatedatabase = () => {
+
+    if (input_name.length == 0 || input_name.length > 50 || input_description.length == 0 || input_description.length > 250 ) {
+      alert("Please check if your input fields fulfills the criteria.")
+    }
+    else {
     const result = {'skill_id': archive, "skill_name" : input_name, "skill_description" : input_description } 
     const options = {
       method: "PUT",
@@ -113,6 +118,7 @@ function Hrarchiveskills() {
     })
     setArchiveModal(false)
     setarchive("")
+    }
   }
 
   // Soft Delete OF SKILLS MODAL ############################################################

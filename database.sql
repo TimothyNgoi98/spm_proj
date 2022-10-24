@@ -16,6 +16,116 @@ CREATE DATABASE IF NOT EXISTS `spm_project` DEFAULT CHARACTER SET utf8;
 USE `spm_project`;
 
 -- ---------------------------------------------------------- --------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE IF NOT EXISTS `course` (
+  `Course_ID` varchar(20) NOT NULL,
+  `Course_Name` varchar(50) NOT NULL,
+  `Course_Desc` varchar(255) NOT NULL,
+  `Course_Status` varchar(15) NOT NULL,
+  `Course_Type` varchar(10) DEFAULT NULL,
+  `Course_Category` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Course_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `course`
+--
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_role`
+--
+
+DROP TABLE IF EXISTS `job_role`;
+CREATE TABLE IF NOT EXISTS `job_role` (
+  `JobRole_ID` int NOT NULL AUTO_INCREMENT,
+  `JobRole_Name` varchar(20) NOT NULL,
+  `Department` varchar(50) NOT NULL,
+  `JobRole_Desc` varchar(255) NOT NULL,
+  `JobRole_Status` varchar(15) NOT NULL,
+  PRIMARY KEY (`JobRole_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- Mock up Data for JobRoles.
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, JobRole_Status)
+VALUES (1, "Product Manager", "The Product Manager manages the product line life cycle from strategic planning to tactical activities, acting as a liaison to support product positioning and customer demand. He/She guides product development from conception to launch, evaluating product functionalities and performance, and proposing enhancements and/or improvements to products based on market feedback. He analyses potential partner relationships for the product, and generate innovative ideas to grow market share, improve customer experience and drive growth.", "Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, JobRole_Status)
+VALUES (2, "Software Engineer", "The Software Engineer leads important projects and possesses capability to make breakthroughs in design, development, testing, debugging and implementing software applications or specialised utility programs in support of end users' needs on platforms. He/She plans and coordinates regular updates and recommends improvements to existing applications.", "Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, JobRole_Status)
+VALUES (3, "User Interface Designer", "The User Interface Designer determines business needs and user requirements for user interface (UI) design and formulates technical specifications and delivery platform requirements for UI.", "Retired");
+-- End of Mock up Data for JobRoles. 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_role_to_skill`
+--
+
+DROP TABLE IF EXISTS `job_role_to_skill`;
+CREATE TABLE IF NOT EXISTS `job_role_to_skill` (
+  `JobRole_ID` int NOT NULL,
+  `Skill_ID` int NOT NULL,
+  KEY `Job_Role_to_Skill_fk` (`JobRole_ID`),
+  KEY `Job_Role_to_Skill_fk2` (`Skill_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `learning_journey`
+--
+
+DROP TABLE IF EXISTS `learning_journey`;
+CREATE TABLE IF NOT EXISTS `learning_journey` (
+  `LearningJourney_ID` int NOT NULL AUTO_INCREMENT,
+  `Staff_ID` int NOT NULL,
+  `JobRole_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  `Is_Active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`LearningJourney_ID`),
+  KEY `Learning_Journey_fk` (`Staff_ID`),
+  KEY `Learning_Journey_fk2` (`JobRole_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `learning_journey_detailed`
+--
+
+DROP TABLE IF EXISTS `learning_journey_detailed`;
+CREATE TABLE IF NOT EXISTS `learning_journey_detailed` (
+  `LearningJourney_ID` int NOT NULL,
+  `Course_ID` varchar(20) NOT NULL,
+  KEY `Learning_Journey_Detailed_fk` (`LearningJourney_ID`),
+  KEY `Learning_Journey_Detailed_fk2` (`Course_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `registration`
+--
+
+DROP TABLE IF EXISTS `registration`;
+CREATE TABLE IF NOT EXISTS `registration` (
+  `Reg_ID` int NOT NULL AUTO_INCREMENT,
+  `Course_ID` varchar(20) NOT NULL,
+  `Staff_ID` int NOT NULL,
+  `Reg_Status` varchar(20) NOT NULL,
+  `Completion_Status` varchar(20) NOT NULL,
+  PRIMARY KEY (`Reg_ID`),
+  KEY `Registration_fk` (`Course_ID`),
+  KEY `Registration_fk2` (`Staff_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- Table structure for table `role`
 DROP TABLE IF EXISTS `role`;
