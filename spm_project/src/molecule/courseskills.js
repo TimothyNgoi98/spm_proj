@@ -34,12 +34,13 @@ import IconButton from '@mui/material/IconButton';
 function Courseskills() {
   const transferred_skill_existing = useSelector((state) => state.skillfilter.test)
   const [skillOutput,outputSkills] = useState([])
+  const [selectedCourse, addCourseDeleted] = useState(useSelector((state) => state.transferselectedskills.transfer))
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // Check if state is empty for filterskills
   // useDispatch is meant for initialising the usage of Redux
     
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState([...selectedCourse]);
   // Function to load course from db
   function loadSkillsFiltered() {
     // simulate a course is being clicked
@@ -79,23 +80,28 @@ function Courseskills() {
     // HandleCheck Function
   function handleCheck(event, skilloutput) {
       var updatedList = [...checked];
+      console.log(updatedList, "updatedList1");
+
       if (event.target.checked) {
         updatedList = [...checked, skilloutput]
       }else {
         updatedList.splice(checked.indexOf(skilloutput), 1);
       }
       setChecked(updatedList);
+      console.log(updatedList, "updatedList2");
+
     }
     // End of HandleCheck Function
 
   function returnBack() {
-      navigate('/mappings')
+      navigate('/selectcourse')
   }
     
   // This function will dispatch course into courseSlice
   const addCourse = () => {
     dispatch(setTransfer(checked))
-    navigate("/mappings")
+    console.log(checked, "checkedstuff")
+    navigate("/confirmcoursemapping")
   }
   
   useEffect(() => {
@@ -105,7 +111,8 @@ function Courseskills() {
     return(
         <Container>
           {/* {console.log(skillOutput)} */}
-          {console.log(transferred_skill_existing)}
+          {console.log(selectedCourse, 'selectedCourseTimmy')}
+          {console.log(transferred_skill_existing, "transferredSkillExisitng")}
           <Box marginTop="5%">
             <Grid container className="top-header-title">
               <Grid item>
@@ -114,6 +121,11 @@ function Courseskills() {
 
             <Grid container className="main-section">
             <IconButton color="info" onClick={returnBack} sx={{p:1}}><ArrowBackIcon/></IconButton>
+              <Grid item xs = {12}>
+                <Typography component = 'h1' color = "info.main" align="center" sx={{p:2, fontWeight: 'bold'}}>
+                  Couse being mapped: {selectedCourse[0]['course_name']}
+                </Typography>
+              </Grid>
       	      <Grid item xs={12}>
               <TableContainer component={Paper}>
                 <Typography component='h1' variant="overline" color="info.main" align="left" gutterBottom sx={{p:2, fontWeight: 'bold'}}>

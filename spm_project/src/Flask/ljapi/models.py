@@ -105,7 +105,7 @@ class Course(db.Model):
     course_category = db.Column(db.String(50), nullable=False)
     registrations = db.relationship('Registration', backref='course',lazy="select", uselist=False)
     learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
-    # skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select", uselist=False)
+    skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select", uselist=False)
 
     
 

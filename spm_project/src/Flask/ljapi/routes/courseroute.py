@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
+from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration, skill_to_course
 
 course = Blueprint('courseroute', __name__)
 # TO CALL API, USE /course/<route>
@@ -66,6 +66,44 @@ def viewParticularCourse(courseid):
                 "data": "Particular Course Not FOUND!"
             }
         ),200
+
+@course.route('/view/coursesmapped')
+def viewCoursesMapped():
+    courses = Course.query.all()
+    mappedCourseArray = []
+    for course in courses:
+        if not not course.skill:
+            courseDict = course.to_dict()
+            course_skill = []
+            for skill in course.skill:
+                course_skill.append(skill.to_dict())
+            courseDict['skills'] = course_skill
+                # if skill not in courseDict:
+                #     courseDict['skills'] = [skill.to_dict()]
+                # else:
+                #     courseDict['skills'].append(skill.to_dict())
+            mappedCourseArray.append(courseDict)
+
+    return jsonify(
+        {   
+            "code": 200,
+            "data": {
+                "coursedetails": mappedCourseArray,
+            }
+
+        }
+    ),200
+
+    # else:
+    #     return jsonify(
+    #         {   
+    #             "code": 404,
+    #             "data": "Error!"
+    #         }
+    #     ),200
+
+
+
 
 
 @course.route('/update/<string:courseid>', methods=['POST'])
