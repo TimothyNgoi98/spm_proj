@@ -7,6 +7,7 @@ import { setjobrole_desc, setjobrole_id, setjobrole_name} from '../reduxslice/jo
 
 const Card = ({jobrole}) =>  {
     const { jobrole_desc, jobrole_id, jobrole_name} = jobrole
+    console.log(jobrole)
 
     let navigate = useNavigate()
     let dispatch = useDispatch()
@@ -42,7 +43,7 @@ const Card = ({jobrole}) =>  {
                             <h4>{ jobrole_name }</h4>
                             <p>{ jobrole_desc }</p>
                             {/* <button onClick={redirect}>Add Role to Learning Journey</button> */}
-                            <button onClick={() => redirect()}>Add Role to Learning Journey</button>
+                            <button onClick={() => redirect()}>Select role for Learning Journey</button>
                         </div>
                     </div>
                 </Grid>
