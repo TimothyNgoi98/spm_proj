@@ -23,33 +23,50 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
+  // [] - onload (and u can track something that change)
+  // course category is redux (one page to another)
+
 function User() {
 
-  // UseNavigate, for internal routing. 
-  let navigate = useNavigate()
-  const [output, handleoutput] = useState([])
+  // [course] UseNavigate, for internal routing. 
+  let navigateCourse = useNavigate()
+  const [outputCourse, handleoutputCourse] = useState([])
 
   // Fetching Async 
   useEffect(() => {
     const fetchMyAPI = async () => {
-      let response = await fetch("http://127.0.0.1:5000/api/allcourse")
+      let response = await fetch("http://127.0.0.1:5000/course/view/all")
       response = await response.json()
-      handleoutput(response.data)
+      handleoutputCourse(response.data)
     }
     fetchMyAPI()
-  },[])
+  },[]) 
   // console.log(typeof output)
-  console.log(output)
+  console.log(outputCourse)
 
-  // course category is redux (one page to another)
+    // [skill] UseNavigate, for internal routing. 
+    let navigateSkill = useNavigate()
+    const [outputSkill, handleoutputSkill] = useState([])
+  
+    // Fetching Async 
+    useEffect(() => {
+      const fetchMyAPI = async () => {
+        let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse")
+        response = await response.json()
+        handleoutputSkill(response.data)
+      }
+      fetchMyAPI()
+    },[]) 
+    // console.log(typeof output)
+    console.log(outputSkill)
 
   const addbutton = () => {
-    navigate("/YUXUANHERE", {replace: true})
+    navigateCourse("/YUXUANHERE", {replace: true})
   }
 
   return (
     <div>
-        UserVIew.
+        {/* UserVIew.
         <Button variant="text">Text</Button>
         <Grid container spacing={2}>
           <Grid item xs={8}>
@@ -60,7 +77,7 @@ function User() {
           </Grid>
           <Grid item xs={8}>
           </Grid>
-        </Grid>
+        </Grid> */}
 
       <Container>
         <Box marginTop="5%">
@@ -68,7 +85,7 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard
+                Course Dashboard for 
               </Typography>
             </Grid>
 
@@ -77,7 +94,7 @@ function User() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Go to Learning Journey</Button>
+                <Button onClick={addbutton}>Add to Learning Journey</Button>
               </ButtonGroup>
             </Grid>
 
@@ -99,16 +116,29 @@ function User() {
                   </TableHead>
 
                   <TableBody>
-                    {output.map((singleoutput) => (
-                      singleoutput.course_status === 'Active'
+                    {outputSkill.map((singleoutputSkill) => (
+                      singleoutputSkill.course_id
+                      ? 
+                      <TableRow>
+                      <TableCell>{singleoutputSkill.course_id}</TableCell>
+                      {/* <TableCell>{singleoutputCourse.course_name}</TableCell>
+                      <TableCell>{singleoutputCourse.course_desc}</TableCell>
+                      <TableCell>{singleoutputCourse.course_status}</TableCell> */}
+                  </TableRow>
+                      : console.log(singleoutputSkill.course_id)
+                    ))}
+
+                    {outputCourse.map((singleoutputCourse) => (
+                      singleoutputCourse.course_status === "Active"
                       ? 
                         <TableRow>
-                          <TableCell>{singleoutput.course_id}</TableCell>
-                          <TableCell>{singleoutput.course_name}</TableCell>
-                          <TableCell>{singleoutput.course_desc}</TableCell>
-                          <TableCell>{singleoutput.course_status}</TableCell>
+                          <TableCell>{singleoutputCourse.course_id}</TableCell>
+                          <TableCell>{singleoutputCourse.course_name}</TableCell>
+                          <TableCell>{singleoutputCourse.course_desc}</TableCell>
+                          <TableCell>{singleoutputCourse.course_status}</TableCell>
                       </TableRow>
-                    : null
+                      // console.log(singleoutputCourse.course_id)
+                    : console.log("fkkkkkkkkkkkkkkkkkkk")
                     ))}
                   </TableBody>
 
