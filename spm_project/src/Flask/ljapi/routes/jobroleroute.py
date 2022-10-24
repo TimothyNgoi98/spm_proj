@@ -27,7 +27,38 @@ def viewAllJobroles():
             }
         ),200
 
+@jobrole.route('/hraddjobrole',methods=['POST'])
+def hraddskills():
+    print("Hello!")
+    data = request.get_json()
+    jobrole_id = data['jobrole_id']
+    jobrole_name = data['jobrole_name']
+    # department = data['jobrole_desc']
+    jobrole_desc = data['jobrole_desc']
+    jobrole_status = data['jobrole_status']
 
+
+    if Jobrole.query.filter_by(jobrole_name=jobrole_name).first():
+        return jsonify({
+            "code":404,
+            "message": "There exist such a Skill Name in the Database. Please check your input fields."
+        })
+    jobrolenew = Jobrole( jobrole_name=jobrole_name,department=department,jobrole_desc=jobrole_desc,jobrole_status=jobrole_status)
+    try:
+        print("adding session")
+        db.session.add(jobrolenew)
+        db.session.commit()
+
+        return jsonify({
+            "code": 200,
+            "message": "Job role has been added successfully!"
+        })
+    except:
+        print("Error")
+        return jsonify({
+            "code":500,
+            "message": "There is error with creating a new jobrole."
+        })
 
 @jobrole.route('/jobroleroute')
 def route1():
