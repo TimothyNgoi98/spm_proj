@@ -108,3 +108,18 @@ def getjobroletoskills():
             "data": [jobrole.to_dict() for jobrole in jobroles]
         }
     )
+
+@api.route("/allcourse", methods=['GET'])
+def allcourse():
+    allcourse = Course.query.all()
+
+    print(type(allcourse))
+
+    result = []
+
+    for element in allcourse:
+        result.append(element.to_dict())
+
+    return jsonify({
+        "data":result
+    })
