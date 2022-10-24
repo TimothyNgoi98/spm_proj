@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useState,useEffect } from 'react';
 import axios from "axios";
 import {useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 // Import All Router Links here
 
@@ -71,8 +72,10 @@ function Viewskills() {
 
     console.log(jobroles_id)
     // console.log(typeof jobroletoskill.jobrole.jobrole_id)
-
-    
+    let navigate = useNavigate()
+    const redirect = (data) => {
+        navigate("/")
+      }
 
     // console.log(JSON.stringify(jobroletoskill.jobrole.jobrole_id))
     // const job_to_skill = JSON.stringify(jobroletoskill)
@@ -127,6 +130,15 @@ function Viewskills() {
                         </Table>
                     </TableContainer>
                     </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                    <Grid item xs={6} alignContent="center">
+                        <div>
+                            <button onClick={() => redirect()}>Back to Home</button>
+                        </div>
+                    </Grid>
+                    <Grid item xs={2}></Grid>
                 </Grid>
 
                 </Box>
