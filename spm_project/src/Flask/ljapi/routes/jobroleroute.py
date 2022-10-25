@@ -4,7 +4,32 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 jobrole = Blueprint('jobroleroute', __name__)
 # TO CALL API, USE /jobrole/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@jobrole.route('/jobroleroute/')
+@jobrole.route('/viewjobroles')
+def viewAllJobroles():
+    course = Jobrole.query.all()
+    coursearray = []
+    for item in course:
+        coursearray.append(
+        item.to_dict()
+    )
+    if course:
+        return jsonify(
+            {   
+                "code": 200,
+                "data": coursearray
+            }
+        ),200
+    else:
+        return jsonify(
+            {   
+                "code": 404,
+                "data": "Error!"
+            }
+        ),200
+
+
+
+@jobrole.route('/jobroleroute')
 def route1():
     staff = Jobrole.query.first()
     #remove when jp push 

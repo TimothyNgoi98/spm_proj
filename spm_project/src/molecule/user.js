@@ -23,118 +23,133 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function User() {
-  
-  // UseNavigate, for internal routing. 
-  let navigate = useNavigate()
+  // [] - onload (and u can track something that change)
+  // course category is redux (one page to another)
 
-  const [output , handleoutput] = useState([])
+function User() {
+
+  // [course] UseNavigate, for internal routing. 
+  let navigateCourse = useNavigate()
+  const [outputCourse, handleoutputCourse] = useState([])
 
   // Fetching Async 
   useEffect(() => {
-
     const fetchMyAPI = async () => {
-      let response = await fetch("http://127.0.0.1:5000/api/viewskills")
+      let response = await fetch("http://127.0.0.1:5000/course/view/all")
       response = await response.json()
-      handleoutput(response.data)
+      handleoutputCourse(response.data)
     }
-
     fetchMyAPI()
-  },[])
+  },[]) 
+  // console.log(typeof output)
+  console.log(outputCourse)
 
-  console.log(typeof output)
-  console.log(output)
+    // [skill] UseNavigate, for internal routing. 
+    let navigateSkill = useNavigate()
+    const [outputSkill, handleoutputSkill] = useState([])
+  
+    // Fetching Async 
+    useEffect(() => {
+      const fetchMyAPI = async () => {
+        let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse")
+        response = await response.json()
+        handleoutputSkill(response.data)
+      }
+      fetchMyAPI()
+    },[]) 
+    // console.log(typeof output)
+    console.log(outputSkill)
 
   const addbutton = () => {
-    navigate("/Hraddskill", {replace: true})
+    navigateCourse("/YUXUANHERE", {replace: true})
   }
 
   return (
     <div>
-        This is User.
+        {/* UserVIew.
         <Button variant="text">Text</Button>
         <Grid container spacing={2}>
-        <Grid item xs={8}>
+          <Grid item xs={8}>
+          </Grid>
+          <Grid item xs={4}>
+          </Grid>
+          <Grid item xs={4}>
+          </Grid>
+          <Grid item xs={8}>
+          </Grid>
+        </Grid> */}
 
-        </Grid>
-        <Grid item xs={4}>
-
-        </Grid>
-        <Grid item xs={4}>
-
-        </Grid>
-        <Grid item xs={8}>
-
-        </Grid>
-      </Grid>
-        
       <Container>
         <Box marginTop="5%">
-
-          
           <Grid container spacing={1}>
+
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Skills Management Dashboard
+                Course Dashboard for 
               </Typography>
             </Grid>
-            <Grid item xs={2}></Grid>
+
+            <Grid item xs={2}>
+            </Grid>
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Add</Button>
-                <Button>Delete</Button>
-                <Button>Update</Button>
+                <Button onClick={addbutton}>Add to Learning Journey</Button>
               </ButtonGroup>
             </Grid>
+
           </Grid>
 
           <Grid container spacing={1}>
+
             <Grid item xs={12}>
               <TableContainer>
                 <Table sx={{ minWidth: 650 }}>
+
                   <TableHead>
                     <TableRow>
-
-                      <TableCell>Skill Id</TableCell>
-                      <TableCell>Skill Name</TableCell>
-                      <TableCell>Skill Description</TableCell>
-                      <TableCell>Skill Status</TableCell>
-
+                      <TableCell>Course Id</TableCell>
+                      <TableCell>Course Name</TableCell>
+                      <TableCell>Course Description</TableCell>
+                      <TableCell>Course Status</TableCell>
                     </TableRow>
                   </TableHead>
-                  {/* The body of the Table Goes here */}
-                  <TableBody>
-                    {output.map((singleoutput) => (
-                      <TableRow>
-                      <TableCell>{singleoutput.skill_id}</TableCell>
-                      <TableCell>{singleoutput.skill_name}</TableCell>
-                      <TableCell>{singleoutput.skill_desc}</TableCell>
-                      <TableCell>{singleoutput.skills_status}</TableCell>
-                    </TableRow>
-                    ))}
-                    {/* For Loop the Content here */}
-                    
 
-                                            {/* <TableRow>
-                          <TableCell>{oneoutput.skill_id}</TableCell>
-                          <TableCell>{oneoutput.skill_name}</TableCell>
-                          <TableCell>{oneoutput.skill_desc}</TableCell>
-                          <TableCell>{oneoutput.skills_status}</TableCell>
-                        </TableRow> */}
+                  <TableBody>
+                    {outputSkill.map((singleoutputSkill) => (
+                      singleoutputSkill.course_id
+                      ? 
+                      <TableRow>
+                      <TableCell>{singleoutputSkill.course_id}</TableCell>
+                      {/* <TableCell>{singleoutputCourse.course_name}</TableCell>
+                      <TableCell>{singleoutputCourse.course_desc}</TableCell>
+                      <TableCell>{singleoutputCourse.course_status}</TableCell> */}
+                  </TableRow>
+                      : console.log(singleoutputSkill.course_id)
+                    ))}
+
+                    {outputCourse.map((singleoutputCourse) => (
+                      singleoutputCourse.course_status === "Active"
+                      ? 
+                        <TableRow>
+                          <TableCell>{singleoutputCourse.course_id}</TableCell>
+                          <TableCell>{singleoutputCourse.course_name}</TableCell>
+                          <TableCell>{singleoutputCourse.course_desc}</TableCell>
+                          <TableCell>{singleoutputCourse.course_status}</TableCell>
+                      </TableRow>
+                      // console.log(singleoutputCourse.course_id)
+                    : console.log("fkkkkkkkkkkkkkkkkkkk")
+                    ))}
                   </TableBody>
-                  {/* End of the Body Table  */}
+
                 </Table>
               </TableContainer>
             </Grid>
           </Grid>
-
         </Box>
-
         </Container>
     </div>
 
-    
   );
 }
 

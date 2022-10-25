@@ -23,6 +23,8 @@ import Coursemapping from './molecule/coursemapping';
 import Courseskills from './molecule/courseskills'
 import Viewskills from './molecule/viewskills';
 import Hrarchiveskills from './molecule/hrarchiveskills';
+import Hrroles from './molecule/hradminrole';
+
 import SelectCourse from './molecule/selectcourse';
 import ConfirmCourseMapping from './molecule/confirmcoursemapping'
 // Import ALL material UI things here
@@ -49,6 +51,8 @@ function App() {
                   <Route path = "/selectcourse" element = {<SelectCourse/>}/>
                   <Route path = "/confirmcoursemapping" element = {<ConfirmCourseMapping/>}/>
                   <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
+                  <Route path="/Hradminrole" element = {<Hrroles/>}/>
+
                 </Route>
 
                 {/* Protected Routes for Manager  */}

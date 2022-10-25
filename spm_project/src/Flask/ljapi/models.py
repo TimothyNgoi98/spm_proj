@@ -246,3 +246,23 @@ class Registration(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
+
+# ======= Tables with both FK  ========
+# Class SkillToCourse
+class SkillToCourse(db.Model):
+    __tablename__= "skill_to_course"
+    __table_args__ = {'extend_existing': True}
+    skill_id = db.Column(db.Integer, db.ForeignKey("skill.skill_id"), primary_key=True)
+    course_id = db.Column(db.String(20), db.ForeignKey("course.course_id"), primary_key=True)
+    
+    # Need to account for the foreign keys here
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
+from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration,SkillToCourse
 
 skill = Blueprint('skillroute', __name__)
 # TO CALL API, USE /skill/<route>
@@ -146,7 +146,29 @@ def updateDescription():
             "Message" : "There is a similar skill name in the database, Skill Information is not updated!"
         })
 
-
+# # get skill course map
+@skill.route('/skilltocourse')
+def viewCourseForSkill():
+    skilltocourse = SkillToCourse.query.all()
+    skilltocoursearray = []
+    for item in skilltocourse:
+        skilltocoursearray.append(
+        item.to_dict()
+    )
+    if skilltocourse:
+        return jsonify(
+            {   
+                "code": 200,
+                "data": skilltocoursearray
+            }
+        ),200
+    else:
+        return jsonify(
+            {   
+                "code": 404,
+                "data": "Error!"
+            }
+        ),200
 
 
 
