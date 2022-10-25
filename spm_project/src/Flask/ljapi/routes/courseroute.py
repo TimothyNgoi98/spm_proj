@@ -67,40 +67,42 @@ def viewParticularCourse(courseid):
             }
         ),200
 
-@course.route('/view/coursesmapped')
+@course.route('/view/coursesmapped', methods=['GET'])
 def viewCoursesMapped():
     courses = Course.query.all()
     mappedCourseArray = []
-    for course in courses:
-        if not not course.skill:
-            courseDict = course.to_dict()
-            course_skill = []
-            for skill in course.skill:
-                course_skill.append(skill.to_dict())
-            courseDict['skills'] = course_skill
-                # if skill not in courseDict:
-                #     courseDict['skills'] = [skill.to_dict()]
-                # else:
-                #     courseDict['skills'].append(skill.to_dict())
-            mappedCourseArray.append(courseDict)
+    if courses:
+        for course in courses:
+            if not not course.skill:
+                courseDict = course.to_dict()
+                course_skill = []
+                for skill in course.skill:
+                    course_skill.append(skill.to_dict())
+                courseDict['skills'] = course_skill
+                    # if skill not in courseDict:
+                    #     courseDict['skills'] = [skill.to_dict()]
+                    # else:
+                    #     courseDict['skills'].append(skill.to_dict())
+                mappedCourseArray.append(courseDict)
 
-    return jsonify(
-        {   
-            "code": 200,
-            "data": {
-                "coursedetails": mappedCourseArray,
+        return jsonify(
+            {   
+                "code": 200,
+                "data": {
+                    "coursedetails": mappedCourseArray,
+                }
+
             }
+        ),200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": "Error!"
+            }
+        )
 
-        }
-    ),200
-
-    # else:
-    #     return jsonify(
-    #         {   
-    #             "code": 404,
-    #             "data": "Error!"
-    #         }
-    #     ),200
 
 
 
@@ -112,15 +114,28 @@ def UpdateParticularCourse(courseid):
     data = request.get_json()
     # Testing purposes
     # return data[0]
-
-    # print(data)
     course = Course.query.filter_by(course_id=courseid).first()
+    print(course.to_dict(), "COURSEEEEE DEETS")
+    if course.skill:
+        for skill in course.skill:
+            print(skill.to_dict(), "FIRST SKILL DEETS INIT")
+    else:
+        print("NO SKILLS TO SHOW")
     if course:
         for item in data:
             # Find the skill and append it to course
             skillid = item['skill_id']
+            print(skillid, "SKILLID DEETS")
             skillFrontend = Skill.query.filter_by(skill_id=skillid).first()
+            print(skillFrontend.skills_to_course, "SKILL TO COURSE")
+            print(skillFrontend.to_dict(), "SKILLFRONTEND DEETS")
+            print(course.skill, "COURSESKILLS")
             course.skill.append(skillFrontend)
+            # print(course.to_dict(), "AFTER APPENDING DEETS")
+            for skill in course.skill:
+                print(skill.to_dict(), "AFTER APPENDING SKILL DEETS")
+        db.session.add(course)
+        db.session.commit()
 
         # Initialise a data array
         array = []
@@ -129,7 +144,6 @@ def UpdateParticularCourse(courseid):
             array.append(
                 skill.to_dict()
             )
-        db.session.commit()
 
 
         return jsonify(

@@ -138,15 +138,12 @@ function Coursemapping() {
             const result = await response.json();
             console.log(result.data['coursedetails'], "COURSEDETAILS")
             setCurrMappedDetails(result.data['coursedetails']);
-            // setCurrMappedCourses(result.data['coursedetails']);
-            // setCurrMappedSkills(result.data['skills']);
         }
         fetchMyAPI()
     })
 
     return (
         <Container>
-            {/* {console.log(courseName, "hello")} */}
             <Box>
                 <Grid paddingTop="5%" container>
                     <Grid item xs={6}>
@@ -173,35 +170,24 @@ function Coursemapping() {
                 
                 {mappingName == "skillsCourse" &&
                     <Grid>
-                    <Grid container paddingTop="5%" spacing={5}>
-                    <Grid item xs = {12}>
-                        {/* {courseName.length > 0 ?
-                            (
-                                <Typography component="h1" variant="outline" gutterBottom>
-                                    {courseName[0]}: {courseName[1]}
-                                </Typography>
-
-                            ) : ("")} */}
+                        <Grid container paddingTop="5%" spacing={5}>
+                            <Grid item xs = {12}>
                                 <Typography align = 'center' component="h1" variant="outline">
                                     Mapping Skill To Course
                                 </Typography>
-
-                    </Grid>
-                    </Grid>
-                    {/* Current Mapped Skills Table */}
-                    <Grid container spacing={8} paddingTop="3%">
-                        <Grid item xs={12}>
-
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={8} paddingTop="3%">
+                            <Grid item xs={12}>
                             {/* First table for current mapped skills */}
                             <TableContainer component={Paper}>
                                 <Typography component='h1' variant="overline" color="success.main" align="left" gutterBottom sx={{ p: 2, fontWeight: 'bold' }}>
                                     Current Mapped Skills
                                 </Typography>
                                 <Table stickyheader size="small" sx={{
-                                    backgroundColor: "white",
-                                    borderRadius: '16px',
-
-                                }}>
+                                        backgroundColor: "white",
+                                        borderRadius: '16px',
+                                    }}>
                                     <TableHead>
                                         <TableRow textAlign="center">
                                             <TableCell sx={{ fontWeight: 'bold' }}>Course ID</TableCell>
@@ -228,30 +214,11 @@ function Coursemapping() {
                                             </>
                                         ))): (
                                             <TableRow textAlign='center'>
-
                                                 <TableCell align="center" colSpan={12}>
                                                     "You do not have any mappings"
                                                 </TableCell>
                                             </TableRow>
                                         )}
-                                        {/* {typeof receivedskills == 'object' ? (receivedskills.map((singleoutput) => (
-                                            <TableRow>
-                                                <TableCell>{singleoutput.skill_id}</TableCell>
-                                                <TableCell>{singleoutput.skill_name}</TableCell>
-                                                <TableCell>{singleoutput.skill_desc}</TableCell>
-                                                <TableCell>{singleoutput.skill_status}</TableCell>
-
-                                            </TableRow>
-                                        ))) : (
-                                            <TableRow textAlign='center'>
-
-                                                <TableCell align="center" colSpan={3}>
-                                                    "You do not have any mappings"
-                                                </TableCell>
-                                            </TableRow>
-
-                                        )} */}
-
                                     </TableBody>
                                 </Table>
                             </TableContainer>
@@ -260,131 +227,14 @@ function Coursemapping() {
                     </Grid>
                     </Grid>
                 }
-
-                {mappingName == "skillsRole" &&
-                        <Grid>
-                        <Grid container paddingTop="5%" spacing={5}>
-                        <Grid item xs = {12}>
-                            {/* {courseName.length > 0 ?
-                                (
-                                    <Typography component="h1" variant="outline" gutterBottom>
-                                        {courseName[0]}: {courseName[1]}
-                                    </Typography>
-
-                                ) : ("")} */}
-                                    <Typography align = 'center' component="h1" variant="outline">
-                                        Mapping Skill To Role
-                                    </Typography>
-
-                        </Grid>
-                        </Grid>
-                        {/* Current Mapped Skills Table */}
-                        <Grid container spacing={8} paddingTop="3%">
-                            <Grid item xs={12}>
-
-                                {/* First table for current mapped skills */}
-                                <TableContainer component={Paper}>
-                                    <Typography component='h1' variant="overline" color="success.main" align="left" gutterBottom sx={{ p: 2, fontWeight: 'bold' }}>
-                                        Current Mapped Roles
-                                    </Typography>
-                                    <Table stickyheader size="small" sx={{
-                                        backgroundColor: "white",
-                                        borderRadius: '16px',
-
-                                    }}>
-                                        <TableHead>
-                                            <TableRow textAlign="center">
-                                                <TableCell sx={{ fontWeight: 'bold' }}>ID</TableCell>
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Skill Name</TableCell>
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Skill Status</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {typeof receivedskills == 'object' ? (receivedskills.map((singleoutput) => (
-                                                <TableRow>
-                                                    <TableCell>{singleoutput.skill_id}</TableCell>
-                                                    <TableCell>{singleoutput.skill_name}</TableCell>
-                                                    <TableCell>{singleoutput.skill_desc}</TableCell>
-                                                    <TableCell>{singleoutput.skill_status}</TableCell>
-
-                                                </TableRow>
-                                            ))) : (
-                                                <TableRow textAlign='center'>
-
-                                                    <TableCell align="center" colSpan={3}>
-                                                        "You do not have any mappings"
-                                                    </TableCell>
-                                                </TableRow>
-
-                                            )}
-
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Grid>
-                        </Grid>
-                        <Grid container paddingTop="10%" spacing={8}>
-                            <Grid item xs={12}>
-                                {/* 2nd table for selected mappings, perhaps can put it as a component? */}
-                                <TableContainer component={Paper}>
-                                    <Typography component='h1' variant="overline" color="warning.main" align="left" gutterBottom sx={{ p: 2, fontWeight: 'bold' }}>
-                                        Selected Mappings
-                                    </Typography>
-                                    <Table stickyheader size="small" sx={{
-                                        backgroundColor: "white",
-                                        borderRadius: '16px',
-
-                                    }}>
-                                        <TableHead>
-                                            <TableRow textAlign="center">
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Course ID</TableCell>
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Course Name</TableCell>
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Job Role ID</TableCell>
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Job Role Name</TableCell>
-                                                <TableCell sx={{ fontWeight: 'bold' }}>Job Role Description</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {/* Usage of ternary operators to dynamically render*/}
-                                            {selectedSkillsToRemove.length > 0 ?
-                                                (
-                                                    selectedSkillsToRemove.map((singleoutput, index) => (
-                                                        <TableRow>
-                                                            {/* <TableCell >{singleoutput.skill_id}</TableCell>
-                                                            <TableCell >{singleoutput.skill_id}</TableCell> */}
-                                                            <TableCell>{singleoutput.skill_id}</TableCell>
-                                                            <TableCell>{singleoutput.skill_name}</TableCell>
-                                                            <TableCell>{singleoutput.skill_desc}</TableCell>
-                                                        </TableRow>
-                                                    ))
-                                                ) : ('')}
-
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                                {selectedSkillsToRemove.length != 0 ?
-                                    (
-                                        <Grid container >
-                                            <Grid item spacing={3} xs={12} align='center'>
-                                                <Button variant="contained">Confirm Mapping</Button>
-
-                                                <Button variant="contained" onClick={discardChanges}>Discard all mapping</Button>
-
-                                            </Grid>
-                                        </Grid>
-
-                                    ) : (
-                                        <IconButton color="info" onClick={handleClick} sx={{ p: 2 }}><AddCircleIcon /></IconButton>
-                                    )}
-                            </Grid>
+                
+                {mappingName == "skillsRole" && 
+                    <Grid>
+                        <Grid container paddingTop = "5%" spacing = {5}>
+                            <Typography>FK</Typography>
                         </Grid>
                     </Grid>
                 }
-                
-                
-
-                
             </Box>
 
 

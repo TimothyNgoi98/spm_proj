@@ -44,8 +44,6 @@ function ConfirmCourseMapping() {
     for (var i = 1; i < selectedSkillsToRemove.length; i++) {
         selectedSkills.push(selectedSkillsToRemove[i])
     }
-    // const transferred_skill_existing = useSelector((state) => state.skillfilter.test)
-    // console.log(transferred_skill_existing);
 
     function discardChanges() {
         // discard and reset the localstate
@@ -77,7 +75,6 @@ function ConfirmCourseMapping() {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": "http://localhost:3000/mappings"
             },
             body: JSON.stringify(selectedSkills)
         }
@@ -90,6 +87,10 @@ function ConfirmCourseMapping() {
                 // Remove the localchanges and update state
                 discardChanges()
                 // update the localstate for skills to display on the page
+                console.log("FUCK SKILLS")
+                console.log(data, "DATAAAAAA")
+                console.log(data.data, "FUCKING DATA")
+                console.log(data.data.skills, "DATA DATA SKILLS")
                 showSkills(data.data.skills)
                 alert("Skill has been added successfully!")
                 navigate('/mappings')
@@ -144,7 +145,6 @@ function ConfirmCourseMapping() {
                             <Grid item spacing={3} xs={12} align='center'>
                                 <Button variant="contained" onClick={confirmMapping}>Confirm Mapping</Button>
                                 {console.log(selectedSkillsToRemove, 'skillsremoved')}
-
                                 <Button variant="contained" onClick={discardChanges}>Discard all mapping</Button>
 
                             </Grid>

@@ -44,35 +44,33 @@ function Courseskills() {
   // Function to load course from db
   function loadSkillsFiltered() {
     // simulate a course is being clicked
-      var filterlistings = [];
       // Need to change 
       fetch("http://127.0.0.1:5000/skill/display/")
       .then((response)=>response.json())
       .then((result) => {
-        filterlistings = result.data
         // There needs to be some filtering because we don't want the skills that are already mapped to the course already
-        console.log("Print the total skills here")
         console.log(result.data)
-        console.log("print existing skills")
-        console.log(transferred_skill_existing.length)
+        console.log(result.data,"print existing skills")
+        outputSkills(result.data);
+        // console.log(transferred_skill_existing.length)
         // Simple filtering for existing skills
-        if (transferred_skill_existing.length > 0){
-          console.log('i am being executed')
-            for (let item of transferred_skill_existing) {
-              console.log(item)
-              console.log("hehehlo")
-              for (let i=0; i<filterlistings.length;i++) {
-                console.log("helo")
-                if (item.skill_id == filterlistings[i].skill_id) {
-                  filterlistings.splice(i,1)
-                }
-              }
-            }
-          console.log(filterlistings)
-          outputSkills(filterlistings)
-        } else {
-          outputSkills(result.data)
-        }
+        // if (transferred_skill_existing.length > 0){
+        //   console.log('i am being executed')
+        //     for (let item of transferred_skill_existing) {
+        //       console.log(item)
+        //       console.log("hehehlo")
+        //       for (let i=0; i<filterlistings.length;i++) {
+        //         console.log("helo")
+        //         if (item.skill_id == filterlistings[i].skill_id) {
+        //           filterlistings.splice(i,1)
+        //         }
+        //       }
+        //     }
+        //   console.log(filterlistings)
+        //   outputSkills(filterlistings)
+        // } else {
+        //   outputSkills(result.data)
+        // }
         
       })
     }
@@ -110,17 +108,11 @@ function Courseskills() {
 
     return(
         <Container>
-          {/* {console.log(skillOutput)} */}
-          {console.log(selectedCourse, 'selectedCourseTimmy')}
-          {console.log(transferred_skill_existing, "transferredSkillExisitng")}
           <Box marginTop="5%">
-            <Grid container className="top-header-title">
-              <Grid item>
-              </Grid>
-            </Grid>
-
             <Grid container className="main-section">
-            <IconButton color="info" onClick={returnBack} sx={{p:1}}><ArrowBackIcon/></IconButton>
+              <IconButton color="info" onClick={returnBack} sx={{p:1}}>
+                <ArrowBackIcon/>
+              </IconButton>
               <Grid item xs = {12}>
                 <Typography component = 'h1' color = "info.main" align="center" sx={{p:2, fontWeight: 'bold'}}>
                   Couse being mapped: {selectedCourse[0]['course_name']}
@@ -132,23 +124,18 @@ function Courseskills() {
                     Choose your desired skill
                 </Typography>
                 <Table stickyheader size="small" sx={{
-                              backgroundColor: "white",
-                              borderRadius: '16px',
-                              
-                          }}>
+                  backgroundColor: "white",
+                  borderRadius: '16px',  
+                    }}>
                     <TableHead>
                       <TableRow>
-
                         <TableCell sx={{ fontWeight: 'bold' }}>Skill Id</TableCell>
                         <TableCell sx={{ fontWeight: 'bold' }}>Skill Name</TableCell>
                         <TableCell sx={{ fontWeight: 'bold' }}>Skill Description</TableCell>
                         <TableCell sx={{ fontWeight: 'bold' }}>Skill Status</TableCell>
                         <TableCell sx={{ fontWeight: 'bold' }}>Selection</TableCell>
-
-
                       </TableRow>
                     </TableHead>
-                    {/* The body of the Table Goes here */}
                     <TableBody>
                       {skillOutput.map((singleoutput) => (
                         <TableRow>
@@ -159,17 +146,6 @@ function Courseskills() {
                         <TableCell><Checkbox onChange={(event)=>handleCheck(event, singleoutput)} /></TableCell>
                       </TableRow>
                       ))}
-                      {/* {
-                        console.log(checked)
-                      } */}
-                      {/* For Loop the Content here */}
-                      
-                                              {/* <TableRow>
-                            <TableCell>{oneoutput.skill_id}</TableCell>
-                            <TableCell>{oneoutput.skill_name}</TableCell>
-                            <TableCell>{oneoutput.skill_desc}</TableCell>
-                            <TableCell>{oneoutput.skills_status}</TableCell>
-                          </TableRow> */}
                     </TableBody>
                     {/* End of the Body Table  */}
                   </Table>
@@ -182,7 +158,6 @@ function Courseskills() {
               <Grid item xs={12} align='center'>
                   {checked.length > 0? (<Button variant="contained" onClick={addCourse}>Add mapping</Button>):
                   ""}
-
                 </Grid>
             </Grid>
           </Box>

@@ -42,24 +42,20 @@ function SelectCourse() {
     const dispatch = useDispatch();
 
     function handleClick() {
-        // navigate("/selectcourse")
         dispatch(setTransfer(checked))
-        // console.log(checked, "checkstuffcourse")
         navigate("/courseskills")
-
-        // dispatch(courseSkillTransfer(receivedskills))
     }
 
     function handleCheck(event, skilloutput) {
         var updatedList = [...checked];
-        console.log(updatedList, "updatedList1");
+        // console.log(updatedList, "updatedList1");
         if (event.target.checked) {
           updatedList = [...checked, skilloutput]
         }else {
           updatedList.splice(checked.indexOf(skilloutput), 1);
         }
         setChecked(updatedList);
-        console.log(updatedList, "updatedList2");
+        // console.log(updatedList, "updatedList2");
       }
 
     useEffect(() => {
@@ -67,8 +63,7 @@ function SelectCourse() {
             let response = await fetch("http://127.0.0.1:5000/course/view/all")
             response = await response.json();
             getJobs(response.data)
-            // console.log(response, "hello1")
-            // console.log(response.data, "hello2")
+
         }
         fetchMyAPI()
     })
@@ -84,8 +79,7 @@ function SelectCourse() {
                             <Table stickyheader size="small" sx={{
                                 backgroundColor: "white",
                                 borderRadius: '16px',
-
-                            }}>
+                                }}>
                                 <TableHead>
                                     <TableRow textAlign="center">
                                         <TableCell sx={{ fontWeight: 'bold' }}>Course ID</TableCell>
@@ -96,36 +90,15 @@ function SelectCourse() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                        {jobs.map((singleoutput) => (
-                                            <TableRow>
-                                                <TableCell>{singleoutput.course_id}</TableCell>
-                                                <TableCell>{singleoutput.course_name}</TableCell>
-                                                <TableCell>{singleoutput.course_desc}</TableCell>
-                                                <TableCell>{singleoutput.course_status}</TableCell>
-                                                <TableCell><Checkbox onChange = {(event)=>handleCheck(event, singleoutput)}/></TableCell>
-                                            </TableRow>
-                                        ))}
-                                            {/* <TableCell>{singleoutput.skill_name}</TableCell>
-                                            <TableCell>{singleoutput.skill_desc}</TableCell>
-                                            <TableCell>{singleoutput.skill_status}</TableCell> */}
-                                    {/* {typeof receivedskills == 'object' ? (receivedskills.map((singleoutput) => (
+                                    {jobs.map((singleoutput) => (
                                         <TableRow>
-                                            <TableCell>{singleoutput.skill_id}</TableCell>
-                                            <TableCell>{singleoutput.skill_name}</TableCell>
-                                            <TableCell>{singleoutput.skill_desc}</TableCell>
-                                            <TableCell>{singleoutput.skill_status}</TableCell>
-
+                                            <TableCell>{singleoutput.course_id}</TableCell>
+                                            <TableCell>{singleoutput.course_name}</TableCell>
+                                            <TableCell>{singleoutput.course_desc}</TableCell>
+                                            <TableCell>{singleoutput.course_status}</TableCell>
+                                            <TableCell><Checkbox onChange = {(event)=>handleCheck(event, singleoutput)}/></TableCell>
                                         </TableRow>
-                                    ))) : (
-                                        <TableRow textAlign='center'>
-
-                                            <TableCell align="center" colSpan={3}>
-                                                "You do not have any mappings"
-                                            </TableCell>
-                                        </TableRow>
-
-                                    )} */}
-
+                                    ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -136,9 +109,9 @@ function SelectCourse() {
                         {checked.length == 0 ? (<Button variant="contained" disabled>Please select a course! </Button>) :
                             checked.length > 1 ? (<Button variant="contained" disabled>Please select only one course!</Button>):
                              (<Button variant="contained" onClick={handleClick}>Map skills</Button>)
-                    }
+                        }
+                    </Grid>
                 </Grid>
-            </Grid>
             </Box>
         </Container>
     )
