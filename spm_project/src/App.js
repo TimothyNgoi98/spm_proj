@@ -24,7 +24,6 @@ import Courseskills from './molecule/courseskills'
 import Viewskills from './molecule/viewskills';
 import Hrarchiveskills from './molecule/hrarchiveskills';
 import Hrroles from './molecule/hradminrole';
-
 import SelectCourse from './molecule/selectcourse';
 import ConfirmCourseMapping from './molecule/confirmcoursemapping'
 // Import ALL material UI things here
