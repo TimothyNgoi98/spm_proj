@@ -28,31 +28,32 @@ def viewAllJobroles():
         ),200
 
 @jobrole.route('/hraddjobrole',methods=['POST'])
-def hraddskills():
+def hraddrole():
     print("Hello!")
     data = request.get_json()
-    jobrole_id = data['jobrole_id']
-    jobrole_name = data['jobrole_name']
-    department = data['department']
-    jobrole_desc = data['jobrole_desc']
-    jobrole_status = data['jobrole_status']
+    # jobrole_id = data['role_id']
+    jobrole_name = data['role_name']
+    department = data['role_dept']
+    jobrole_desc = data['role_desc']
+    jobrole_status = data['Active']
 
 
     if Jobrole.query.filter_by(jobrole_name=jobrole_name).first():
         return jsonify({
             "code":404,
-            "message": "There exist such a Skill Name in the Database. Please check your input fields."
+            "message": "There is an existing Role Name in the Database. Please check your input fields."
         })
-    jobrolenew = Jobrole( jobrole_name=jobrole_name,department=department,jobrole_desc=jobrole_desc,jobrole_status=jobrole_status)
+    newjobrole = Jobrole( jobrole_name=jobrole_name,department=department,jobrole_desc=jobrole_desc,jobrole_status=jobrole_status)
     try:
         print("adding session")
-        db.session.add(jobrolenew)
+        db.session.add(newjobrole)
         db.session.commit()
 
         return jsonify({
             "code": 200,
             "message": "Job role has been added successfully!"
         })
+
     except:
         print("Error")
         return jsonify({

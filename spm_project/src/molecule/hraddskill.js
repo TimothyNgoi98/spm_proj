@@ -105,7 +105,7 @@ function Hraddskill() {
                     </Grid>
                 </Grid>
                 
-               <Grid container spacing = {2} direction='column' marginTop="5%">
+                <Grid container spacing = {2} direction='column' marginTop="5%">
                     <Grid container>
                         <Grid item xs={2}></Grid>
                         <Grid item xs={8} justifyContent="flex-start">
@@ -147,11 +147,11 @@ function Hraddskill() {
                         </Grid>
                         <Grid item xs={2}></Grid>
                     </Grid>
-               </Grid>
+                </Grid>
 
             </Box>
         </Container>
     );
-  }
-  
-  export default Hraddskill;
+}
+
+export default Hraddskill;

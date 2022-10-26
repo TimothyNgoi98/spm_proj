@@ -44,12 +44,12 @@ def hraddskills():
     if Skill.query.filter_by(skill_name=skill_name).first():
         return jsonify({
             "code":404,
-            "message": "There exist such a Skill Name in the Database. Please check your input fields."
+            "message": "There is an existing Skill Name in the Database. Please check your input fields."
         })
-    heehaw = Skill(skill_name=skill_name, skill_desc=skill_desc, skill_status=skill_active)
+    newskill = Skill(skill_name=skill_name, skill_desc=skill_desc, skill_status=skill_active)
     try:
         print("adding session")
-        db.session.add(heehaw)
+        db.session.add(newskill)
         db.session.commit()
 
         return jsonify({
