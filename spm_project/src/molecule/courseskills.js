@@ -134,8 +134,11 @@ function Courseskills() {
 
             <Grid container className="button">
               <Grid item xs={12} align='center'>
-                  {checked.length > 0? (<Button variant="contained" onClick={addCourse}>Add mapping</Button>):
-                  ""}
+                  {checked.length <= 1 ? (<Button variant="contained" onClick={addCourse} disabled>Add mapping</Button>):
+                  (
+                    <Button variant="contained" onClick={addCourse}>Add mapping</Button>
+                  )
+                  }
                 </Grid>
             </Grid>
           </Box>
