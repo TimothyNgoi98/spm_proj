@@ -23,7 +23,7 @@ import Coursemapping from './molecule/coursemapping';
 import Courseskills from './molecule/courseskills'
 import Viewskills from './molecule/viewskills';
 import Hrarchiveskills from './molecule/hrarchiveskills';
-import Hrroles from './molecule/hradminrole';
+import Hrroles from './molecule/hrjobroles';
 
 
 // Import ALL material UI things here

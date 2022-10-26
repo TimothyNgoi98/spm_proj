@@ -202,10 +202,10 @@ function Hrskills() {
                   <TableHead>
                     <TableRow>
 
-                      <TableCell>Skill Id</TableCell>
+                      <TableCell>ID</TableCell>
                       <TableCell>Skill Name</TableCell>
                       <TableCell>Skill Description</TableCell>
-                      <TableCell>Skill Status</TableCell>
+                      <TableCell>Status</TableCell>
                       <TableCell colSpan={2}></TableCell>
 
 
@@ -274,7 +274,7 @@ function Hrskills() {
             <Fade in={openDeleteModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Skill Status Update of Skill_ID: {deleteitem}
+                Archive Skill? <br></br>Skill_ID: {deleteitem}
               </Typography>
               <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
                 Change Skill Status

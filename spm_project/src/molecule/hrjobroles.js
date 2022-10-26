@@ -172,17 +172,18 @@ function Hrroles() {
                             <Table sx={{ minWidth: 650 }}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>JobRole_ID</TableCell>
-                                        <TableCell>JobRole_Name</TableCell>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>Role Name</TableCell>
                                         <TableCell>Department</TableCell>
-                                        <TableCell>JobRole_Desc	</TableCell>
+                                        <TableCell>Role Description</TableCell>
+                                        <TableCell>Status</TableCell>
                                         <TableCell colSpan={2}></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 {/* The body of the Table Goes here */}
                                 <TableBody>
                                     {output.map((singleoutput) => {
-                                        if (singleoutput.jobrole_status == "Active") {
+                                        if (singleoutput.jobrole_status === "Active") {
                                             return (
                                                 <TableRow>
                                                     <TableCell>{singleoutput.jobrole_id}</TableCell>
