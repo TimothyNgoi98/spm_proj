@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useState,useEffect, useCallback } from 'react';
 
 // Import All Router Links here
-
+import {useNavigate} from 'react-router-dom';
 // Import All Redux ToolKit here
 
 // Import all the molecules files here
@@ -27,6 +27,9 @@ function Hraddjobrole() {
     const [role_dept, setrole_dept] = useState("")
     const [role_desc, setrole_desc] = useState("")
     const [active, setactive] = useState("Active")
+
+    let navigate = useNavigate();
+
 
     // Function 1 to change the role name
     const handlerole_dept = (event) => {
@@ -57,7 +60,7 @@ function Hraddjobrole() {
     // Include validation of inputs. 
 
     const addrole_database = () => {
-        if (role_name.length === 0 || role_name.length > 30 || role_dept.length > 20 || role_desc.length === 0 || role_desc.length > 500) {
+        if (role_name.length === 0 || role_name.length > 30 || role_dept.length === 0 || role_dept.length > 20 || role_desc.length === 0 || role_desc.length > 500) {
             alert("Please check the input fields again.")
         }
         else {
@@ -78,8 +81,8 @@ function Hraddjobrole() {
             .then(response=> response.json())
             .then(data => {
                 alert(data.message)
+                navigate("/Hrjobrole", {replace: true})
             })
-
 
 
         }

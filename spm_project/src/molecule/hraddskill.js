@@ -14,6 +14,7 @@ import * as React from 'react';
 import { useState,useEffect, useCallback } from 'react';
 
 // Import All Router Links here
+import {useNavigate} from 'react-router-dom';
 
 // Import All Redux ToolKit here
 
@@ -37,6 +38,8 @@ function Hraddskill() {
     const [skill_name, setskill_name] = useState("")
     const [skill_desc, setskill_desc] = useState("")
     const [active, setactive] = useState("Active")
+
+    let navigate = useNavigate();
 
     // Function 1 to change the skill name
     const handleskill_name = (event) => {
@@ -81,6 +84,7 @@ function Hraddskill() {
             .then(response=> response.json())
             .then(data => {
                 alert(data.message)
+                navigate("/Hradmin", {replace: true})
             })
 
 
