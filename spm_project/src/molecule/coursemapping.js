@@ -261,10 +261,10 @@ function Coursemapping() {
                                 }}>
                                 <TableHead>
                                     <TableRow textAlign="center">
-                                        <TableCell sx={{ fontWeight: 'bold' }}>Course ID</TableCell>
-                                        <TableCell sx={{ fontWeight: 'bold' }}>Course Name</TableCell>
                                         <TableCell sx={{ fontWeight: 'bold' }}>Job Role ID</TableCell>
                                         <TableCell sx={{ fontWeight: 'bold' }}>Job Role Name</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold' }}>Skill ID</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold' }}>Skill Name</TableCell>
                                         <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
                                     </TableRow>
                                 </TableHead>
