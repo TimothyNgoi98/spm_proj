@@ -36,12 +36,8 @@ function Jobroleskills() {
   const [selectedRole, addRoleDeleted] = useState(useSelector((state) => state.jobroleskill.roleskilldetails))
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // Check if state is empty for filterskills
-  // useDispatch is meant for initialising the usage of Redux
     
   const [checked, setChecked] = useState([...selectedRole]);
-//   console.log(checked)
-//   console.log(selectedCourse, "SELECTEDCOURSE");
   // Function to load course from db
   function loadSkillsFiltered() {
       fetch("http://127.0.0.1:5000/skill/display/")

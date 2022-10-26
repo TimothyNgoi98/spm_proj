@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTransfer } from "../reduxslice/courseSlice";
 import { courseSkillTransfer } from "../reduxslice/filterskillcourseSlice";
-
+import { setRoleSkillDetails } from '../reduxslice/jobroleskillSlice';
 // Import all the molecules files here
 
 // Import ALL material UI things here
@@ -44,14 +44,13 @@ function Confirmjobrolemapping() {
         // discard and reset the localstate
         addSkillsDeleted([])
         // discard global state
-        dispatch(setTransfer([]))
-
+        dispatch(setRoleSkillDetails([]))
     }
-    // function handleClick() {
-    //     navigate("/selectcourse")
-    //     // navigate("/courseskills")
-    //     dispatch(courseSkillTransfer(receivedskills))
-    // }
+
+    function reset(){
+        navigate("/mappings")
+    }
+
 
     function confirmMapping() {
         // Get from the localstate of selectedSkillsToRemove
@@ -63,9 +62,7 @@ function Confirmjobrolemapping() {
         }
         let jobroleId = selectedSkillsToRemove[0]['jobrole_id'];
         console.log(selectedSkills, "should have no course details");
-        // var url = "http://127.0.0.1:5000/course/update/COR001"
         var url = `http://127.0.0.1:5000/jobrole/update/${jobroleId}`
-        console.log(url, "URL FOR CFM MAPPING")
         const options = {
             method: "POST",
             headers: {
@@ -77,15 +74,10 @@ function Confirmjobrolemapping() {
         fetch(url, options)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 // RELOAD PAGE
                 // Remove the localchanges and update state
                 discardChanges()
                 // update the localstate for skills to display on the page
-                console.log("FUCK SKILLS")
-                console.log(data, "DATAAAAAA")
-                console.log(data.data, "FUCKING DATA")
-                console.log(data.data.skills, "DATA DATA SKILLS")
                 // showSkills(data.data.skills)
                 alert("Skill has been added successfully!")
                 navigate('/mappings')
@@ -147,8 +139,9 @@ function Confirmjobrolemapping() {
                         </Grid>
 
                     ) : (
-                        <Grid>yo</Grid>
-                        // <IconButton color="info" onClick={handleClick} sx={{ p: 2 }}><AddCircleIcon /></IconButton>
+                        <Grid>
+                            <Button variant="contained" onClick = {reset}>Back to mappings</Button>
+                        </Grid>
                     )}
             </Grid>
         </Grid>

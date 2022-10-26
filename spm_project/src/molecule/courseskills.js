@@ -52,33 +52,12 @@ function Courseskills() {
         console.log(result.data)
         console.log(result.data,"print existing skills")
         outputSkills(result.data);
-        // console.log(transferred_skill_existing.length)
-        // Simple filtering for existing skills
-        // if (transferred_skill_existing.length > 0){
-        //   console.log('i am being executed')
-        //     for (let item of transferred_skill_existing) {
-        //       console.log(item)
-        //       console.log("hehehlo")
-        //       for (let i=0; i<filterlistings.length;i++) {
-        //         console.log("helo")
-        //         if (item.skill_id == filterlistings[i].skill_id) {
-        //           filterlistings.splice(i,1)
-        //         }
-        //       }
-        //     }
-        //   console.log(filterlistings)
-        //   outputSkills(filterlistings)
-        // } else {
-        //   outputSkills(result.data)
-        // }
-        
       })
     }
     
     // HandleCheck Function
   function handleCheck(event, skilloutput) {
       var updatedList = [...checked];
-      console.log(updatedList, "updatedList1");
 
       if (event.target.checked) {
         updatedList = [...checked, skilloutput]
@@ -86,7 +65,6 @@ function Courseskills() {
         updatedList.splice(checked.indexOf(skilloutput), 1);
       }
       setChecked(updatedList);
-      console.log(updatedList, "updatedList2");
 
     }
     // End of HandleCheck Function

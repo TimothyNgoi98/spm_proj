@@ -2,9 +2,7 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
-// Import All Router Links here
 
 // Import All Redux ToolKit here
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,14 +17,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Container } from '@mui/system';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -58,83 +54,10 @@ function Coursemapping() {
         // dispatch(courseSkillTransfer(receivedskills))
     }
 
-    // Discard changings to the state as well 
-    // function discardChanges() {
-    //     // discard and reset the localstate
-    //     addSkillsDeleted([])
-    //     // discard global state
-    //     dispatch(setTransfer([]))
-
-    // }
     var selectedSkills = []
     for(var i = 1; i < selectedSkillsToRemove.length; i ++){
         selectedSkills.push(selectedSkillsToRemove[i])
     }
-    //Choosing the mapping, skills to to course or skills to role
-    // function setMappingName() {
-    // }
-
-    // Confirmation to end point to add to the database
-    // function confirmMapping() {
-    //     // Get from the localstate of selectedSkillsToRemove
-    //     console.log(selectedSkillsToRemove, "skills to remove")
-    //     // Need to find a way to pass in the courseid here! Just testing this for the user story
-    //     let selectedSkills = []
-    //     for(var i = 1; i < selectedSkillsToRemove.length; i ++){
-    //         selectedSkills.push(selectedSkillsToRemove[i])
-    //     }
-    //     let courseId = selectedSkillsToRemove[0]['course_id'];
-    //     console.log(selectedSkills, "should have no course details");
-    //     // var url = "http://127.0.0.1:5000/course/update/COR001"
-    //     var url = `http://127.0.0.1:5000/course/update/${courseId}`
-    //     const options = {
-    //         method: "POST",
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             "Access-Control-Allow-Origin": "http://localhost:3000/mappings"
-    //         },
-    //         body: JSON.stringify(selectedSkills)
-    //     }
-
-    //     fetch(url, options)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data)
-    //             // RELOAD PAGE
-    //             // Remove the localchanges and update state
-    //             discardChanges()
-    //             // update the localstate for skills to display on the page
-    //             showSkills(data.data.skills)
-    //             alert("Skill has been added successfully!")
-    //             navigate('/mappings')
-    //         })
-
-    // }
-    // Function to load course from db
-    // useEffect(() => {
-    //     const fetchMyAPI = async () => {
-    //         let response = await fetch("http://127.0.0.1:5000/course/view/COR001")
-    //         const result = await response.json()
-
-    //         if (response.ok) {
-    //             if (result.data.skills.length != 0) {
-    //                 console.log(result.data.skills, "data-skills")
-    //                 // Transfers existing course skills to the courseskills page
-    //                 await showSkills(result.data.skills)
-    //                 console.log("helo")
-    //             }
-    //             await setCourse([result.data.coursedetails.course_id, result.data.coursedetails.course_name])
-    //             console.log('timmy-course', courseName);
-    //         }
-    //     }
-    //     fetchMyAPI()
-    //         .then(result => {
-    //             console.log(result)
-    //             dispatch(courseSkillTransfer(receivedskills))
-    //         })
-
-    // }, [])
-    // 2nd parameter is known as a dependency array
 
     // call to backend to get the courses which have currently been mapped
     useEffect(() => {

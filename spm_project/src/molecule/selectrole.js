@@ -2,8 +2,6 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
 // Import All Router Links here
 
 // Import All Redux ToolKit here
@@ -18,7 +16,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Container } from '@mui/system';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -47,14 +44,12 @@ function SelectJobRole() {
 
     function handleCheck(event, skilloutput) {
         var updatedList = [...checked];
-        // console.log(updatedList, "updatedList1");
         if (event.target.checked) {
           updatedList = [...checked, skilloutput]
         }else {
           updatedList.splice(checked.indexOf(skilloutput), 1);
         }
         setChecked(updatedList);
-        // console.log(updatedList, "updatedList2");
       }
 
     useEffect(() => {

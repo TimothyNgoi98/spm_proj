@@ -58,6 +58,10 @@ function ConfirmCourseMapping() {
     //     dispatch(courseSkillTransfer(receivedskills))
     // }
 
+    function reset(){
+        navigate("/mappings")
+    }
+
     function confirmMapping() {
         // Get from the localstate of selectedSkillsToRemove
         console.log(selectedSkillsToRemove, "skills to remove")
@@ -68,9 +72,7 @@ function ConfirmCourseMapping() {
         }
         let courseId = selectedSkillsToRemove[0]['course_id'];
         console.log(selectedSkills, "should have no course details");
-        // var url = "http://127.0.0.1:5000/course/update/COR001"
         var url = `http://127.0.0.1:5000/course/update/${courseId}`
-        console.log(url, "URL FOR CFM MAPPING")
         const options = {
             method: "POST",
             headers: {
@@ -82,15 +84,10 @@ function ConfirmCourseMapping() {
         fetch(url, options)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 // RELOAD PAGE
                 // Remove the localchanges and update state
                 discardChanges()
                 // update the localstate for skills to display on the page
-                console.log("FUCK SKILLS")
-                console.log(data, "DATAAAAAA")
-                console.log(data.data, "FUCKING DATA")
-                console.log(data.data.skills, "DATA DATA SKILLS")
                 showSkills(data.data.skills)
                 alert("Skill has been added successfully!")
                 navigate('/mappings')
@@ -151,8 +148,9 @@ function ConfirmCourseMapping() {
                         </Grid>
 
                     ) : (
-                        <Grid>yo</Grid>
-                        // <IconButton color="info" onClick={handleClick} sx={{ p: 2 }}><AddCircleIcon /></IconButton>
+                        <Grid>
+                            <Button variant="contained" onClick = {reset}>Back to mappings</Button>
+                        </Grid>
                     )}
             </Grid>
         </Grid>
