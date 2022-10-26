@@ -57,8 +57,8 @@ function User() {
       }
       fetchMyAPI()
     },[]) 
-    // console.log(typeof outputSkill)
-    // console.log(outputSkill)
+    // console.log(typeof outputSkill["0"]["skill_name"])
+    // console.log(outputSkill["0"]["skill_name"])
 
   const addbutton = () => {
     navigateSkill("/addJourneyHere", {replace: true})
@@ -85,12 +85,15 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard for {outputSkill["0"]["skill_name"]}
-                                {/* {outputSkill[0].map((singleoutputSkill) => (
-                  singleoutputSkill.skill_name
+                Course Dashboard
+
+                {/* {outputSkill["0"]["skill_name"]}
+                {outputSkill[0].map((singleoutputSkill) => (
+                    singleoutputSkill.skill_name
                     ? console.log(outputSkill)
                     : console.log(singleoutputSkill)
                 ))} */}
+
               </Typography>
             </Grid>
 
