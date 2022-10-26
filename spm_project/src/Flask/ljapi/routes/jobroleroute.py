@@ -4,7 +4,7 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 jobrole = Blueprint('jobroleroute', __name__)
 # TO CALL API, USE /jobrole/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@jobrole.route('/viewjobroles')
+@jobrole.route('/view/alljobroles')
 def viewAllJobroles():
     course = Jobrole.query.all()
     coursearray = []
@@ -26,6 +26,71 @@ def viewAllJobroles():
                 "data": "Error!"
             }
         ),200
+
+@jobrole.route('view/jobrolesmapped', methods = ['GET'])
+def viewJobRolesMapped():
+    jobroles = Jobrole.query.all()
+    mappedJobroleArray = []
+    if jobroles:
+        for jobrole in jobroles:
+            if not not jobrole.skill:
+                jobroleDict = jobrole.to_dict()
+                jobroleSkill = []
+                for skill in jobrole.skill:
+                    jobroleSkill.append(skill.to_dict())
+                jobroleDict["skills"] = jobroleSkill
+                mappedJobroleArray.append(jobroleDict)
+
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "jobroledetails": mappedJobroleArray
+                }
+            }
+        ), 200
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": "Error!"
+            }
+        )
+
+@jobrole.route('/update/<string:jobroleid>', methods = ['POST'])
+def updateParticularJobrole(jobroleid):
+    data = request.get_json()
+    jobrole = Jobrole.query.filter_by(jobrole_id=jobroleid).first()
+    if jobrole:
+        for item in data:
+            skillid = item['skill_id']
+            skillFrontend = Skill.query.filter_by(skill_id=skillid).first()
+            jobrole.skill.append(skillFrontend)
+        db.session.commit()
+
+        array = []
+        for skill in jobrole.skill:
+            array.append(skill.to_dict())
+        
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "jobroledetails": jobrole.to_dict(),
+                    "skills": array
+                }
+            }
+        ), 200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": data
+            }
+        ),200
+
+
 
 
 

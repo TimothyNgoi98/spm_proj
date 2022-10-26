@@ -40,27 +40,32 @@ function Coursemapping() {
     const [courseName, setCourse] = useState([])
     const [receivedskills, showSkills] = useState([])
     const [selectedSkillsToRemove, addSkillsDeleted] = useState(useSelector((state) => state.transferselectedskills.transfer))
-    const [currMappedDetails, setCurrMappedDetails] = useState([])
-
+    const [currMappedCourses, setCurrMappedCourses] = useState([])
+    const [currMappedRoles, setCurrMappedRoles] = useState([])
 
     const dispatch = useDispatch()
     // Initalisation of the useNavigate instance
     const navigate = useNavigate();
     // Navigation to a new page to map the new skills
+
     function handleClick() {
         navigate("/selectcourse")
-        // navigate("/courseskills")
         dispatch(courseSkillTransfer(receivedskills))
     }
 
-    // Discard changings to the state as well 
-    function discardChanges() {
-        // discard and reset the localstate
-        addSkillsDeleted([])
-        // discard global state
-        dispatch(setTransfer([]))
-
+    function handleClick2() {
+        navigate("/selectjobrole")
+        // dispatch(courseSkillTransfer(receivedskills))
     }
+
+    // Discard changings to the state as well 
+    // function discardChanges() {
+    //     // discard and reset the localstate
+    //     addSkillsDeleted([])
+    //     // discard global state
+    //     dispatch(setTransfer([]))
+
+    // }
     var selectedSkills = []
     for(var i = 1; i < selectedSkillsToRemove.length; i ++){
         selectedSkills.push(selectedSkillsToRemove[i])
@@ -136,11 +141,17 @@ function Coursemapping() {
         const fetchMyAPI = async() => {
             let response = await fetch("http://127.0.0.1:5000/course/view/coursesmapped");
             const result = await response.json();
-            console.log(result.data['coursedetails'], "COURSEDETAILS")
-            setCurrMappedDetails(result.data['coursedetails']);
+            setCurrMappedCourses(result.data['coursedetails']);
         }
-        fetchMyAPI()
-    })
+        fetchMyAPI();
+
+        const fetchMyAPI2 = async() => {
+            let response = await fetch("http://127.0.0.1:5000/jobrole/view/jobrolesmapped");
+            const result = await response.json();
+            setCurrMappedRoles(result.data['jobroledetails']);
+        }
+        fetchMyAPI2();
+    }, [])
 
     return (
         <Container>
@@ -182,7 +193,7 @@ function Coursemapping() {
                             {/* First table for current mapped skills */}
                             <TableContainer component={Paper}>
                                 <Typography component='h1' variant="overline" color="success.main" align="left" gutterBottom sx={{ p: 2, fontWeight: 'bold' }}>
-                                    Current Mapped Skills
+                                    Current Mapped Courses
                                 </Typography>
                                 <Table stickyheader size="small" sx={{
                                         backgroundColor: "white",
@@ -198,7 +209,7 @@ function Coursemapping() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {currMappedDetails.length != 0 ? (currMappedDetails.map((singleOutput) => (
+                                        {currMappedCourses.length != 0 ? (currMappedCourses.map((singleOutput) => (
                                             <>
                                             <TableRow>
                                                 <TableCell rowSpan = {singleOutput.skills.length + 1}>{singleOutput.course_id}</TableCell>
@@ -228,12 +239,64 @@ function Coursemapping() {
                     </Grid>
                 }
                 
-                {mappingName == "skillsRole" && 
+                {mappingName == "skillsRole" &&
                     <Grid>
-                        <Grid container paddingTop = "5%" spacing = {5}>
-                            <Typography>FK</Typography>
+                    <Grid container paddingTop="5%" spacing={5}>
+                        <Grid item xs = {12}>
+                            <Typography align = 'center' component="h1" variant="outline">
+                                Mapping Skill To Job Role
+                            </Typography>
                         </Grid>
                     </Grid>
+                    <Grid container spacing={8} paddingTop="3%">
+                        <Grid item xs={12}>
+                        {/* First table for current mapped skills */}
+                        <TableContainer component={Paper}>
+                            <Typography component='h1' variant="overline" color="success.main" align="left" gutterBottom sx={{ p: 2, fontWeight: 'bold' }}>
+                                Current Mapped Job Roles
+                            </Typography>
+                            <Table stickyheader size="small" sx={{
+                                    backgroundColor: "white",
+                                    borderRadius: '16px',
+                                }}>
+                                <TableHead>
+                                    <TableRow textAlign="center">
+                                        <TableCell sx={{ fontWeight: 'bold' }}>Course ID</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold' }}>Course Name</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold' }}>Job Role ID</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold' }}>Job Role Name</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {currMappedRoles.length != 0 ? (currMappedRoles.map((singleOutput) => (
+                                        <>
+                                        <TableRow>
+                                            <TableCell rowSpan = {singleOutput.skills.length + 1}>{singleOutput.jobrole_id}</TableCell>
+                                            <TableCell rowSpan = {singleOutput.skills.length + 1}>{singleOutput.jobrole_name}</TableCell>
+                                        </TableRow>
+                                        {singleOutput.skills.map((singleSkill) => (
+                                            <TableRow>
+                                                <TableCell>{singleSkill['skill_id']}</TableCell>
+                                                <TableCell>{singleSkill['skill_name']}</TableCell>
+                                                <TableCell>{singleSkill['skill_desc']}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                        </>
+                                    ))): (
+                                        <TableRow textAlign='center'>
+                                            <TableCell align="center" colSpan={12}>
+                                                "You do not have any mappings"
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <IconButton color="info" onClick={handleClick2} sx={{ p: 2 }}><AddCircleIcon /></IconButton>
+                    </Grid>
+                </Grid>
+                </Grid>
                 }
             </Box>
 

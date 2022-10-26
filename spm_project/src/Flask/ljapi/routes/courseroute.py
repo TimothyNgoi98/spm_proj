@@ -131,10 +131,7 @@ def UpdateParticularCourse(courseid):
             print(skillFrontend.to_dict(), "SKILLFRONTEND DEETS")
             print(course.skill, "COURSESKILLS")
             course.skill.append(skillFrontend)
-            # print(course.to_dict(), "AFTER APPENDING DEETS")
-            for skill in course.skill:
-                print(skill.to_dict(), "AFTER APPENDING SKILL DEETS")
-        db.session.add(course)
+            print(course.skill, "AFTER SKILLS APPEND DEETSS")
         db.session.commit()
 
         # Initialise a data array
