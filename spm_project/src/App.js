@@ -24,8 +24,11 @@ import Courseskills from './molecule/courseskills'
 import Viewskills from './molecule/viewskills';
 import Hrarchiveskills from './molecule/hrarchiveskills';
 import Hrroles from './molecule/hradminrole';
-
-
+import SelectCourse from './molecule/selectcourse';
+import SelectJobRole from './molecule/selectrole';
+import ConfirmCourseMapping from './molecule/confirmcoursemapping'
+import Jobroleskills from './molecule/jobroleskills';
+import Confirmjobrolemapping from './molecule/confirmjobrolemapping';
 // Import ALL material UI things here
 
 
@@ -47,6 +50,11 @@ function App() {
 
                   <Route path="/mappings" element = {<Coursemapping/>}/>
                   <Route path ="/courseskills" element = {<Courseskills/>}/>
+                  <Route path = "/selectjobrole" element = {<SelectJobRole/>}/>
+                  <Route path = "/selectcourse" element = {<SelectCourse/>}/>
+                  <Route path = "/jobroleskills" element = {<Jobroleskills/>}/>
+                  <Route path = "/confirmcoursemapping" element = {<ConfirmCourseMapping/>}/>
+                  <Route path = "/confirmjobrolemapping" element = {<Confirmjobrolemapping/>}/>
                   <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
                   <Route path="/Hradminrole" element = {<Hrroles/>}/>
 

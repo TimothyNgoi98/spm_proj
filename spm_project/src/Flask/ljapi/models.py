@@ -68,8 +68,7 @@ class Jobrole(db.Model):
     jobrole_desc = db.Column(db.String(255), nullable=False)
     department = db.Column(db.String(50),nullable=False)
     jobrole_status = db.Column(db.String(15), nullable=False)
-
-    skills = db.relationship('Skill',secondary="job_role_to_skill", backref="jobrole" ,lazy="select")
+    # skills = db.relationship('Skill',secondary="job_role_to_skill", backref="jobrole" ,lazy="select")
     learningjourneys = db.relationship('Learningjourney',backref="jobrole", lazy="joined")
     # staffs = db.relationship('Staff',back_populates="staff")
 
@@ -105,7 +104,7 @@ class Course(db.Model):
     course_category = db.Column(db.String(50), nullable=False)
     registrations = db.relationship('Registration', backref='course',lazy="select", uselist=False)
     learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
-    # skills = db.relationship('Skill',secondary="skill_to_course", backref="course" ,lazy="select", uselist=False)
+    # skills = db.relationship('Skill',secondary="skill_to_course", backref="course")
 
     
 
@@ -140,8 +139,8 @@ class Skill(db.Model):
     skill_name = db.Column(db.String(50), nullable=False)
     skill_desc = db.Column(db.String(255), nullable=False)
     skill_status = db.Column(db.String(15), nullable=False)
-    skills_to_course = db.relationship('Course', secondary="skill_to_course",backref="skill", lazy="select", uselist=False)
-
+    skills_to_course = db.relationship('Course', secondary="skill_to_course",backref="skill")
+    skills_to_jobrole = db.relationship('Jobrole', secondary="job_role_to_skill", backref ="skill")
     # def __init__(self, skill_id, skill_name, skill_desc,skill_status):
     #     self.skill_id = skill_id
     #     self.skill_name = skill_name
