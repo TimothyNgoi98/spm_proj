@@ -52,7 +52,7 @@ function Hrroles() {
     const [output, handleoutput] = useState([]);
 
     const addbutton = () => {
-        navigate("/hraddjobrole", { replace: true });
+        navigate("/Hraddjobrole", { replace: true });
     };
     // Modal Archive Input Fields
     const [input_name, setinput_name] = useState("");
@@ -87,11 +87,14 @@ function Hrroles() {
     };
     // Upon Clicking on the Submit Button in the Modal, it will update the skill description
     const updatedatabase = () => {
+        if (input_name.length == 0 || input_name.length > 50 || input_description.length == 0 || input_description.length > 250 ) {
+            alert("Please check if your input fields fulfills the criteria.")
+        }
         console.log("Updated!");
         // #.fetch + async
     };
 
-    // Soft Delete OF SKILLS MODAL ############################################################
+    // Soft Delete OF Roles MODAL ############################################################
     const deletebuttonclicked = (data) => {
         setDeleteModal(true);
         setDeleteitem(data);
@@ -233,7 +236,7 @@ function Hrroles() {
                 <Fade in={openArchiveModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Update Skill Information
+                            Update Role Information
                         </Typography>
                         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                             Skill_Id : {archive}
@@ -274,7 +277,8 @@ function Hrroles() {
                 <Fade in={openDeleteModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Skill Status Update of Skill_ID: {deleteitem}
+                            Archive Role? <br></br> 
+                            Role_ID: {deleteitem}
                         </Typography>
                         <Button
                             sx={{ mt: 2 }}

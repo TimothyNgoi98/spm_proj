@@ -32,7 +32,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 
-function Hraddskill() {
+function Hraddjobrole() {
 
     const [skill_name, setskill_name] = useState("")
     const [skill_desc, setskill_desc] = useState("")
@@ -97,7 +97,7 @@ function Hraddskill() {
                 <Grid container spacing={1}>
                     <Grid item xs={6} alignContent="left">
                         <Typography variant="h6" textAlign="left">
-                            Create a New Skill
+                            Create a New Role
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -105,11 +105,11 @@ function Hraddskill() {
                     </Grid>
                 </Grid>
                 
-               <Grid container spacing = {2} direction='column' marginTop="5%">
+                <Grid container spacing = {2} direction='column' marginTop="5%">
                     <Grid container>
                         <Grid item xs={2}></Grid>
                         <Grid item xs={8} justifyContent="flex-start">
-                            <TextField fullWidth label="Skill Name" helperText="Skill name has to be less than 50 characters." onChange={handleskill_name}/>
+                            <TextField fullWidth label="Role Name" helperText="Role name has to be less than 30 characters." onChange={handleskill_name}/>
                         </Grid>
                         <Grid item xs={2}></Grid>
                     </Grid>
@@ -119,7 +119,7 @@ function Hraddskill() {
                     <Grid container marginTop="25px">
                         <Grid item xs={2}></Grid>
                         <Grid item xs={8} justifyContent="flex-start">
-                            <TextField multiline fullWidth label="Skills Description" id="fullWidth" helperText="Skill Description has to be less than 250 characters."
+                            <TextField multiline fullWidth label="Role Description" id="fullWidth" helperText="Role Description has to be less than 500 characters."
                                     onChange={handleskill_desc}
                             />
                         </Grid>
@@ -142,16 +142,16 @@ function Hraddskill() {
                         <Grid item xs={2}></Grid>
                         <Grid item xs={8} justifyContent="flex-start">
                             <Button variant="contained" color="success" onClick={addskill_database}>
-                                Create a Skill
+                                Create a Role
                             </Button>
                         </Grid>
                         <Grid item xs={2}></Grid>
                     </Grid>
-               </Grid>
+            </Grid>
 
             </Box>
         </Container>
     );
-  }
-  
-  export default Hraddskill;
+} 
+
+export default Hraddjobrole;

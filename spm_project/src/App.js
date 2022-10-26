@@ -24,6 +24,7 @@ import Courseskills from './molecule/courseskills'
 import Viewskills from './molecule/viewskills';
 import Hrarchiveskills from './molecule/hrarchiveskills';
 import Hrroles from './molecule/hrjobroles';
+import Hraddjobrole from './molecule/hraddjobrole';
 
 
 // Import ALL material UI things here
@@ -48,7 +49,8 @@ function App() {
                   <Route path="/mappings" element = {<Coursemapping/>}/>
                   <Route path ="/courseskills" element = {<Courseskills/>}/>
                   <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
-                  <Route path="/Hradminrole" element = {<Hrroles/>}/>
+                  <Route path="/Hrjobrole" element = {<Hrroles/>}/>
+                  <Route path="/Hraddjobrole" element = {<Hraddjobrole/>}/>
 
                 </Route>
 

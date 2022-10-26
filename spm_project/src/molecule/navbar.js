@@ -134,7 +134,7 @@ const Navbar = () => {
                                     </Button>
                                 </NavLink>
 
-                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hradminrole">
+                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hrjobrole">
                                     <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
                                         Roles Management
                                     </Button>
