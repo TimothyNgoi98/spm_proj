@@ -134,7 +134,7 @@ function Hrroles() {
     // Fetching Async
     useEffect(() => {
         const fetchMyAPI = async () => {
-            let response = await fetch("http://127.0.0.1:5000/jobrole/viewjobroles");
+            let response = await fetch("http://127.0.0.1:5000/jobrole/view/alljobroles");
             response = await response.json();
             handleoutput(response.data);
             console.log("This is from hr JobRoles: " + response.data);
