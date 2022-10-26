@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
+from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration, skill_to_course
 
 course = Blueprint('courseroute', __name__)
 # TO CALL API, USE /course/<route>
@@ -67,6 +67,46 @@ def viewParticularCourse(courseid):
             }
         ),200
 
+@course.route('/view/coursesmapped', methods=['GET'])
+def viewCoursesMapped():
+    courses = Course.query.all()
+    mappedCourseArray = []
+    if courses:
+        for course in courses:
+            if not not course.skill:
+                courseDict = course.to_dict()
+                course_skill = []
+                for skill in course.skill:
+                    course_skill.append(skill.to_dict())
+                courseDict['skills'] = course_skill
+                    # if skill not in courseDict:
+                    #     courseDict['skills'] = [skill.to_dict()]
+                    # else:
+                    #     courseDict['skills'].append(skill.to_dict())
+                mappedCourseArray.append(courseDict)
+
+        return jsonify(
+            {   
+                "code": 200,
+                "data": {
+                    "coursedetails": mappedCourseArray,
+                }
+
+            }
+        ),200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": "Error!"
+            }
+        )
+
+
+
+
+
 
 @course.route('/update/<string:courseid>', methods=['POST'])
 def UpdateParticularCourse(courseid):
@@ -74,15 +114,25 @@ def UpdateParticularCourse(courseid):
     data = request.get_json()
     # Testing purposes
     # return data[0]
-
-    # print(data)
     course = Course.query.filter_by(course_id=courseid).first()
+    print(course.to_dict(), "COURSEEEEE DEETS")
+    if course.skill:
+        for skill in course.skill:
+            print(skill.to_dict(), "FIRST SKILL DEETS INIT")
+    else:
+        print("NO SKILLS TO SHOW")
     if course:
         for item in data:
             # Find the skill and append it to course
             skillid = item['skill_id']
+            print(skillid, "SKILLID DEETS")
             skillFrontend = Skill.query.filter_by(skill_id=skillid).first()
+            print(skillFrontend.skills_to_course, "SKILL TO COURSE")
+            print(skillFrontend.to_dict(), "SKILLFRONTEND DEETS")
+            print(course.skill, "COURSESKILLS")
             course.skill.append(skillFrontend)
+            print(course.skill, "AFTER SKILLS APPEND DEETSS")
+        db.session.commit()
 
         # Initialise a data array
         array = []
@@ -91,7 +141,6 @@ def UpdateParticularCourse(courseid):
             array.append(
                 skill.to_dict()
             )
-        db.session.commit()
 
 
         return jsonify(
