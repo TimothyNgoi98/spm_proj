@@ -57,11 +57,11 @@ function User() {
       }
       fetchMyAPI()
     },[]) 
-    // console.log(typeof output)
-    console.log(outputSkill)
+    // console.log(typeof outputSkill)
+    // console.log(outputSkill)
 
   const addbutton = () => {
-    navigateSkill("/YUXUANHERE", {replace: true})
+    navigateSkill("/addJourneyHere", {replace: true})
   }
 
   return (
@@ -85,10 +85,12 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard for 
-                {outputSkill.map((singleoutputSkill) => (
+                Course Dashboard for {outputSkill["0"]["skill_name"]}
+                                {/* {outputSkill[0].map((singleoutputSkill) => (
                   singleoutputSkill.skill_name
-                ))}
+                    ? console.log(outputSkill)
+                    : console.log(singleoutputSkill)
+                ))} */}
               </Typography>
             </Grid>
 
