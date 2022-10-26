@@ -3,8 +3,7 @@ import * as React from 'react';
 import { useState,useEffect, useCallback} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {setTransfer} from "../reduxslice/courseSlice";
-
+import { setRoleSkillDetails } from '../reduxslice/jobroleskillSlice';
 
 
 // Import All Router Links here
@@ -31,33 +30,27 @@ import Paper from '@mui/material/Paper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import IconButton from '@mui/material/IconButton';
 
-function Courseskills() {
-  // const transferred_skill_existing = useSelector((state) => state.skillfilter.test)
+function Jobroleskills() {
+//   const transferred_skill_existing = useSelector((state) => state.skillfilter.test)
   const [skillOutput,outputSkills] = useState([])
-  const [selectedCourse, addCourseDeleted] = useState(useSelector((state) => state.transferselectedskills.transfer))
+  const [selectedRole, addRoleDeleted] = useState(useSelector((state) => state.jobroleskill.roleskilldetails))
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // Check if state is empty for filterskills
-  // useDispatch is meant for initialising the usage of Redux
     
-  const [checked, setChecked] = useState([...selectedCourse]);
+  const [checked, setChecked] = useState([...selectedRole]);
   // Function to load course from db
   function loadSkillsFiltered() {
-    // simulate a course is being clicked
-      // Need to change 
       fetch("http://127.0.0.1:5000/skill/display/")
       .then((response)=>response.json())
       .then((result) => {
-        // There needs to be some filtering because we don't want the skills that are already mapped to the course already
-        console.log(result.data)
-        console.log(result.data,"print existing skills")
-        outputSkills(result.data);
+        outputSkills(result.data);        
       })
     }
     
     // HandleCheck Function
   function handleCheck(event, skilloutput) {
       var updatedList = [...checked];
+      console.log(updatedList, "updatedList1");
 
       if (event.target.checked) {
         updatedList = [...checked, skilloutput]
@@ -65,19 +58,20 @@ function Courseskills() {
         updatedList.splice(checked.indexOf(skilloutput), 1);
       }
       setChecked(updatedList);
+      console.log(updatedList, "updatedList2");
 
     }
     // End of HandleCheck Function
 
   function returnBack() {
-      navigate('/selectcourse')
+      navigate('/selectjobrole')
   }
     
   // This function will dispatch course into courseSlice
   const addCourse = () => {
-    dispatch(setTransfer(checked))
+    dispatch(setRoleSkillDetails(checked))
     console.log(checked, "checkedstuff")
-    navigate("/confirmcoursemapping")
+    navigate("/confirmjobrolemapping")
   }
   
   useEffect(() => {
@@ -93,7 +87,7 @@ function Courseskills() {
               </IconButton>
               <Grid item xs = {12}>
                 <Typography component = 'h1' color = "info.main" align="center" sx={{p:2, fontWeight: 'bold'}}>
-                  Couse being mapped: {selectedCourse[0]['course_name']}
+                  Job Role being mapped: {selectedRole[0]['jobrole_name']}
                 </Typography>
               </Grid>
       	      <Grid item xs={12}>
@@ -121,7 +115,7 @@ function Courseskills() {
                         <TableCell>{singleoutput.skill_name}</TableCell>
                         <TableCell>{singleoutput.skill_desc}</TableCell>
                         <TableCell>{singleoutput.skill_status}</TableCell>
-                        <TableCell><Checkbox onChange={(event)=>handleCheck(event, singleoutput)} /></TableCell>
+                        <TableCell><Checkbox onChange = {(event)=> handleCheck(event,singleoutput)} /></TableCell>
                       </TableRow>
                       ))}
                     </TableBody>
@@ -143,4 +137,4 @@ function Courseskills() {
     )
 }
 
-export default Courseskills;
+export default Jobroleskills;
