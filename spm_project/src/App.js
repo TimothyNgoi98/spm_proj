@@ -23,7 +23,8 @@ import Coursemapping from './molecule/coursemapping';
 import Courseskills from './molecule/courseskills'
 import Viewskills from './molecule/viewskills';
 import Hrarchiveskills from './molecule/hrarchiveskills';
-import Hrroles from './molecule/hradminrole';
+import Hrroles from './molecule/hrjobroles';
+import Hraddjobrole from './molecule/hraddjobrole';
 import SelectCourse from './molecule/selectcourse';
 import SelectJobRole from './molecule/selectrole';
 import ConfirmCourseMapping from './molecule/confirmcoursemapping'
@@ -56,7 +57,8 @@ function App() {
                   <Route path = "/confirmcoursemapping" element = {<ConfirmCourseMapping/>}/>
                   <Route path = "/confirmjobrolemapping" element = {<Confirmjobrolemapping/>}/>
                   <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
-                  <Route path="/Hradminrole" element = {<Hrroles/>}/>
+                  <Route path="/Hrjobrole" element = {<Hrroles/>}/>
+                  <Route path="/Hraddjobrole" element = {<Hraddjobrole/>}/>
 
                 </Route>
 
