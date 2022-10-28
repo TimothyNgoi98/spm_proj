@@ -81,7 +81,9 @@ function Hraddjobrole() {
             .then(response=> response.json())
             .then(data => {
                 alert(data.message)
-                navigate("/Hrjobrole", {replace: true})
+                if (data.code === 200){
+                    navigate("/Hrjobrole", {replace: true})
+                }
             })
 
 

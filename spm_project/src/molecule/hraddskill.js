@@ -53,10 +53,10 @@ function Hraddskill() {
 
     // Function 3 to toggle the active button: 
     const handleactive = (event) => {
-        if (active == "Active") {
+        if (active === "Active") {
             setactive("Retired")
         }
-        if (active == "Retired") {
+        if (active === "Retired") {
             setactive("Active")
         }
     }
@@ -84,7 +84,9 @@ function Hraddskill() {
             .then(response=> response.json())
             .then(data => {
                 alert(data.message)
-                navigate("/Hradmin", {replace: true})
+                if (data.code === 200){
+                    navigate("/Hradmin", {replace: true})
+                }
             })
 
 
