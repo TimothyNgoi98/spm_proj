@@ -22,6 +22,12 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import { AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+
 
 
 const Navbar = () => {
@@ -50,6 +56,7 @@ const Navbar = () => {
     }
 
     return (
+        <>
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
@@ -60,7 +67,6 @@ const Navbar = () => {
                         component="a"
                         sx={{
                         mr: 2,
-                        display: { xs: 'None', md: 'flex' },
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
@@ -70,7 +76,7 @@ const Navbar = () => {
                     >
                         LJPS |
                     </Typography>
-                    <Box display="flex" sx={{ flexGrow: 1 }}>
+                    <Box display="flex" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }} >
                         {/* Normal User ####################################################################################################################*/}
                         {role_name == "" && 
                         <Box display="flex" >
@@ -95,27 +101,9 @@ const Navbar = () => {
                         {(role_name == "User" || role_name == "Admin" || role_name == "Manager" || role_name == "Trainer") && 
                         <Box display="flex" >
                             <Box display="flex">
-                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/">
+                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/main">
                                     <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
                                         Home 
-                                    </Button>
-                                </NavLink>
-
-                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/">
-                                    <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
-                                        Learning Journey
-                                    </Button>
-                                </NavLink>
-
-                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/viewskills">
-                                    <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
-                                        ViewSkills
-                                    </Button>
-                                </NavLink>
-
-                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/user">
-                                    <Button sx={{color:"white",fontWeight: 700,}} variant="outlined" > 
-                                        userCourse
                                     </Button>
                                 </NavLink>
 
@@ -181,11 +169,87 @@ const Navbar = () => {
                             </Box>
                         
                         }
-
                     </Box>
+
                 </Toolbar>
             </Container>
         </AppBar>
+            <Accordion sx={{  display: { xs: 'flex', sm: 'none' } }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                    Quick Links
+                </AccordionSummary>
+                {role_name == "" && 
+                    <>
+                    <AccordionDetails>
+                        <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/main">
+                                <Typography>Home</Typography>
+                        </NavLink>
+                    </AccordionDetails>
+                    <AccordionDetails>
+                    <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/signin">
+                                <Typography>Sign In</Typography>
+                                </NavLink>
+                        </AccordionDetails>
+                        
+                    </>
+                        }
+                {(role_name == "User" || role_name == "Admin" || role_name == "Manager" || role_name == "Trainer") && 
+                   <>
+                   <AccordionDetails>
+                        <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/">
+                                <Typography>Home</Typography>
+                        </NavLink>
+                    </AccordionDetails>
+
+                    </>
+                        }
+                {role_name == "Admin" && 
+                <>
+                    <AccordionDetails>
+                        <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hradmin">
+                                <Typography>Skills Management</Typography>
+                        </NavLink>
+                    </AccordionDetails>
+                    <AccordionDetails>
+                        <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hradminrole">
+                            <Typography>Roles Management</Typography>
+                        </NavLink>
+                    </AccordionDetails>
+
+                    <AccordionDetails>
+                                <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/mappings">
+                                    <Typography>Manage Mapping</Typography>
+                                </NavLink>
+                    </AccordionDetails>
+
+                </>
+                }
+                {role_name == "Manager" && 
+                <>
+                    <AccordionDetails>
+                    <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/">
+                        <Typography>Manage Page </Typography>
+                        </NavLink>
+                    </AccordionDetails>
+                    <AccordionDetails>
+                        <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Manager">
+                            <Typography>Staff Management </Typography>
+                        </NavLink>
+                    </AccordionDetails>
+                </>
+                }
+                {role_name != "" &&
+                    <AccordionDetails>
+                                {/* <Link to="/signup"> */}
+                                    <Typography onClick={signout}>  
+                                        Sign Out
+                                    </Typography>
+                                {/* </Link> */}
+                    </AccordionDetails>        
+                }
+            </Accordion>
+        
+        </>
     )
     
 

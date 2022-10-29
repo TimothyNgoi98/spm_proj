@@ -6,26 +6,36 @@ learningjourney = Blueprint('learningjourneyroute', __name__)
 # Replace and change this. This is just dummy data for you to follow the format
 @learningjourney.route('/display/')
 def route1():
-    staff = Jobrole.query.first()
-    skill1 = Skill(skill_id=4,skill_name= "Conflict Management Skill Advanced",skill_desc= "Able to handle team and customer conflict effectively.",skills_status=1)
-    skill2 = Skill(skill_id=5,skill_name= "Conflict Management Skill Advanced 2",skill_desc= "Able to handle team and customer conflict effectively.",skills_status=1)
-    # Simulate assigning and adding new skills
-    staff.skills.append(skill1)
-    staff.skills.append(skill2)
-
-    
-
+    learningjourney = Learningjourney.query.first()
     array = []
-
-    for item in staff.skills:
+    for item in learningjourney.course:
         array.append(
             item.to_dict()
         )
-        
-
     return jsonify(
         {   
-            "jobrole" : staff.to_dict(),
+            "jobrole" : learningjourney.to_dict(),
             "skillassociated": array
+        }
+    )
+
+@learningjourney.route("/displaymain", methods=['POST'])
+def displaymain():
+    frontend_input = request.get_json()
+
+    staff_id = frontend_input['staff_id']
+    # print("This is from Learning: ",staff_id)
+    # Success! 
+    learning_journey_database = Learningjourney.query.filter_by(staff_id=staff_id).all()
+    result_arr = []
+
+    for item in learning_journey_database:
+        result_arr.append(item.to_dict())
+
+    print(learning_journey_database)
+    return jsonify(
+        {
+            "code" : 200,
+            "data" : result_arr
         }
     )

@@ -31,7 +31,7 @@ def viewAllSkill():
 # TO CALL API, USE /skill/<hraddskills/
 @skill.route('/hraddskills/', methods= ['POST'])
 def hraddskills():
-    print("Hello!")
+    # print("Hello!")
     data = request.get_json()
     # const result = {"skill_name": skill_name, "skill_desc": skill_desc, "active": activity}
     # print(data['skill_name'])
@@ -48,7 +48,7 @@ def hraddskills():
         })
     heehaw = Skill(skill_name=skill_name, skill_desc=skill_desc, skill_status=skill_active)
     try:
-        print("adding session")
+        # print("adding session")
         db.session.add(heehaw)
         db.session.commit()
 
@@ -57,7 +57,7 @@ def hraddskills():
             "message": "Skills has been added successfully!"
         })
     except:
-        print("Error")
+        # print("Error")
         return jsonify({
             "code":500,
             "message": "There is error with creating a new skill."
@@ -67,7 +67,7 @@ def hraddskills():
 # TO CALL API, USE /skill/<archiveskill/
 @skill.route('/archiveskill/', methods= ['PUT'])
 def archiveSkill():
-    print("Soft Delete Skill Received -----")
+    # print("Soft Delete Skill Received -----")
     frontend_input = request.get_json()
     skill_id = frontend_input['skill_id']
     skill_database = Skill.query.filter_by(skill_id=skill_id).first()
@@ -105,15 +105,15 @@ def archiveSkill():
 # TO CALL API, USE /skill/updatedescription/
 @skill.route('/updatedescription/', methods= ['PUT'])
 def updateDescription():
-    print("update description works -----")
+    # print("update description works -----")
     frontend_input = request.get_json()
 
     # Inputs from the frontend
     front_skill_id = frontend_input['skill_id']
     front_skill_name = frontend_input['skill_name']
     front_skill_description = frontend_input['skill_description']
-    print("This is Skill Name from frotn End ",front_skill_name)
-    print("This is Skill Description from Front End: ",front_skill_description)
+    # print("This is Skill Name from frotn End ",front_skill_name)
+    # print("This is Skill Description from Front End: ",front_skill_description)
 
     # Check Database of the current ID 
     skill_database = Skill.query.filter_by(skill_id=front_skill_id).first()

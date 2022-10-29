@@ -72,7 +72,7 @@ function Signin() {
                 // End of Storing in Global State.
 
                 // Route them to Nav View
-                navigate("/", {replace: true})
+                navigate("/main", {replace: true})
             }
         })
         .catch(err => {
