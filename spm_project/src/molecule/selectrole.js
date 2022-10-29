@@ -102,7 +102,7 @@ function SelectJobRole() {
                     <Grid item xs={12} align='center'>
                         {checked.length == 0 ? (<Button variant="contained" disabled>Please select a job role! </Button>) :
                             checked.length > 1 ? (<Button variant="contained" disabled>Please select only one job role!</Button>):
-                             (<Button variant="contained" onClick={handleClick}>Map job roles</Button>)
+                             (<Button variant="contained" onClick={handleClick}>Map job role</Button>)
                         }
                     </Grid>
                 </Grid>

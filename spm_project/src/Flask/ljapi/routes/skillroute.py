@@ -44,12 +44,12 @@ def hraddskills():
     if Skill.query.filter_by(skill_name=skill_name).first():
         return jsonify({
             "code":404,
-            "message": "There exist such a Skill Name in the Database. Please check your input fields."
+            "message": "There is an existing Skill Name in the Database. Please check your input fields."
         })
-    heehaw = Skill(skill_name=skill_name, skill_desc=skill_desc, skill_status=skill_active)
+    newskill = Skill(skill_name=skill_name, skill_desc=skill_desc, skill_status=skill_active)
     try:
-        # print("adding session")
-        db.session.add(heehaw)
+        print("adding session")
+        db.session.add(newskill)
         db.session.commit()
 
         return jsonify({
@@ -146,29 +146,135 @@ def updateDescription():
             "Message" : "There is a similar skill name in the database, Skill Information is not updated!"
         })
 
-# # get skill course map
+# get ALL skill course map
 @skill.route('/skilltocourse')
 def viewCourseForSkill():
     skilltocourse = SkillToCourse.query.all()
     skilltocoursearray = []
+
+    course = Course.query.all()
+    coursearray = []
+
+    skill = Skill.query.all()
+    skillarray = []
+
+    # skilltocourse.course.append(course)
+
     for item in skilltocourse:
-        skilltocoursearray.append(
-        item.to_dict()
-    )
+        skilltocoursearray.append(item.to_dict())
+
+    for item2 in course:
+        coursearray.append(item2.to_dict())
+
+    for item3 in skill:
+        skillarray.append(item3.to_dict())
+
+    x = range(len(skilltocoursearray))
+    y = range(len(coursearray))
+    z = range(len(skillarray))
+
+    for i in x:
+        for j in y:
+            for k in z:
+                if skilltocoursearray[i]["course_id"] == coursearray[j]["course_id"]:
+                    skilltocoursearray[i]["course_name"] = coursearray[j]["course_name"]
+                    skilltocoursearray[i]["course_desc"] = coursearray[j]["course_desc"]
+                    skilltocoursearray[i]["course_status"] = coursearray[j]["course_status"]
+                    skilltocoursearray[i]["skill_name"] = skillarray[k]["skill_name"]
+
     if skilltocourse:
-        return jsonify(
-            {   
-                "code": 200,
-                "data": skilltocoursearray
-            }
-        ),200
+        return jsonify({
+            "code": 200,
+            "data": skilltocoursearray
+            }), 200
     else:
-        return jsonify(
-            {   
-                "code": 404,
-                "data": "Error!"
-            }
-        ),200
+        return jsonify({   
+            "code": 404,
+            "data": "Error!"
+            }),200
+
+# get SPECIFIC skill course map
+@skill.route('/skilltocourse/<string:skillid>')
+def viewCourseForSpecificSkill(skillid):
+    skilltocourse = SkillToCourse.query.filter_by(skill_id =skillid)
+    skilltocoursearray = []
+
+    course = Course.query.all()
+    coursearray = []
+
+    skill = Skill.query.all()
+    skillarray = []
+
+    # skilltocourse.course.append(course)
+
+    for item in skilltocourse:
+        skilltocoursearray.append(item.to_dict())
+
+    for item2 in course:
+        coursearray.append(item2.to_dict())
+
+    for item3 in skill:
+        skillarray.append(item3.to_dict())
+
+    x = range(len(skilltocoursearray))
+    y = range(len(coursearray))
+    z = range(len(skillarray))
+
+    for i in x:
+        for j in y:
+            for k in z:
+                if skilltocoursearray[i]["course_id"] == coursearray[j]["course_id"]:
+                    skilltocoursearray[i]["course_name"] = coursearray[j]["course_name"]
+                    skilltocoursearray[i]["course_desc"] = coursearray[j]["course_desc"]
+                    skilltocoursearray[i]["course_status"] = coursearray[j]["course_status"]
+                    skilltocoursearray[i]["skill_name"] = skillarray[k]["skill_name"]
+
+    if skilltocourse:
+        return jsonify({
+            "code": 200,
+            "data": skilltocoursearray
+            }), 200
+    else:
+        return jsonify({   
+            "code": 404,
+            "data": "Error!"
+            }),200
+
+# # get specific skill course map
+# @skill.route('/skilltocourse/<string:skillid>')
+# def viewCourseForSpecificSkill(skillid):
+#     skilltocourse = SkillToCourse.query.filter_by(skill_id =skillid)
+#     skilltocoursearray = []
+
+#     course = Course.query.all()
+#     coursearray = []
+
+#     for item in skilltocourse:
+#         skilltocoursearray.append(item.to_dict())
+
+#     for item2 in course:
+#         coursearray.append(item2.to_dict())
+
+#     x = range(len(skilltocoursearray))
+#     y = range(len(coursearray))
+#     for i in x:
+#         for j in y:
+#             if skilltocoursearray[i]["course_id"] == coursearray[j]["course_id"]:
+#                 skilltocoursearray[i]["course_name"] = coursearray[j]["course_name"]
+#                 skilltocoursearray[i]["course_desc"] = coursearray[j]["course_desc"]
+#                 skilltocoursearray[i]["course_status"] = coursearray[j]["course_status"]
+
+#     if skilltocourse:
+#         return jsonify({
+#             "code": 200,
+#             "data": skilltocoursearray
+#             }), 200
+#     else:
+#         return jsonify({   
+#             "code": 404,
+#             "data": "Error!"
+#             }),200
+
 
 
 

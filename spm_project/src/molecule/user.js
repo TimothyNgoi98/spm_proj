@@ -28,21 +28,21 @@ import TableRow from '@mui/material/TableRow';
 
 function User() {
 
-  // [course] UseNavigate, for internal routing. 
-  let navigateCourse = useNavigate()
-  const [outputCourse, handleoutputCourse] = useState([])
+  // // [course] UseNavigate, for internal routing. 
+  // let navigateCourse = useNavigate()
+  // const [outputCourse, handleoutputCourse] = useState([])
 
-  // Fetching Async 
-  useEffect(() => {
-    const fetchMyAPI = async () => {
-      let response = await fetch("http://127.0.0.1:5000/course/view/all")
-      response = await response.json()
-      handleoutputCourse(response.data)
-    }
-    fetchMyAPI()
-  },[]) 
-  // console.log(typeof output)
-  console.log(outputCourse)
+  // // Fetching Async 
+  // useEffect(() => {
+  //   const fetchMyAPI = async () => {
+  //     let response = await fetch("http://127.0.0.1:5000/course/view/all")
+  //     response = await response.json()
+  //     handleoutputCourse(response.data)
+  //   }
+  //   fetchMyAPI()
+  // },[]) 
+  // // console.log(typeof output)
+  // console.log(outputCourse)
 
     // [skill] UseNavigate, for internal routing. 
     let navigateSkill = useNavigate()
@@ -51,17 +51,17 @@ function User() {
     // Fetching Async 
     useEffect(() => {
       const fetchMyAPI = async () => {
-        let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse")
+        let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse/1")
         response = await response.json()
         handleoutputSkill(response.data)
       }
       fetchMyAPI()
     },[]) 
-    // console.log(typeof output)
-    console.log(outputSkill)
+    // console.log(typeof outputSkill["0"]["skill_name"])
+    // console.log(outputSkill["0"]["skill_name"])
 
   const addbutton = () => {
-    navigateCourse("/YUXUANHERE", {replace: true})
+    navigateSkill("/addJourneyHere", {replace: true})
   }
 
   return (
@@ -85,7 +85,15 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard for 
+                Course Dashboard
+
+                {/* {outputSkill["0"]["skill_name"]}
+                {outputSkill[0].map((singleoutputSkill) => (
+                    singleoutputSkill.skill_name
+                    ? console.log(outputSkill)
+                    : console.log(singleoutputSkill)
+                ))} */}
+
               </Typography>
             </Grid>
 
@@ -116,29 +124,29 @@ function User() {
                   </TableHead>
 
                   <TableBody>
-                    {outputSkill.map((singleoutputSkill) => (
+                    {/* {outputSkill.map((singleoutputSkill) => (
                       singleoutputSkill.course_id
                       ? 
                       <TableRow>
                       <TableCell>{singleoutputSkill.course_id}</TableCell>
-                      {/* <TableCell>{singleoutputCourse.course_name}</TableCell>
+                      <TableCell>{singleoutputCourse.course_name}</TableCell>
                       <TableCell>{singleoutputCourse.course_desc}</TableCell>
-                      <TableCell>{singleoutputCourse.course_status}</TableCell> */}
+                      <TableCell>{singleoutputCourse.course_status}</TableCell>
                   </TableRow>
                       : console.log(singleoutputSkill.course_id)
-                    ))}
+                    ))} */}
 
-                    {outputCourse.map((singleoutputCourse) => (
-                      singleoutputCourse.course_status === "Active"
+                    {outputSkill.map((singleoutputSkill) => (
+                      singleoutputSkill.course_status === "Active"
                       ? 
                         <TableRow>
-                          <TableCell>{singleoutputCourse.course_id}</TableCell>
-                          <TableCell>{singleoutputCourse.course_name}</TableCell>
-                          <TableCell>{singleoutputCourse.course_desc}</TableCell>
-                          <TableCell>{singleoutputCourse.course_status}</TableCell>
+                          <TableCell>{singleoutputSkill.course_id}</TableCell>
+                          <TableCell>{singleoutputSkill.course_name}</TableCell>
+                          <TableCell>{singleoutputSkill.course_desc}</TableCell>
+                          <TableCell>{singleoutputSkill.course_status}</TableCell>
                       </TableRow>
                       // console.log(singleoutputCourse.course_id)
-                    : console.log("fkkkkkkkkkkkkkkkkkkk")
+                    : <TableRow> There are no Courses for this Skill </TableRow>
                     ))}
                   </TableBody>
 

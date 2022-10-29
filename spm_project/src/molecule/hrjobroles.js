@@ -52,7 +52,7 @@ function Hrroles() {
     const [output, handleoutput] = useState([]);
 
     const addbutton = () => {
-        navigate("/hraddjobrole", { replace: true });
+        navigate("/Hraddjobrole", { replace: true });
     };
     // Modal Archive Input Fields
     const [input_name, setinput_name] = useState("");
@@ -87,11 +87,14 @@ function Hrroles() {
     };
     // Upon Clicking on the Submit Button in the Modal, it will update the skill description
     const updatedatabase = () => {
+        if (input_name.length == 0 || input_name.length > 50 || input_description.length == 0 || input_description.length > 250 ) {
+            alert("Please check if your input fields fulfills the criteria.")
+        }
         console.log("Updated!");
         // #.fetch + async
     };
 
-    // Soft Delete OF SKILLS MODAL ############################################################
+    // Soft Delete OF Roles MODAL ############################################################
     const deletebuttonclicked = (data) => {
         setDeleteModal(true);
         setDeleteitem(data);
@@ -131,7 +134,7 @@ function Hrroles() {
     // Fetching Async
     useEffect(() => {
         const fetchMyAPI = async () => {
-            let response = await fetch("http://127.0.0.1:5000/jobrole/viewjobroles");
+            let response = await fetch("http://127.0.0.1:5000/jobrole/view/alljobroles");
             response = await response.json();
             handleoutput(response.data);
             console.log("This is from hr JobRoles: " + response.data);
@@ -172,21 +175,23 @@ function Hrroles() {
                             <Table sx={{ minWidth: 650 }}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>JobRole_ID</TableCell>
-                                        <TableCell>JobRole_Name</TableCell>
-                                        {/* <TableCell>Department</TableCell> */}
-                                        <TableCell>JobRole_Desc	</TableCell>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>Role Name</TableCell>
+                                        <TableCell>Department</TableCell>
+                                        <TableCell>Role Description</TableCell>
+                                        <TableCell>Status</TableCell>
                                         <TableCell colSpan={2}></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 {/* The body of the Table Goes here */}
                                 <TableBody>
                                     {output.map((singleoutput) => {
-                                        if (singleoutput.jobrole_status == "Active") {
+                                        if (singleoutput.jobrole_status === "Active") {
                                             return (
                                                 <TableRow>
                                                     <TableCell>{singleoutput.jobrole_id}</TableCell>
                                                     <TableCell>{singleoutput.jobrole_name}</TableCell>
+                                                    <TableCell>{singleoutput.department}</TableCell>
                                                     <TableCell>{singleoutput.jobrole_desc}</TableCell>
                                                     <TableCell>{singleoutput.jobrole_status}</TableCell>
                                                     <TableCell>
@@ -231,7 +236,7 @@ function Hrroles() {
                 <Fade in={openArchiveModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Update Skill Information
+                            Update Role Information
                         </Typography>
                         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                             Skill_Id : {archive}
@@ -272,7 +277,8 @@ function Hrroles() {
                 <Fade in={openDeleteModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Skill Status Update of Skill_ID: {deleteitem}
+                            Archive Role? <br></br> 
+                            Role_ID: {deleteitem}
                         </Typography>
                         <Button
                             sx={{ mt: 2 }}

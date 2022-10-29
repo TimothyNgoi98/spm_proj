@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     jobrole_desc: "",
     jobrole_id: "",
-    jobrole_name: ""
+    jobrole_name: "",
+    skill_id: []
 }
 
 export const jobroles_slice = createSlice({
