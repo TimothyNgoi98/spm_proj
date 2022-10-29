@@ -24,13 +24,29 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 
 
 function Coursemapping() {
+
+    const Modalstyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
+      
     // For some reason only works after i set the state here
     const [mappingName, setMappingName] = useState("")
     const [courseName, setCourse] = useState([])
@@ -38,6 +54,8 @@ function Coursemapping() {
     const [selectedSkillsToRemove, addSkillsDeleted] = useState(useSelector((state) => state.transferselectedskills.transfer))
     const [currMappedCourses, setCurrMappedCourses] = useState([])
     const [currMappedRoles, setCurrMappedRoles] = useState([])
+    const [deleteitem, setDeleteitem] = useState([])
+    const [openDeleteModal, setDeleteModal] = useState(false)
 
     const dispatch = useDispatch()
     // Initalisation of the useNavigate instance
@@ -54,11 +72,68 @@ function Coursemapping() {
         // dispatch(courseSkillTransfer(receivedskills))
     }
 
+    function deletebuttonclickedcourse(courseid, skillid){
+        setDeleteModal(true)
+        setDeleteitem([courseid, skillid])
+      }
+    
+      function deletebuttonclickedjobrole(jobroleid, skillid){
+        setDeleteModal(true)
+        setDeleteitem([jobroleid, skillid])
+      }
+
+    function closingDeletemodal() {
+        setDeleteModal(false)
+        setDeleteitem([])
+      }
+    
+    
+    function unmapSkillFromCourse(){
+        const result = deleteitem;
+        var url = `http://127.0.0.1:5000/course/removemapping/${result[0]}`
+        console.log(url)
+        const options = {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(result)
+        }
+        fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+                alert("Skill has been unmapped from course.")
+            })
+            setDeleteModal(false)
+            setDeleteitem([])
+            setMappingName("")
+    }
+
+    function unmapSkillFromJobrole(){
+        const result = deleteitem;
+        var url = `http://127.0.0.1:5000/jobrole/removemapping/${result[0]}`
+        console.log(url)
+        const options = {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(result)
+        }
+        fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+                alert("Skill has been unmapped from job role.")
+            })
+            setDeleteModal(false)
+            setDeleteitem([])
+            setMappingName("")
+    }
+
     var selectedSkills = []
     for(var i = 1; i < selectedSkillsToRemove.length; i ++){
         selectedSkills.push(selectedSkillsToRemove[i])
     }
-
     // call to backend to get the courses which have currently been mapped
     useEffect(() => {
         const fetchMyAPI = async() => {
@@ -74,7 +149,7 @@ function Coursemapping() {
             setCurrMappedRoles(result.data['jobroledetails']);
         }
         fetchMyAPI2();
-    }, [])
+    }, [openDeleteModal,mappingName])
 
     return (
         <Container>
@@ -129,6 +204,7 @@ function Coursemapping() {
                                             <TableCell sx={{ fontWeight: 'bold' }}>Skill ID</TableCell>
                                             <TableCell sx={{ fontWeight: 'bold' }}>Skill Name</TableCell>
                                             <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
+                                            <TableCell colSpan={2}></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -143,6 +219,11 @@ function Coursemapping() {
                                                         <TableCell>{singleSkill['skill_id']}</TableCell>
                                                         <TableCell>{singleSkill['skill_name']}</TableCell>
                                                         <TableCell>{singleSkill['skill_desc']}</TableCell>
+                                                        <TableCell>
+                                                            <IconButton color="primary" onClick={() => deletebuttonclickedcourse(singleOutput.course_id, singleSkill['skill_id'])}>
+                                                                <EditIcon/>
+                                                            </IconButton>
+                                                        </TableCell>
                                                     </TableRow>
                                                 ))}
                                             </>
@@ -159,7 +240,21 @@ function Coursemapping() {
                             <IconButton color="info" onClick={handleClick} sx={{ p: 2 }}><AddCircleIcon /></IconButton>
                         </Grid>
                     </Grid>
+                    <Modal open = {openDeleteModal} onClose = {closingDeletemodal}>
+                        <Fade in={openDeleteModal}>
+                            <Box sx = {Modalstyle}>
+                            <Typography id="transition-modal-title" variant="h6" component="h2">
+                                {/* Unmap Skill ID: {deleteitem} from  */}
+                                Unmap Skill ID {deleteitem[1]} from Course ID {deleteitem[0]}?
+                            </Typography>
+                            <Button sx={{mt:2}} variant="contained" color="error" onClick = {unmapSkillFromCourse}>
+                                Unmap skill
+                            </Button>
+                            </Box>
+                        </Fade>
+                    </Modal>
                     </Grid>
+                    
                 }
                 
                 {mappingName == "skillsRole" &&
@@ -189,6 +284,7 @@ function Coursemapping() {
                                         <TableCell sx={{ fontWeight: 'bold' }}>Skill ID</TableCell>
                                         <TableCell sx={{ fontWeight: 'bold' }}>Skill Name</TableCell>
                                         <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
+                                        <TableCell colSpan={2}></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -203,6 +299,11 @@ function Coursemapping() {
                                                 <TableCell>{singleSkill['skill_id']}</TableCell>
                                                 <TableCell>{singleSkill['skill_name']}</TableCell>
                                                 <TableCell>{singleSkill['skill_desc']}</TableCell>
+                                                <TableCell>
+                                                    <IconButton color="primary" onClick = {() => deletebuttonclickedjobrole(singleOutput.jobrole_id, singleSkill['skill_id'])}>
+                                                        <EditIcon/>
+                                                    </IconButton>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                         </>
@@ -216,9 +317,23 @@ function Coursemapping() {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        <IconButton color="info" onClick={handleClick2} sx={{ p: 2 }}><AddCircleIcon /></IconButton>
+                        <IconButton color="info" onClick={handleClick2} sx={{ p: 2 }}>
+                            <AddCircleIcon />
+                        </IconButton>
                     </Grid>
                 </Grid>
+                <Modal open = {openDeleteModal} onClose = {closingDeletemodal}>
+                        <Fade in={openDeleteModal}>
+                            <Box sx = {Modalstyle}>
+                            <Typography id="transition-modal-title" variant="h6" component="h2">
+                                Unmap Skill ID {deleteitem[1]} from Job Role ID {deleteitem[0]}?
+                            </Typography>
+                            <Button sx={{mt:2}} variant="contained" color="error" onClick = {unmapSkillFromJobrole}>
+                                Unmap skill
+                            </Button>
+                            </Box>
+                        </Fade>
+                    </Modal>
                 </Grid>
                 }
             </Box>
