@@ -28,8 +28,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import EditIcon from '@mui/icons-material/Edit';
-
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 
 
@@ -221,7 +220,7 @@ function Coursemapping() {
                                                         <TableCell>{singleSkill['skill_desc']}</TableCell>
                                                         <TableCell>
                                                             <IconButton color="primary" onClick={() => deletebuttonclickedcourse(singleOutput.course_id, singleSkill['skill_id'])}>
-                                                                <EditIcon/>
+                                                                <RemoveCircleIcon/>
                                                             </IconButton>
                                                         </TableCell>
                                                     </TableRow>
@@ -301,7 +300,7 @@ function Coursemapping() {
                                                 <TableCell>{singleSkill['skill_desc']}</TableCell>
                                                 <TableCell>
                                                     <IconButton color="primary" onClick = {() => deletebuttonclickedjobrole(singleOutput.jobrole_id, singleSkill['skill_id'])}>
-                                                        <EditIcon/>
+                                                        <RemoveCircleIcon/>
                                                     </IconButton>
                                                 </TableCell>
                                             </TableRow>
