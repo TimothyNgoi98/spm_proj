@@ -1,3 +1,5 @@
+from re import L
+from shutil import register_archive_format
 from flask import Blueprint, jsonify, request
 from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
 
@@ -61,18 +63,45 @@ def displayjobname():
 @learningjourney.route("/viewcourselearningjourney", methods=['POST'])
 def viewcourselearningjourney():
     frontend_input = request.get_json()
-
     jobrole_id = frontend_input['jobroleid']
+    staff_id = frontend_input['staff_id']
+
     learningjourney_id = frontend_input['learningjourneyid']
-    # print("This is from Learning: ",staff_id)
-    # Success! 
-    jobroledatabase = Learningjourney.query.filter_by(learningjourney_id=learningjourney_id)
-    jobroledatabase.course
-    print("This is the jobroledatabase", jobroledatabase.courses)
+    jobroledatabase = Learningjourney.query.filter_by(learningjourney_id=learningjourney_id).first()
+    array = []
+
+    for item in jobroledatabase.course:
+        object = item.to_dict()
+        course_id = object['course_id']
+        course_name = object['course_name']
+        course_description = object['course_desc']
+
+        # Call out for Registration with filter_by Course_ID and Staff_ID 
+        registration_database = Registration.query.filter_by(course_id = course_id, staff_id=staff_id).first()
+        registration_database = registration_database.to_dict()
+
+        registration_status = registration_database['reg_status']
+        registration_completion_status = registration_database['completion_status']
+
+        array.append(
+            {
+                "course_id" : course_id,
+                "course_name" : course_name,
+                "course_description" : course_description,
+                "reg_status" : registration_status,
+                "completion_status" : registration_completion_status
+            }
+        )
 
     return jsonify(
         {
             "code" : 200,
-            "data" : jobroledatabase
+            "data" : array
         }
     )
+
+
+@learningjourney.route("/deletecoursesinlearningjourney", methods=['DELETE'])
+def deletecoursesinlearningjourney():
+    
+    return()

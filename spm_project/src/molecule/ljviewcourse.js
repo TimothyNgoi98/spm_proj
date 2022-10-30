@@ -67,20 +67,40 @@ function Ljviewcourse() {
     const [output, setoutput] = useState([])
     const [jobname, setjobname] = useState([])
 
+    const [ course_id, setcourse_id ] = useState("")
     const [openArchiveModal , setArchiveModal] = useState(false)
-    const [openDeleteModal, setDeleteModal] = useState(false)
 
     const ArchiveModal = (data) => {
-
+      setcourse_id(data)
+      setArchiveModal(true)
     }
     // Second OnClick to Close the Modal and return all other fields to zero
     const closeArchiveModal = () => {
-
+      setcourse_id("")
+      setArchiveModal(false)
     }
-    // Upon Clicking on the Submit Button in the Modal, it will update the skill description
-    const updatedatabase = () => {
+    // Upon Clicking on the yes button, will proceed to delete the course
+    const deletecoursesinlearningjourney = () => {
+        const result = {"learningjourney_id": skill_name, "skill_desc": skill_desc, "active": active}
+        const options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "http://localhost:3000/learningjourneyviewcourse"
+            },
+            body: JSON.stringify(result)
+        }
 
+        fetch('http://127.0.0.1:5000/learningjourney/deletecoursesinlearningjourney', options)
+        .then(response=> response.json())
+        .then(data => {
+            alert(data.message)
+            if (data.code === 200){
+                navigate("/Hradmin", {replace: true})
+            }
+        })
     }
+    
     // This is to fetch the Job Name 
     useEffect(() => {
       // I need to know who have logged in. 
@@ -89,7 +109,7 @@ function Ljviewcourse() {
           method: "POST",
           headers: {
               'Content-Type': 'application/json',
-              "Access-Control-Allow-Origin": "http://localhost:3000/learningjourneyviewcourse"
+              "Access-Control-Allow-Origin": "hhttp://localhost:3000/learningjourneyviewcourse"
           },
           body: JSON.stringify(result)
       }
@@ -106,7 +126,7 @@ function Ljviewcourse() {
     // Fetch back the Table Rows 
     useEffect(() => {
       // I need to know who have logged in. 
-      const result = {"jobroleid": jobrole_id, "learningjourneyid": learningjourney_id}
+      const result = {"jobroleid": jobrole_id, "learningjourneyid": learningjourney_id, "staff_id":staff_id}
       const options = {
           method: "POST",
           headers: {
@@ -164,35 +184,29 @@ function Ljviewcourse() {
                   <TableHead>
                     <TableRow>
 
+                      <TableCell>Course Id</TableCell>
                       <TableCell>Course Name</TableCell>
                       <TableCell>Course Description</TableCell>
+                      <TableCell>Registration Status</TableCell>
                       <TableCell>Completion Status</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell colSpan={2}></TableCell>
-
+                      <TableCell></TableCell>
 
                     </TableRow>
                   </TableHead>
                   {/* The body of the Table Goes here */}
                   <TableBody>
-                    {output.map((singleoutput) => {
-                      if (singleoutput.skill_status == "Active") {
-                        return(
+                    {output.map((singleoutput) => 
                       <TableRow>
-                      <TableCell>{singleoutput.skill_id}</TableCell>
-                      <TableCell>{singleoutput.skill_name}</TableCell>
-                      <TableCell>{singleoutput.skill_desc}</TableCell>
-                      <TableCell>{singleoutput.skill_status}</TableCell>
+                      <TableCell>{singleoutput["course_id"]}</TableCell>
+                      <TableCell>{singleoutput.course_name}</TableCell>
+                      <TableCell>{singleoutput.course_description}</TableCell>
+                      <TableCell>{singleoutput.reg_status}</TableCell>
+                      <TableCell>{singleoutput.completion_status}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.skill_id)}><EditIcon/></IconButton>
+                        <IconButton color="primary" onClick={ArchiveModal(singleoutput["course_id"])} ><DeleteIcon/></IconButton>
                       </TableCell>
-                      <TableCell>
-                        <IconButton color="primary" ><MoveToInboxIcon/></IconButton>
-                      </TableCell>
+
                     </TableRow>
-                        )
-                      }
-                    }
                     )}
                   </TableBody>
                   {/* End of the Body Table  */}
@@ -212,7 +226,8 @@ function Ljviewcourse() {
         >
           <Fade in={openArchiveModal}>
             <Box sx={Modalstyle}>
-              
+              <Typography>Are you sure you want to delete this course from your learning journey?</Typography>
+              <Button variant="contained" color="warning" onClick={deletecoursesinlearningjourney}>Yes</Button>
             </Box>
           </Fade>
         </Modal>
