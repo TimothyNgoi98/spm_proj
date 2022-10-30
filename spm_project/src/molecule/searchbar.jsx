@@ -59,7 +59,7 @@ function Searchbar({placeholder, onChangeHandler}) {
             </Box> */}
 
 
-        <input type="search" style={{  marginTop: 20, width: 400, height: 50, fontSize: 20, paddingLeft: 10, borderRadius: 15}} placeholder={placeholder} onChange={onChangeHandler} />
+        <input type="search" style={{  marginTop: 20, width: 400, height: 50, fontSize: 20, paddingLeft: 10, borderRadius: 45}} placeholder={placeholder} onChange={onChangeHandler} />
         </div>
     );
 }
