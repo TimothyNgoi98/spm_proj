@@ -103,7 +103,9 @@ class Course(db.Model):
     course_type = db.Column(db.String(10), nullable=False)
     course_category = db.Column(db.String(50), nullable=False)
     registrations = db.relationship('Registration', backref='course',lazy="select", uselist=False)
-    learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
+    learning_journey_detailed = db.relationship('Learningjourney',secondary="learning_journey_detailed",backref="course")
+
+    # learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
     # skills = db.relationship('Skill',secondary="skill_to_course", backref="course")
 
     
@@ -203,13 +205,13 @@ class Staff(db.Model):
 # Class Learning Journey
 class Learningjourney(db.Model):
     __tablename__= "learning_journey"
-    learningjourney_id = db.Column(db.String(25), primary_key=True)
+    learningjourney_id = db.Column(db.Integer, primary_key=True)
     staff_id = db.Column(db.Integer, db.ForeignKey("staff.staff_id"))
     # Foreign key is based on the table name
     jobrole_id = db.Column(db.Integer, db.ForeignKey("job_role.jobrole_id"))
-    course_id = db.Column(db.String(20), db.ForeignKey("course.course_id"))
+    # course_id = db.Column(db.String(20), db.ForeignKey("course.course_id"))
     # courses_taken = db.relationship('Course',secondary="learning_journey_detailed",backref="course")
-    is_active = db.Column(db.Boolean, nullable=False)
+    is_active = db.Column(db.String(20), nullable=False)
 
     def to_dict(self):
         """
@@ -221,8 +223,6 @@ class Learningjourney(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
-
-    
 
 
 # Class Registration
