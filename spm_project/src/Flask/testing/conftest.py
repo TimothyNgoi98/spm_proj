@@ -12,6 +12,10 @@ import pytest
 def new_skill():
     skill = Skill(skill_id=100,skill_name="testing_skill",skill_desc="Testing desc",skill_status="Active")
     return skill
+@pytest.fixture(scope="module")
+def new_jobrole():
+    jobrole = Jobrole(jobrole_id=1,jobrole_name="testing_jobrole_name",jobrole_desc="Testing desc",department="Info Tech",jobrole_status="Active")
+    return jobrole
 # =========================================================================================================
 # For functional_testing (Individual Flask Routes)
 # Setup test_client using fixtures
