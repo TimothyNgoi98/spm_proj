@@ -39,3 +39,40 @@ def displaymain():
             "data" : result_arr
         }
     )
+
+@learningjourney.route("/jobrole_name", methods=['POST'])
+def displayjobname():
+    frontend_input = request.get_json()
+
+    jobrole_id = frontend_input['jobrole']
+    print("This is the jobrole id", jobrole_id)
+    # print("This is from Learning: ",staff_id)
+    # Success! 
+    jobroledatabase = Jobrole.query.filter_by(jobrole_id=jobrole_id).first().to_dict()
+
+    return jsonify(
+        {
+            "code" : 200,
+            "data" : jobroledatabase
+        }
+    )
+
+
+@learningjourney.route("/viewcourselearningjourney", methods=['POST'])
+def viewcourselearningjourney():
+    frontend_input = request.get_json()
+
+    jobrole_id = frontend_input['jobroleid']
+    learningjourney_id = frontend_input['learningjourneyid']
+    # print("This is from Learning: ",staff_id)
+    # Success! 
+    jobroledatabase = Learningjourney.query.filter_by(learningjourney_id=learningjourney_id)
+    jobroledatabase.course
+    print("This is the jobroledatabase", jobroledatabase.courses)
+
+    return jsonify(
+        {
+            "code" : 200,
+            "data" : jobroledatabase
+        }
+    )
