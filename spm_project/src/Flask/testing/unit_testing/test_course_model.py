@@ -49,6 +49,30 @@ def test_course_method(new_course):
         raise Exception("Test case of test_course_method failed")
     
 
+def test_course_relationship_many_to_many_skill(new_course):
+    try:
+        # Many to Many: Skill
+        # Initialisation of random skills
+        skill1 = Skill(skill_id=100,skill_name="testing_skill",skill_desc="Testing desc",skill_status="Active")
+        skill2 = Skill(skill_id=200,skill_name="testing_skill2",skill_desc="Testing desc2",skill_status="Retired")
+        # Append many to many relationship
+        new_course.skill.append(skill1)
+        new_course.skill.append(skill2)
+        # For loop appended skills
+        assert new_course.skill[0].skill_id==100
+        assert new_course.skill[0].skill_name=="testing_skill"
+        assert new_course.skill[0].skill_desc=="Testing desc"
+        assert new_course.skill[0].skill_status=="Active"
+
+        assert new_course.skill[1].skill_id==200
+        assert new_course.skill[1].skill_name=="testing_skill2"
+        assert new_course.skill[1].skill_desc=="Testing desc2"
+        assert new_course.skill[1].skill_status=="Retired"
+    
+    except:
+        raise Exception("Test case of test_course_relationship_many_to_many_skill failed")
+
+
 
 
 

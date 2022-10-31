@@ -43,10 +43,12 @@ def test_staff_method(new_staff):
         assert convertedDictionary['email'] == "test@test.com"
         assert convertedDictionary['role'] == 1
 
-
-    
     except:
         raise Exception("Test case of test_staff_method failed")
+
+def test_staff_relationship_one_to_many_role(new_role):
+    # One role get be taken by many staff
+    stafftest = Staff(staff_id=1,staff_fname="Jie Peng", staff_lname="Wong",dept="Testing Dept",email="test@test.com", role=1,)
 
 
 

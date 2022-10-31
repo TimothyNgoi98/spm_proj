@@ -24,7 +24,7 @@ def test_registration_intialisation(new_registration):
     except:
         raise Exception("Test case of test_registration_intialisation failed")
 
-def test_course_method(new_registration):
+def test_registration_method(new_registration):
     """
     GIVEN a REGISTRATION model
     WHEN a new REGISTRATION is being created
@@ -48,9 +48,37 @@ def test_course_method(new_registration):
     except:
         raise Exception("Test case of test_registration_method failed")
     
+def test_registration_relationship_one_to_many_course(new_course):
+    try:
+        # One course can have many registrations
+        registrationtest = Registration(reg_id=1,course_id="Testing course", staff_id=1, reg_status="Registered",completion_status="Completed",course=new_course)
+        coursemapped = registrationtest.course
 
+        assert coursemapped.course_id == 1
+        assert coursemapped.course_name == "testing_course_name"
+        assert coursemapped.course_status == "Active"
+        assert coursemapped.course_desc == "Testing desc"
+        assert coursemapped.course_type == "Internal"
+        assert coursemapped.course_category == "Core" 
+    
+    except:
+        raise Exception("Test case of test_registration_relationship_one_to_many_course failed")
 
+def test_registration_relationship_one_to_many_staff(new_staff):
+    try:
+        # One staff can have many registrations
+        registrationtest = Registration(reg_id=1,course_id="Testing course", staff_id=1, reg_status="Registered",completion_status="Completed",staff=new_staff)
+        staffmapped = registrationtest.staff
 
+        assert staffmapped.staff_id == 1
+        assert staffmapped.staff_fname == "Jie Peng"
+        assert staffmapped.staff_lname == "Wong"
+        assert staffmapped.dept== "Testing Dept"
+        assert staffmapped.email== "test@test.com"
+        assert staffmapped.role== 1
+    
+    except:
+        raise Exception("Test case of test_registration_relationship_one_to_many_staff failed")
 
 
 

@@ -32,6 +32,10 @@ def new_learningjourney():
 def new_registration():
     registration = Registration(reg_id=1,course_id="Testing course", staff_id=1, reg_status="Registered",completion_status="Completed" )
     return registration
+@pytest.fixture(scope="module")
+def new_role():
+    role = Role(role_id=1,role_name="testing" )
+    return role
 # =========================================================================================================
 # For functional_testing (Individual Flask Routes)
 # Setup test_client using fixtures
