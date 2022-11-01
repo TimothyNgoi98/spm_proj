@@ -105,3 +105,39 @@ def viewcourselearningjourney():
 def deletecoursesinlearningjourney():
     
     return()
+
+@learningjourney.route("/addingcoursesinlearningjourney", methods=['POST'])
+def addingcoursesinlearningjourney():
+    
+    return()
+
+@learningjourney.route("/viewcoursesinjobrole", methods=['POST'])
+def viewcoursesinjobrole():
+    frontend_input = request.get_json()
+
+    jobroleid = frontend_input['jobrole_id']
+    print(jobroleid)
+
+    jobroles = Jobrole.query.filter_by(jobrole_id=jobroleid).first()
+    skills_array = []
+    output_array = []
+
+    # print(jobroles)
+    # In one JobRole, print out all the skills
+    for skill in jobroles.skill:
+        skills_array.append(skill.to_dict())
+    
+    print(skills_array)
+    # For every skills, print out all the courses
+    for skills in skills_array:
+        # print(skills['skill_id'])
+        skill = Skill.query.filter_by(skill_id=skills['skill_id']).first()
+        # print(skill.skills_to_course)
+        for one_skill in skill.skills_to_course:
+            output_array.append(one_skill.to_dict())
+
+    print(output_array)
+    return jsonify({
+        "code": 200,
+        "data": output_array
+    })
