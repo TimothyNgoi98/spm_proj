@@ -1,25 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    jobrole_desc: "",
-    jobrole_id: "",
-    jobrole_name: ""
-    // skill_id: []
+    current_learningjourney: 0,
+    jobrole_id : ""
 }
 
-export const jobroles_slice = createSlice({
-    name: "jobroles_data",
+export const view_learning_journeySlice = createSlice({
+    name: "viewlj",
     initialState,
     reducers: {
-        setjobrole_desc: (state, action) => {
-            state.jobrole_desc = action.payload
+        setcurrent_learningjourney: (state, action) => {
+            state.current_learningjourney = action.payload
         },
         setjobrole_id: (state, action) => {
             state.jobrole_id = action.payload
         },
-        setjobrole_name: (state, action) => {
-            state.jobrole_name = action.payload
-        }
     }
 })
 
@@ -29,6 +24,6 @@ export const jobroles_slice = createSlice({
 // What is return in reducers? 
 // We can change the state directly via state.login = payload.actions 
 
-export const { setjobrole_desc, setjobrole_id, setjobrole_name } = jobroles_slice.actions;
+export const { setcurrent_learningjourney, setjobrole_id } = view_learning_journeySlice.actions;
 
-export default jobroles_slice.reducer
+export default view_learning_journeySlice.reducer
