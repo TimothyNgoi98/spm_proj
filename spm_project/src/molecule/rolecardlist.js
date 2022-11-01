@@ -7,12 +7,18 @@ import Grid from '@mui/material/Grid';
 function RoleCardList({jobroles}) {
         return (
             <div className='card-list' >
-                <Grid className="display-card" item xs={4} key={uuidv4()}  >
+                <Grid container spacing={5}>
+                {/* <Grid className="display-card" key={uuidv4()}  > */}
                     {jobroles.map((jobrole) => {
                         return(
-                        <Card jobrole={jobrole} key={jobrole.id}/>
+                        // <Grid item xs={4}>
+                        <Grid className="display-card" key={uuidv4()} item xs={3} >
+                            <Card jobrole={jobrole} key={jobrole.id}/>
+                        </Grid>
+                        // {/* </Grid> */}
                         )
                         })}
+                {/* </Grid> */}
                 </Grid>
             </div>
         )

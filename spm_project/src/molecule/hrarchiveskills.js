@@ -98,7 +98,7 @@ function Hrarchiveskills() {
   // Upon Clicking on the Submit Button in the Modal, it will update the skill description
   const updatedatabase = () => {
 
-    if (input_name.length == 0 || input_name.length > 50 || input_description.length == 0 || input_description.length > 250 ) {
+    if (input_name.length === 0 || input_name.length > 50 || input_description.length === 0 || input_description.length > 250 ) {
       alert("Please check if your input fields fulfills the criteria.")
     }
     else {
@@ -214,7 +214,7 @@ function Hrarchiveskills() {
                   {/* The body of the Table Goes here */}
                   <TableBody>
                     {output.map((singleoutput) => {
-                      if (singleoutput.skill_status == "Retired") {
+                      if (singleoutput.skill_status === "Retired") {
                         return(
                       <TableRow>
                       <TableCell>{singleoutput.skill_id}</TableCell>

@@ -51,7 +51,7 @@ function User() {
     // Fetching Async 
     useEffect(() => {
       const fetchMyAPI = async () => {
-        let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse/1")
+        let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse/2")
         response = await response.json()
         handleoutputSkill(response.data)
       }
@@ -146,7 +146,9 @@ function User() {
                           <TableCell>{singleoutputSkill.course_status}</TableCell>
                       </TableRow>
                       // console.log(singleoutputCourse.course_id)
-                    : <TableRow> There are no Courses for this Skill </TableRow>
+                    : <TableRow>
+                        <TableCell> There are no Courses for this Skill </TableCell>
+                      </TableRow>
                     ))}
                   </TableBody>
 
