@@ -129,14 +129,23 @@ def updateParticularJobrole(jobroleid):
 @jobrole.route('/jobroleroute')
 def route1():
     staff = Jobrole.query.first()
+    print(staff)
     #remove when jp push 
-    skill1 = Skill(skill_id=4,skill_name= "Conflict Management Skill Advanced",skill_desc= "Able to handle team and customer conflict effectively.",skill_status=1)
-    skill2 = Skill(skill_id=5,skill_name= "Conflict Management Skill Advanced 2",skill_desc= "Able to handle team and customer conflict effectively.",skill_status=1)
+    skill1 = Skill(skill_id=1,
+        skill_name= "Conflict Management Skill Advanced",
+        skill_desc= "Able to handle team and customer conflict effectively.",
+        skill_status=1
+        )
+
+    skill2 = Skill(skill_id=2,
+        skill_name= "Conflict Management Skill Advanced 2",
+        skill_desc= "Able to handle team and customer conflict effectively.",
+        skill_status=1)
+
     # Simulate assigning and adding new skills
     staff.skill.append(skill1)
     staff.skill.append(skill2)
 
-    
     array = []
 
     for item in staff.skill:
