@@ -161,3 +161,37 @@ def UpdateParticularCourse(courseid):
                 "data": data
             }
         ),200
+
+@course.route('/removemapping/<string:courseid>', methods= ['DELETE'])
+def removeSkill(courseid):
+    data = request.get_json()
+    courseID = data[0]
+    skillID = data[1]
+    print(data, "DATA FROM FRONTEND")
+    course = Course.query.filter_by(course_id=courseID).first()
+    if course:
+        skillFrontend = Skill.query.filter_by(skill_id=skillID).first()
+        course.skill.remove(skillFrontend)
+        db.session.commit()
+
+        array = []
+        for skill in course.skill:
+            array.append(skill.to_dict())
+        
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "coursedetails": course.to_dict(),
+                    "skills": array
+                }
+            }
+        ), 200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": data
+            }
+        ),200

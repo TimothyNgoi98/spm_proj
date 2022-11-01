@@ -125,6 +125,40 @@ def updateParticularJobrole(jobroleid):
         ),200
 
 
+@jobrole.route('/removemapping/<string:jobroleid>', methods= ['DELETE'])
+def removeSkill(jobroleid):
+    data = request.get_json()
+    jobroleID = data[0]
+    skillID = data[1]
+    jobrole = Jobrole.query.filter_by(jobrole_id=jobroleID).first()
+    if jobrole:
+        skillFrontend = Skill.query.filter_by(skill_id=skillID).first()
+        jobrole.skill.remove(skillFrontend)
+        db.session.commit()
+
+        array = []
+        for skill in jobrole.skill:
+            array.append(skill.to_dict())
+
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "jobroledetails": jobrole.to_dict(),
+                    "skills": array
+                }
+            }
+        ), 200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": data
+            }
+        ),200
+
+
 
 @jobrole.route('/jobroleroute')
 def route1():
