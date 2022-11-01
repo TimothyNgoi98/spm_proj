@@ -33,6 +33,7 @@ import Confirmjobrolemapping from './molecule/confirmjobrolemapping';
 import Main from "./molecule/main"
 import All from "./molecule/all"
 import Ljviewcourse from './molecule/ljviewcourse';
+import Ljaddskills from './molecule/ljaddskills';
 // Import ALL material UI things here
 
 
@@ -50,6 +51,7 @@ function App() {
               <Route path="/main" element= {<Main/>}/>
               <Route path="/learningjourney" element = {<Home />} />
               <Route path="/learningjourneyviewcourse" element = {<Ljviewcourse />} />
+              <Route path="/learningjourneyaddskills" element={<Ljaddskills/>} />
 
                 {/* Protected Routes for HR */}
                 <Route element = {<ProtectedRoutesforhr />}>
