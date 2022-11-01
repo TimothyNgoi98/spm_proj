@@ -30,6 +30,9 @@ import SelectJobRole from './molecule/selectrole';
 import ConfirmCourseMapping from './molecule/confirmcoursemapping'
 import Jobroleskills from './molecule/jobroleskills';
 import Confirmjobrolemapping from './molecule/confirmjobrolemapping';
+import Main from "./molecule/main"
+import All from "./molecule/all"
+import Ljviewcourse from './molecule/ljviewcourse';
 // Import ALL material UI things here
 
 
@@ -39,15 +42,20 @@ function App() {
 
           <Navbar />
           <Routes>
-            <Route path="/" element = {<Home />} />
+            <Route path="/" element = {<All />} />
             <Route path="/signin" element ={<Signin />} />
             {/* Protected Routes for User */}
             <Route element = {<ProtectedRoutesforUser />}>
               <Route path="/user" element ={<User />} />
+              <Route path="/main" element= {<Main/>}/>
+              <Route path="/learningjourney" element = {<Home />} />
+              <Route path="/learningjourneyviewcourse" element = {<Ljviewcourse />} />
+
                 {/* Protected Routes for HR */}
                 <Route element = {<ProtectedRoutesforhr />}>
                   <Route path="/Hradmin" element = {<Hrskills/>}/>
                   <Route path="/Hraddskill" element = {<Hraddskill/>}/>
+
 
                   <Route path="/mappings" element = {<Coursemapping/>}/>
                   <Route path ="/courseskills" element = {<Courseskills/>}/>

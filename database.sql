@@ -719,8 +719,7 @@ CREATE TABLE IF NOT EXISTS `learning_journey` (
   `LearningJourney_ID` int NOT NULL AUTO_INCREMENT,
   `Staff_ID` int NOT NULL,
   `JobRole_ID` int NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
-  `Is_Active` tinyint(1) NOT NULL,
+  `is_Active` varchar(20),
   PRIMARY KEY (`LearningJourney_ID`),
   KEY `Learning_Journey_fk` (`Staff_ID`),
   KEY `Learning_Journey_fk2` (`JobRole_ID`)
@@ -732,6 +731,12 @@ ALTER TABLE `learning_journey`
   ADD CONSTRAINT `Learning_Journey_fk2` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`);
 
 -- ---------------------------------------------------------- --------------------------------------------------------
+INSERT INTO `learning_journey` (`LearningJourney_ID`, `Staff_ID`, `JobRole_ID`,`is_Active`) VALUES ('1', '130001', '1','Active');
+INSERT INTO `learning_journey` (`LearningJourney_ID`, `Staff_ID`, `JobRole_ID`,`is_Active`) VALUES ('2', '130001', '1','Active');
+INSERT INTO `learning_journey` (`LearningJourney_ID`, `Staff_ID`, `JobRole_ID`,`is_Active`) VALUES ('3', '130001', '1','Active');
+INSERT INTO `learning_journey` (`LearningJourney_ID`, `Staff_ID`, `JobRole_ID`,`is_Active`) VALUES ('4', '130001', '1','Active');
+INSERT INTO `learning_journey` (`LearningJourney_ID`, `Staff_ID`, `JobRole_ID`,`is_Active`) VALUES ('5', '130001', '1','Active');
+INSERT INTO `learning_journey` (`LearningJourney_ID`, `Staff_ID`, `JobRole_ID`,`is_Active`) VALUES ('6', '130001', '1','Active');
 
 -- Table structure for table `job_role_to_skill`
 
@@ -801,3 +806,13 @@ ALTER TABLE `learning_journey_detailed`
   ADD CONSTRAINT `Learning_Journey_Detailed_fk2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
 
 -- ---------------------------------------------------------- --------------------------------------------------------
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('1', 'COR001');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('1', 'COR002');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR001');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR004');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('3', 'COR001');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('4', 'COR001');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('5', 'COR001');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('6', 'COR001');
+
+

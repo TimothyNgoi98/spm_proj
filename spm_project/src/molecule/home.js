@@ -179,13 +179,6 @@ console.log(data)
   );
   }
 
-  else {
-    return (
-      <div>
-        Please log in.
-      </div>
-    )
-  }
 }
 
 export default Home;

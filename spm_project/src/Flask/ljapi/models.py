@@ -90,6 +90,24 @@ class Course(db.Model):
     registrations = db.relationship('Registration', backref='course',lazy="select", uselist=False)
     learning_journey_detailed = db.relationship('Learningjourney',secondary="learning_journey_detailed",backref="course")
 
+    # learningjourneys = db.relationship('Learningjourney',backref='course',lazy="select", uselist=False)
+    # skills = db.relationship('Skill',secondary="skill_to_course", backref="course")
+
+    
+
+
+    # def __init__(self, course_id, course_name, course_desc,course_status,course_type,course_category):
+    #     self.course_id = course_id
+    #     self.course_name = course_name
+    #     self.course_desc = course_desc
+    #     self.course_status = course_status
+    #     self.course_type = course_type
+    #     self.course_category = course_category
+
+
+    # def json(self):
+    #     return {"course_id": self.course_id, "course_name": self.course_name, "course_desc": self.course_desc, "course_type": self.course_type,"course_category":self.course_category}
+
     def to_dict(self):
         """
         'to_dict' converts the object into a dictionary,
@@ -154,6 +172,8 @@ class Learningjourney(db.Model):
     learningjourney_id = db.Column(db.Integer, primary_key=True)
     staff_id = db.Column(db.Integer, db.ForeignKey("staff.staff_id"))
     jobrole_id = db.Column(db.Integer, db.ForeignKey("job_role.jobrole_id"))
+    # course_id = db.Column(db.String(20), db.ForeignKey("course.course_id"))
+    # courses_taken = db.relationship('Course',secondary="learning_journey_detailed",backref="course")
     is_active = db.Column(db.String(20), nullable=False)
 
     def to_dict(self):
