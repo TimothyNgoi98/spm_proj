@@ -79,7 +79,23 @@ function Ljviewcourse() {
     }
     // Upon Clicking on the yes button, will proceed to delete the course
     const deletecoursesinlearningjourney = () => {
+      console.log("THis is Fk",course_id)
+      console.log("This is FKFK",learningjourney_id)
 
+      const result = {'course_id': course_id, "learning_journey_id" : learningjourney_id} 
+      const options = {
+        method: "DELETE",
+        headers: {
+              'Content-Type': 'application/json',
+              "Access-Control-Allow-Origin": "http://localhost:3000/learningjourneyviewcourse"
+              },
+        body: JSON.stringify(result)
+      }
+      fetch("http://127.0.0.1:5000/learningjourney/deletecoursesinlearningjourney", options)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.data)
+      })
     }
 
     const add_skill = () => {

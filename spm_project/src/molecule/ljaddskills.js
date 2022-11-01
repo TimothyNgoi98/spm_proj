@@ -54,6 +54,11 @@ function Ljaddskills() {
     const [output, setoutput] = useState([])
     const [jobname, setjobname] = useState([])
 
+    const addcourse = () => {
+
+    }
+
+
     useEffect(() => {
         // I need to know who have logged in. 
         const result = {"jobrole": jobrole_id}
@@ -88,7 +93,7 @@ function Ljaddskills() {
         const fetchMyAPI = async () => {
             let response = await fetch("http://127.0.0.1:5000/learningjourney/viewcoursesinjobrole", options)
             response = await response.json()
-            setjobname(response.data['jobrole_name'])
+            setoutput(response.data)
             console.log("This is the LjViewCourse",response.data['jobrole_name'])
       }
       fetchMyAPI()
@@ -133,8 +138,8 @@ function Ljaddskills() {
                       <TableCell>Course Id</TableCell>
                       <TableCell>Course Name</TableCell>
                       <TableCell>Course Description</TableCell>
-                      <TableCell>Course Status</TableCell>
-                      <TableCell>Completion Status</TableCell>
+                      <TableCell>Course Type</TableCell>
+                      <TableCell>Course Category</TableCell>
                       <TableCell></TableCell>
 
                     </TableRow>
@@ -145,9 +150,9 @@ function Ljaddskills() {
                       <TableRow>
                       <TableCell>{singleoutput["course_id"]}</TableCell>
                       <TableCell>{singleoutput.course_name}</TableCell>
-                      <TableCell>{singleoutput.course_description}</TableCell>
-                      <TableCell>{singleoutput.reg_status}</TableCell>
-                      <TableCell>{singleoutput.completion_status}</TableCell>
+                      <TableCell>{singleoutput.course_desc}</TableCell>
+                      <TableCell>{singleoutput.course_type}</TableCell>
+                      <TableCell>{singleoutput.course_category}</TableCell>
                       <TableCell>
                         {/* <IconButton color="primary" onClick={() => ArchiveModal(singleoutput["course_id"])} ><DeleteIcon/></IconButton> */}
                       </TableCell>

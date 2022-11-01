@@ -74,7 +74,7 @@ function Viewskills() {
     // console.log(typeof jobroletoskill.jobrole.jobrole_id)
     let navigate = useNavigate()
     const redirect = (data) => {
-        navigate("/")
+        navigate("/learningjourney")
       }
 
     // console.log(JSON.stringify(jobroletoskill.jobrole.jobrole_id))

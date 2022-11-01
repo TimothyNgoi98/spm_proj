@@ -1,3 +1,4 @@
+from logging import error
 from re import L
 from shutil import register_archive_format
 from flask import Blueprint, jsonify, request
@@ -103,8 +104,32 @@ def viewcourselearningjourney():
 
 @learningjourney.route("/deletecoursesinlearningjourney", methods=['DELETE'])
 def deletecoursesinlearningjourney():
-    
-    return()
+    frontend_input = request.get_json()
+    courseid = frontend_input['course_id']
+    learningjourney_id = frontend_input['learning_journey_id']
+
+    # print("This is from delete coruses", courseid)
+    # print("This is from delete coruses", learningjourney_id)
+
+    jobroledatabase = Learningjourney.query.filter_by(learningjourney_id=learningjourney_id).first()
+
+    course_to_remove = Course.query.filter_by(course_id=courseid).first()
+
+    try:
+        jobroledatabase.course.remove(course_to_remove)
+        db.session.commit()
+        return jsonify({
+            "code" :200,
+            "data": "Delete is successful!"
+        })
+
+    except:
+        print(error)
+        return jsonify({
+            "code" :404,
+            "data": "Delete is unsuccessful!"
+        })
+
 
 @learningjourney.route("/addingcoursesinlearningjourney", methods=['POST'])
 def addingcoursesinlearningjourney():
