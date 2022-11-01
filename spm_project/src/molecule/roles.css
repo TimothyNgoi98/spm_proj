@@ -4,7 +4,7 @@
 }
 
 .Card{
-    margin: 30px;
+    /* margin: 30px; */
     width: 300px;
     height: 320px; 
     background: white;
@@ -45,6 +45,7 @@ img{
     background: white;
     text-align: center;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
 }
 
 .lower-container h3,h4,p{
@@ -90,6 +91,10 @@ button:hover{
     /* border: none; */
     color: black;
     cursor:pointer;
+}
+
+.card-list{
+    margin-top: 30px;
 }
 
 

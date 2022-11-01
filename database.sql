@@ -665,7 +665,17 @@ VALUES (1, "Mobile Design Architecture Skill", "Able to create Prototyping frame
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
 VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired ");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES (3, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
+VALUES (3, "Computer Skills", "Great computer literacy.","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (4, "Critical Thinking", "Able to design system architecture and code out websites.","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (5, "Effective Communicaton", "Able to communicate ideas and pitches well","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (6, "Leadership Skill", "Able to lead a team","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (7, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (8, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
 -- End of Mock Data for 'skill'. 
 
 -- ---------------------------------------------------------- --------------------------------------------------------
@@ -688,6 +698,18 @@ INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRol
 VALUES (2, "Software Engineer", "The Software Engineer leads important projects and possesses capability to make breakthroughs in design, development and testing.", "Engineering","Active");
 INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRole_Status)
 VALUES (3, "UI Designer", "The User Interface Designer determines business needs and user requirements for user interface (UI) design and formulates technical specifications and delivery platform requirements for UI.","Design", "Retired");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRole_Status)
+VALUES (4, "Database Engineer", "Database engineers  use computing tools to create new databases or adjust the function and capacity of existing databases", "Data","Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRole_Status)
+VALUES (5, "System Engineer", "Systems Engineer provide solutions for issues they find in the process, including designing new systems, upgrading hardware and maintaining an existing system. ", "Engineering","Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRole_Status)
+VALUES (6, "Data Analyst", "A data analyst collects and stores data on sales numbers, market research, logistics, linguistics, or other behaviors", "Data","Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRole_Status)
+VALUES (7, "Business Analyst", "Business Analyst help to define business problems via in-depth investigation and gathering of technical and non-technical information.", "Business","Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRole_Status)
+VALUES (8, "Financial Analyst", "Financial Analyst helps companies and teams make the most of their finances", "Finance","Active");
+INSERT INTO job_role (JobRole_ID, JobRole_Name, JobRole_Desc, Department, JobRole_Status)
+VALUES (9, "Qualitative Assurance Engineer", "Quality Assurance Specialist is  responsible for monitoring, inspecting and proposing measures to correct or improve an organization's final products in order to meet established quality standards.", "Engineering","Active");
 -- End of Mock up Data for JobRoles. 
 -- ---------------------------------------------------------- --------------------------------------------------------
 
@@ -724,6 +746,16 @@ CREATE TABLE IF NOT EXISTS `job_role_to_skill` (
 ALTER TABLE `job_role_to_skill`
   ADD CONSTRAINT `Job_Role_to_Skill_fk` FOREIGN KEY (`JobRole_ID`) REFERENCES `job_role` (`JobRole_ID`),
   ADD CONSTRAINT `Job_Role_to_Skill_fk2` FOREIGN KEY (`Skill_ID`) REFERENCES `skill` (`Skill_ID`);
+
+-- Mock Data for 'job_role_to_skill'.
+INSERT INTO `job_role_to_skill` (`JobRole_ID`, `Skill_ID`) VALUES
+(1, 1),
+(2, 2),
+(2, 3),
+(3, 4),
+(4, 7),
+(5, 4),
+(6, 3);
 
 -- ---------------------------------------------------------- --------------------------------------------------------
 

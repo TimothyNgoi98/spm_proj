@@ -36,8 +36,8 @@ const Card = ({jobrole}) =>  {
             //     <p> {jobrole_desc}</p>
             // </div>
 
-            <div className='display-card'>
-                <Grid item xs={4}>
+            // <div className='display-card'>
+                <Grid  className='display-card'>
                     <div className='Card'>
                         <div className='lower-container'>
                             <h4>{ jobrole_name }</h4>
@@ -48,7 +48,7 @@ const Card = ({jobrole}) =>  {
                         </div>
                     </div>
                 </Grid>
-            </div>
+            // </div>
 
         )
 }
