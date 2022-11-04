@@ -227,6 +227,8 @@ def viewCourseForSpecificSkill(skillid):
                     skilltocoursearray[i]["course_name"] = coursearray[j]["course_name"]
                     skilltocoursearray[i]["course_desc"] = coursearray[j]["course_desc"]
                     skilltocoursearray[i]["course_status"] = coursearray[j]["course_status"]
+                    skilltocoursearray[i]["course_category"] = coursearray[j]["course_category"]
+                    skilltocoursearray[i]["course_type"] = coursearray[j]["course_type"]
                     skilltocoursearray[i]["skill_name"] = skillarray[k]["skill_name"]
 
     if skilltocourse:
