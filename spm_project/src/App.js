@@ -34,6 +34,7 @@ import Main from "./molecule/main"
 import All from "./molecule/all"
 import Ljviewcourse from './molecule/ljviewcourse';
 import Ljaddskills from './molecule/ljaddskills';
+import Hrarchivejobroles from './molecule/hrarchivejobroles';
 // Import ALL material UI things here
 
 
@@ -69,6 +70,8 @@ function App() {
                   <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
                   <Route path="/Hrjobrole" element = {<Hrroles/>}/>
                   <Route path="/Hraddjobrole" element = {<Hraddjobrole/>}/>
+                  <Route path="/hrarchivejobroles" element = {<Hrarchivejobroles/>}/>
+
 
                 </Route>
 
