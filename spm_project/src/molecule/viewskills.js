@@ -4,7 +4,9 @@ import { useState,useEffect } from 'react';
 // import axios from "axios";
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
-import {setskill_ids} from '../reduxslice/jobrolesSlice'
+// import {setskill_ids} from '../reduxslice/jobrolesSlice'
+import { setjobrole_desc, setjobrole_id, setjobrole_name, setskill_ids} from '../reduxslice/jobrolesSlice'
+
 
 // Import All Router Links here
 
@@ -35,75 +37,89 @@ function Viewskills() {
 
     const dispatch = useDispatch()
     
-    const location = useLocation();
-    const data = location.state
-    let jobroleID = data.jobrole_id
-    let jobroleName = data.jobrole_name
-    console.log(jobroleID , 'from use navigate')
+    // const location = useLocation();
+    // const data = location.state
+    // let jobroleID = data.jobrole_id
+    // let jobroleName = data.jobrole_name
+    // console.log(jobroleID , 'from use navigate')
+
     // let jobroleName = data.jobrole_name
     // let jobroleName = JSON.stringify(data.jobrole_name)
     // let jobroleDesc = JSON.stringify(data.jobrole_desc)
 
-    const jobRoles_desc = useSelector((state) => state.jobrole.jobrole_desc)
-    const jobRoles_id = useSelector((state) => state.jobrole.jobrole_id)
-    const jobRoles_name = useSelector((state) => state.jobrole.jobrole_name)
-    const skill_ids = useSelector((state) => state.jobrole.skill_ids)
+    const [jobroletoskill, setJobroletoskill] = useState([]);
+    const [jobRoleId, setjobRoleId] = useState('')
+    const [jobRoleObject, setjobRoleObject] = useState('')
+    const [Skills, setSkills] = useState('') //this will be list of skills
 
+    let jobRoles_desc = useSelector((state) => state.jobrole.jobrole_desc)
+    let jobRoles_id = useSelector((state) => state.jobrole.jobrole_id)
+    let jobRoles_name = useSelector((state) => state.jobrole.jobrole_name)
+    // let skill_ids = useSelector((state) => state.jobrole.skill_ids)
 
     console.log(jobRoles_desc, 'from redux')
     console.log(jobRoles_id, 'from redux')
     console.log(jobRoles_name, 'from redux')
-    // console.log(skill_ids, 'from redux')
-
-    const [jobroletoskill, setJobroletoskill] = useState([]);
-    const [jobRoleId, setjobRoleId] = useState('')
-    const [jobRoleObject, setjobRoleObject] = useState('')
 
 
     useEffect(() => {
         const LoadJobtoSkills = async () => {
             // let response = await fetch("http://127.0.0.1:5000/jobrole/jobroleroute")
             // let response = await fetch("http://127.0.0.1:5000/jobrole/view/jobrolesmapped")
-            let response = await fetch(`http://127.0.0.1:5000/jobrole/Viewskills/${jobRoles_id}`)
+
+            let jobroleID = jobRoles_id
+            var url = `http://127.0.0.1:5000/jobrole/Viewskills/${jobroleID}`
+            let response = await fetch(url)
             response = await response.json()
             console.log(response)
             console.log(typeof response)
-            setJobroletoskill(response.data['jobroledetails']) 
+            // setJobroletoskill(response.data['jobroledetails']) 
+            setJobroletoskill(response.data) 
+            // setSkills(jobroletoskill.skills)
             // setJobroletoskill(response) //this is a list of objects 
             // setLength(jobroletoskill['jobroledetails'].length)
         }
         LoadJobtoSkills();
 
-        for(var i =0; i<jobroletoskill.length; i++){
-            console.log(jobroletoskill[i])
-            if (jobroletoskill[i].jobrole_id === jobroleID){
-                console.log(jobroletoskill[i].jobrole_id)
-                setjobRoleId(jobroletoskill[i].jobrole_id)
-                dispatch(setskill_ids(jobroletoskill[i].jobrole_id))
-                setjobRoleObject(jobroletoskill[i])
-            }
-        };
+        // for(var i =0; i<jobroletoskill.length; i++){
+        //     console.log(jobroletoskill[i])
+        //     if (jobroletoskill[i].jobrole_id === jobroleID){
+        //         console.log(jobroletoskill[i].jobrole_id)
+        //         setjobRoleId(jobroletoskill[i].jobrole_id)
+        //         dispatch(setskill_ids(jobroletoskill[i].jobrole_id))
+        //         setjobRoleObject(jobroletoskill[i])
+        //     }
+        // };
 
-    }) 
+    }, []) 
 
-    console.log(jobroletoskill.length)
-    // console.log(jobroletoskill.jobroledetails)
+    console.log(jobroletoskill.skills)
     console.log(typeof jobroletoskill)
-    // console.log(length)
 
-
-    // console.log(jobroles_id)
-    // console.log(typeof jobroletoskill.jobrole.jobrole_id)
     let navigate = useNavigate()
-    const redirect = (data) => {
-        navigate("/")
-    }
+
 
     console.log(jobRoleId)
     console.log(jobRoleObject)
+    
+    const redirect_skill = () => {
+
+        setSkills(jobroletoskill.skills)
+        dispatch(setjobrole_desc(jobRoles_desc))
+        dispatch(setjobrole_id(jobRoles_id))
+        dispatch(setjobrole_name(jobRoles_name))
+        dispatch(setskill_ids(Skills))
+        navigate("/user")
+
+    }
+
+    const redirect = () => {
+        navigate("/learningjourney")
+
+    }
 
     // if(jobroletoskill.jobrole?.jobrole_id === jobroleID) {
-    if(jobRoleId === jobroleID) {
+    // if(jobRoleId === jobroleID) {
     return (
         // <div>
         //     this is the correct skill
@@ -114,7 +130,7 @@ function Viewskills() {
                     <Grid item xs={6} alignContent="left">
                     <Typography variant="h6" textAlign="left">
                         {/* Skills for {jobroleName} */}
-                        Skills for {jobRoleObject.jobrole_name}
+                        Skills for {jobRoles_name}
                     </Typography>
                     </Grid>
                     <Grid item xs={2}></Grid>
@@ -134,16 +150,15 @@ function Viewskills() {
                         </TableHead>
                         {/* The body of the Table Goes here */}
                         <TableBody>
-                            {/* {jobroletoskill.skillassociated?.map((singleoutput) => ( */}
-                            {jobRoleObject.skills.map((singleoutput) => (
+                            {jobroletoskill.skills?.map((singleoutput) => (
                             <TableRow>
                             <TableCell>{singleoutput['skill_id']}</TableCell>
                             <TableCell>{singleoutput['skill_name']}</TableCell>
                             <TableCell>{singleoutput['skill_desc']}</TableCell>
                             <TableCell>{singleoutput['skill_status']}</TableCell>
                             <TableCell>
-                                <IconButton color="primary" onClick={()=> SaveSkill(singleoutput.skill_id)}><AddCircle/></IconButton>
-                            </TableCell>
+                                <IconButton color="primary" onClick={()=> redirect_skill()}><AddCircle/></IconButton>
+                            </TableCell> 
                             </TableRow>
                             ))}
                         </TableBody>
@@ -168,16 +183,16 @@ function Viewskills() {
 
             </Container>
     );
-    } 
-    else{
-        return(
-            <div>
+    // } 
+    // else{
+    //     return(
+    //         <div>
 
-                <b>No skills attached to role. HR to update in the near future</b>
+    //             <b>No skills attached to role. HR to update in the near future</b>
             
-            </div>
-        );
-    }
+    //         </div>
+    //     );
+    // }
 }
 
 export default Viewskills;

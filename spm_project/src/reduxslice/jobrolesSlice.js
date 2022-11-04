@@ -21,7 +21,7 @@ export const jobroles_slice = createSlice({
             state.jobrole_name = action.payload
         }, 
         setskill_ids: (state, action) =>{
-            state.skill_ids.append(action.payload)
+            state.skill_ids = action.payload
         }
     }
 })
