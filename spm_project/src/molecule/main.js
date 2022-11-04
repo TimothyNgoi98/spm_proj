@@ -7,6 +7,8 @@ import { useState,useEffect, useCallback } from 'react';
 
 // Import All Redux ToolKit here
 import { useSelector, useDispatch } from 'react-redux';
+import { setcurrent_learningjourney, setjobrole_id} from '../reduxslice/viewlearningjourneySlice'
+
 
 // Import all the molecules files here
 
@@ -23,9 +25,12 @@ import { CardActionArea } from '@mui/material';
 
 
 
+
 function Main() {
     // Weiting done this
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     const [output, setoutput] = useState([])
 
@@ -55,14 +60,13 @@ function Main() {
     const createlj = () => {
         navigate("/learningjourney", {replace: true})
     }
-    const ljbutton = (data) => {
+    const ljbutton = (learningJourney_id, jobrole_id) => {
+        // Push to global state: 
+        dispatch(setcurrent_learningjourney(learningJourney_id))
+        dispatch(setjobrole_id(jobrole_id))
+
         navigate("/learningjourneyviewcourse", {replace: true})
-
-        console.log(data)
     }
-
-
-
 
 
     return (
@@ -92,7 +96,7 @@ function Main() {
                             <Grid justifyContent="center" alignContent="center" item xs={12} sx={{flexGrow: 1,display: { xs: "flex", sm: "none", md: "none" },}}>
                                 <CardActionArea  >
                                     <Card alignContent="center "sx={{minWidth:200}}>
-                                        <CardActionArea  onClick={() => ljbutton(singleoutput.learningjourney_id)}>
+                                        <CardActionArea  onClick={() => ljbutton(singleoutput.learningjourney_id,singleoutput.jobrole_id)}>
                                         <CardContent>
                                             <Typography>Learning Journey: {singleoutput.learningjourney_id}</Typography>
                                         </CardContent>
@@ -105,7 +109,7 @@ function Main() {
                     {output.map((singleoutput)=>
                             <Grid justifyContent="center" alignContent="center" marginTop="15px" item xs={4} sx={{flexGrow: 1,display: { xs: "none", sm: "flex", md: "flex" },}}
                             >
-                                <CardActionArea onClick={() => ljbutton(singleoutput.learningjourney_id)}>
+                                <CardActionArea onClick={() => ljbutton(singleoutput.learningjourney_id, singleoutput.jobrole_id)}>
                                     <Card sx={{minWidth:200}} >
                                         <CardContent>
                                             <Typography >Learning Journey: {singleoutput.learningjourney_id}</Typography>
