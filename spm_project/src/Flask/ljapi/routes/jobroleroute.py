@@ -124,6 +124,32 @@ def updateParticularJobrole(jobroleid):
             }
         ),200
 
+@jobrole.route('/Viewskills/<string:jobroleid>')
+def getSKillsOfParticularJobrole(jobroleid):
+    # data = request.get_json()
+    jobrole = Jobrole.query.filter_by(jobrole_id=jobroleid).first()
+    array = []
+    if jobrole:
+        for item in jobrole.skill:
+            array.append(item.to_dict())
+        
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "jobroledetails": jobrole.to_dict(),
+                    "skills": array
+                }
+            }
+        ), 200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": 'Jobrole Id not found'
+            }
+        ),200
 
 @jobrole.route('/removemapping/<string:jobroleid>', methods= ['DELETE'])
 def removeSkill(jobroleid):

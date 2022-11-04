@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     jobrole_desc: "",
     jobrole_id: "",
-    jobrole_name: ""
-    // skill_id: []
+    jobrole_name: "",
+    skill_ids: []
 }
 
 export const jobroles_slice = createSlice({
@@ -19,6 +19,9 @@ export const jobroles_slice = createSlice({
         },
         setjobrole_name: (state, action) => {
             state.jobrole_name = action.payload
+        }, 
+        setskill_ids: (state, action) =>{
+            state.skill_ids = action.payload
         }
     }
 })
@@ -29,6 +32,6 @@ export const jobroles_slice = createSlice({
 // What is return in reducers? 
 // We can change the state directly via state.login = payload.actions 
 
-export const { setjobrole_desc, setjobrole_id, setjobrole_name } = jobroles_slice.actions;
+export const { setjobrole_desc, setjobrole_id, setjobrole_name,setskill_ids } = jobroles_slice.actions;
 
 export default jobroles_slice.reducer
