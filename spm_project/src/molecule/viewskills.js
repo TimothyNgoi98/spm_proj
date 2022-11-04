@@ -2,8 +2,9 @@
 import * as React from 'react';
 import { useState,useEffect } from 'react';
 // import axios from "axios";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
+import {setskill_ids} from '../reduxslice/jobrolesSlice'
 
 // Import All Router Links here
 
@@ -12,6 +13,7 @@ import {useLocation} from 'react-router-dom';
 // Import All Redux ToolKit here
 
 // Import all the molecules files here
+
 
 // Import ALL material UI things here
 import Grid from '@mui/material/Grid';
@@ -26,9 +28,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import AddCircle from '@mui/icons-material/AddCircle';
+import IconButton from '@mui/material/IconButton';
 
 function Viewskills() {
 
+    const dispatch = useDispatch()
     
     const location = useLocation();
     const data = location.state
@@ -42,11 +47,13 @@ function Viewskills() {
     const jobRoles_desc = useSelector((state) => state.jobrole.jobrole_desc)
     const jobRoles_id = useSelector((state) => state.jobrole.jobrole_id)
     const jobRoles_name = useSelector((state) => state.jobrole.jobrole_name)
+    const skill_ids = useSelector((state) => state.jobrole.skill_ids)
 
 
     console.log(jobRoles_desc, 'from redux')
     console.log(jobRoles_id, 'from redux')
     console.log(jobRoles_name, 'from redux')
+    // console.log(skill_ids, 'from redux')
 
     const [jobroletoskill, setJobroletoskill] = useState([]);
     const [jobRoleId, setjobRoleId] = useState('')
@@ -56,11 +63,12 @@ function Viewskills() {
     useEffect(() => {
         const LoadJobtoSkills = async () => {
             // let response = await fetch("http://127.0.0.1:5000/jobrole/jobroleroute")
-            const response = await fetch("http://127.0.0.1:5000/jobrole/view/jobrolesmapped")
+            // let response = await fetch("http://127.0.0.1:5000/jobrole/view/jobrolesmapped")
+            let response = await fetch(`http://127.0.0.1:5000/jobrole/Viewskills/${jobRoles_id}`)
             response = await response.json()
             console.log(response)
             console.log(typeof response)
-            setJobroletoskill(response.data['jobroledetails'])
+            setJobroletoskill(response.data['jobroledetails']) 
             // setJobroletoskill(response) //this is a list of objects 
             // setLength(jobroletoskill['jobroledetails'].length)
         }
@@ -71,6 +79,7 @@ function Viewskills() {
             if (jobroletoskill[i].jobrole_id === jobroleID){
                 console.log(jobroletoskill[i].jobrole_id)
                 setjobRoleId(jobroletoskill[i].jobrole_id)
+                dispatch(setskill_ids(jobroletoskill[i].jobrole_id))
                 setjobRoleObject(jobroletoskill[i])
             }
         };
@@ -120,6 +129,7 @@ function Viewskills() {
                             <TableCell>Skill Name</TableCell>
                             <TableCell>Skill Description</TableCell>
                             <TableCell>Skill Status</TableCell>
+                            <TableCell>Add Skill</TableCell>
                             </TableRow>
                         </TableHead>
                         {/* The body of the Table Goes here */}
@@ -130,7 +140,10 @@ function Viewskills() {
                             <TableCell>{singleoutput['skill_id']}</TableCell>
                             <TableCell>{singleoutput['skill_name']}</TableCell>
                             <TableCell>{singleoutput['skill_desc']}</TableCell>
-                            <TableCell>{singleoutput['skills_status']}</TableCell>
+                            <TableCell>{singleoutput['skill_status']}</TableCell>
+                            <TableCell>
+                                <IconButton color="primary" onClick={()=> SaveSkill(singleoutput.skill_id)}><AddCircle/></IconButton>
+                            </TableCell>
                             </TableRow>
                             ))}
                         </TableBody>
@@ -142,7 +155,10 @@ function Viewskills() {
                 <Grid container spacing={1}>
                     <Grid item xs={6} alignContent="center">
                         <div>
-                            <button onClick={() => redirect()}>Back to Home</button>
+                            {/* <button onClick={() => redirect()}>Back to Home</button> */}
+                            <Button variant="contained"  onClick={() => redirect()}>
+                                    Back to Home
+                            </Button>
                         </div>
                     </Grid>
                     <Grid item xs={2}></Grid>

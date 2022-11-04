@@ -12,43 +12,45 @@ const Card = ({jobrole}) =>  {
     let navigate = useNavigate()
     let dispatch = useDispatch()
 
-    dispatch(setjobrole_desc(jobrole_desc))
-    dispatch(setjobrole_id(jobrole_id))
-    dispatch(setjobrole_name(jobrole_name))
-    // const redirect = () => {
-    //     navigate("/Viewskills", {replace: true})
-    //   }
+    // dispatch(setjobrole_desc(jobrole_desc))
+    // dispatch(setjobrole_id(jobrole_id))
+    // dispatch(setjobrole_name(jobrole_name))
+    // dispatch(setskill_ids(skill_ids))
 
     // const redirect = (data) => {
-    //     navigate("/Viewskills", {data: data})
-    //   }
+    //     navigate("/Viewskills", {state: jobrole})
+    // }
 
-    const redirect = (data) => {
-        navigate("/Viewskills", {state: jobrole})
-      }
+    const redirect = () => {
 
-    // const redirect = (data) => {
-    //     navigate("/Viewskills")
-    //   }
+        // let jobroleId = jobrole_id;
+        // var url = `http://127.0.0.1:5000/jobrole/Viewskills/${jobroleId}`
+        // var path = `/jobrole/Viewskills/${jobroleId}`
+        // navigate(path)
+        navigate("/Viewskills/")
+        dispatch(setjobrole_desc(jobrole_desc))
+        dispatch(setjobrole_id(jobrole_id))
+        dispatch(setjobrole_name(jobrole_name))
+        console.log(dispatch(setjobrole_name(jobrole_name)))
+
+        // let jobroleId = jobrole_id;
+        // var url = `http://127.0.0.1:5000/jobrole/Viewskills/${jobroleId}`
+
+
+    }
+
         return (
-            // <div className='lower-container' key={jobrole_id}>
-            //     <h2>{jobrole_name}</h2>
-            //     <p> {jobrole_desc}</p>
-            // </div>
-
-            // <div className='display-card'>
+   
                 <Grid  className='display-card'>
                     <div className='Card'>
                         <div className='lower-container'>
                             <h4>{ jobrole_name }</h4>
                             <p>{ jobrole_desc }</p>
                             <p> <b>Department:</b> { department }</p>
-                            {/* <button onClick={redirect}>Add Role to Learning Journey</button> */}
                             <button onClick={() => redirect()}>Select role for Learning Journey</button>
                         </div>
                     </div>
                 </Grid>
-            // </div>
 
         )
 }
