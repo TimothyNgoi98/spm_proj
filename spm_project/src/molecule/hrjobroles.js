@@ -190,8 +190,8 @@ function Hrroles() {
                             variant="contained"
                             aria-label="outlined primary button group"
                         >
-                            <Button onClick={addbutton}>Create Role</Button>
-                            <Button onClick={archivepage}>Archive List</Button>
+                            <Button onClick={addbutton}>Create new Job Role</Button>
+                            <Button onClick={archivepage}>View Archived Job Role List</Button>
                         </ButtonGroup>
                     </Grid>
                 </Grid>
