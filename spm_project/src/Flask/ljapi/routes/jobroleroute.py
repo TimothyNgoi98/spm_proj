@@ -279,4 +279,40 @@ def route2():
         }
     )
 
+# archivejobrole (Comment out after minjay input his shit)
+@jobrole.route('/archivejobrole/', methods= ['PUT'])
+def archiveSkill():
+    # print("Soft Delete Skill Received -----")
+    frontend_input = request.get_json()
+    print(frontend_input)
+    jobrole_id = frontend_input['jobrole_id']
+    jobrole_database = Jobrole.query.filter_by(jobrole_id=jobrole_id).first()
+    print(jobrole_database)
 
+    if jobrole_database.jobrole_status == "Active":
+        jobrole_database.jobrole_status = "Retired"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Jobrole has been changed to Retired."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Active to Retired."
+            })
+
+    else:
+        jobrole_database.jobrole_status = "Active"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Jobrole has been changed to Active."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Retired to Active."
+            })

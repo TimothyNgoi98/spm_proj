@@ -157,7 +157,7 @@ function Hrroles() {
 
     // Navigate to Archive Skills
     const archivepage = () => {
-        navigate("/Hrarchivedjobroles", { replace: true });
+        navigate("/hrarchivejobroles", { replace: true });
     };
 
     // Fetching Async
