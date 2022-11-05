@@ -1,6 +1,8 @@
 // Import All React Related files here
 import * as React from 'react';
 import { useState,useEffect, useCallback } from 'react';
+import {setskill_ids} from '../reduxslice/jobrolesSlice'
+import {useDispatch, useSelector} from 'react-redux';
 
 // Import All Router Links here
 import {useNavigate} from 'react-router-dom';
@@ -22,6 +24,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Accordion from '@mui/material/Accordion';
+import { AccordionDetails, AccordionSummary } from '@mui/material'; 
 
   // [] - onload (and u can track something that change)
   // course category is redux (one page to another)
@@ -45,6 +51,17 @@ function User() {
   // console.log(outputCourse)
 
     // [skill] UseNavigate, for internal routing. 
+
+    // let jobRoles_desc = useSelector((state) => state.jobrole.jobrole_desc)
+    // let jobRoles_id = useSelector((state) => state.jobrole.jobrole_id)
+    // let jobRoles_name = useSelector((state) => state.jobrole.jobrole_name)
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    const matches2 = useMediaQuery(theme.breakpoints.up('sm'));
+
+
+    let skill_ids = useSelector((state) => state.jobrole.skill_ids)
     let navigateSkill = useNavigate()
     const [outputSkill, handleoutputSkill] = useState([])
   
@@ -53,6 +70,7 @@ function User() {
       const fetchMyAPI = async () => {
         let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse/2")
         response = await response.json()
+        console.log(response.data)
         handleoutputSkill(response.data)
       }
       fetchMyAPI()
@@ -85,7 +103,7 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard
+                Course Dashboard 
 
                 {/* {outputSkill["0"]["skill_name"]}
                 {outputSkill[0].map((singleoutputSkill) => (
@@ -111,6 +129,55 @@ function User() {
           <Grid container spacing={1}>
 
             <Grid item xs={12}>
+
+            {matches &&  
+                <Grid>
+
+             
+                  {outputSkill.map((singleoutputSkill) => (
+                      singleoutputSkill.course_status === "Active"
+                      ? 
+                      <Grid>
+                        <Accordion>
+                          <AccordionSummary><b>{singleoutputSkill.course_name}</b></AccordionSummary>
+                         <AccordionDetails>
+                   
+                            <TableRow><b>Course ID: </b> {singleoutputSkill.course_id}</TableRow>
+                     
+                            <br />
+                            <hr />
+                           
+                           
+                            <TableRow style={{textAlign: 'left'}}><b >Course Description: </b> {singleoutputSkill.course_desc}</TableRow>
+                     
+                            <br />
+                            <hr />
+                            <TableRow><b>Course Status: </b> {singleoutputSkill.course_status}</TableRow>
+                      
+                            <br />
+                            <hr />
+                            <TableRow><b>Course Category: </b> {singleoutputSkill.course_category}</TableRow>
+
+                            <br />
+                            <hr />
+
+                            <TableRow><b>Course Type: </b> {singleoutputSkill.course_type}</TableRow>
+                            <br />
+                          
+                        </AccordionDetails>
+                        </Accordion>
+                      </Grid>
+   
+
+                    : <TableRow>
+                        <TableCell> There are no Courses for this Skill </TableCell>
+                      </TableRow>
+                    ))}
+
+                </Grid>
+              }
+
+              {matches2 &&
               <TableContainer>
                 <Table sx={{ minWidth: 650 }}>
 
@@ -120,6 +187,8 @@ function User() {
                       <TableCell>Course Name</TableCell>
                       <TableCell>Course Description</TableCell>
                       <TableCell>Course Status</TableCell>
+                      <TableCell>Course Category</TableCell>
+                      <TableCell>Course Type</TableCell>
                     </TableRow>
                   </TableHead>
 
@@ -144,6 +213,8 @@ function User() {
                           <TableCell>{singleoutputSkill.course_name}</TableCell>
                           <TableCell>{singleoutputSkill.course_desc}</TableCell>
                           <TableCell>{singleoutputSkill.course_status}</TableCell>
+                          <TableCell>{singleoutputSkill.course_category}</TableCell>
+                          <TableCell>{singleoutputSkill.course_type}</TableCell>
                       </TableRow>
                       // console.log(singleoutputCourse.course_id)
                     : <TableRow>
@@ -154,7 +225,19 @@ function User() {
 
                 </Table>
               </TableContainer>
+              }
             </Grid>
+
+            <Grid>
+  
+            </Grid>
+
+              
+              
+              
+              
+              
+
           </Grid>
         </Box>
         </Container>

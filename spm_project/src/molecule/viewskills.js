@@ -98,10 +98,6 @@ function Viewskills() {
 
     let navigate = useNavigate()
 
-    const redirect = (data) => {
-        navigate("/learningjourney")
-      }
-
     console.log(jobRoleId)
     console.log(jobRoleObject)
     
