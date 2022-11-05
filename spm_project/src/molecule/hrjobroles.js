@@ -188,13 +188,13 @@ function Hrroles() {
                     <Grid item xs={2}></Grid>
 
                     <Grid item xs={4}>
-                        <ButtonGroup
+                        {/* <ButtonGroup
                             variant="contained"
                             aria-label="outlined primary button group"
-                        >
-                            <Button onClick={addbutton}>Create New Role</Button>
-                            <Button onClick={archivepage}>Archived Roles</Button>
-                        </ButtonGroup>
+                        > */}
+                            <Button style={{margin: 2}} variant="contained" onClick={addbutton}>Create New Role</Button>
+                            <Button style={{margin: 2}}  variant="contained" onClick={archivepage}>Archived Roles</Button>
+                        {/* </ButtonGroup> */}
                     </Grid>
                 </Grid>
 

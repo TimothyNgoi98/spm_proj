@@ -191,11 +191,11 @@ function Hrskills() {
             </Grid>
             <Grid item xs={2}></Grid>
 
-            <Grid item xs={4}>
-              <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Create New Skill</Button>
-                <Button onClick={archivepage}>Archived Skills</Button>
-              </ButtonGroup>
+            <Grid item xs={4} align='center'>
+              {/* <ButtonGroup variant="contained" aria-label="outlined primary button group"> */}
+                <Button style={{margin: 2}} variant="contained" onClick={addbutton}>Create New Skill</Button>
+                <Button style={{margin: 2}} variant="contained" onClick={archivepage}>Archived Skills</Button>
+              {/* </ButtonGroup> */}
             </Grid>
           </Grid>
 

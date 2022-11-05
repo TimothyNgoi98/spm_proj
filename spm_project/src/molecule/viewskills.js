@@ -172,16 +172,19 @@ function Viewskills() {
                     </Grid>
                 </Grid>
 
+                <br />
+
                 <Grid container spacing={1}>
+                    <Grid item xs={3}></Grid>
                     <Grid item xs={6} alignContent="center">
                         <div>
                             {/* <button onClick={() => redirect()}>Back to Home</button> */}
-                            <Button variant="contained"  onClick={() => redirect()}>
+                            <Button variant="contained" align='center' onClick={() => redirect()}>
                                     Back to Home
                             </Button>
                         </div>
                     </Grid>
-                    <Grid item xs={2}></Grid>
+                    <Grid item xs={3}></Grid>
                 </Grid>
 
                 </Box>
