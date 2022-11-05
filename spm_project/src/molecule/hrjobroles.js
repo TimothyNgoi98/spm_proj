@@ -59,6 +59,8 @@ function Hrroles() {
     const [input_department, setinput_department] = useState("");
     const [input_description, setinput_description] = useState("");
     const [current_role_name, setcurrent_role_name] = useState("");
+    const [current_role_description,setcurrent_role_description]= useState("")
+    const [current_role_department,setcurrent_role_department] = useState("")
 
     const changeinput_name = (event) => {
         setinput_name(event.target.value);
@@ -77,6 +79,7 @@ function Hrroles() {
     const [deleteitem, setDeleteitem] = useState("");
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
+    // Prepopulating the data for the modal
 
     // First onClick to open up the Modal for Update
     const UpdateModal = (data) => {
@@ -84,6 +87,8 @@ function Hrroles() {
         setUpdateModal(true);
         setupdate(data[0]);
         setcurrent_role_name(data[1])
+        setcurrent_role_description(data[3])
+        setcurrent_role_department(data[2])
     };
     // Second OnClick to Close the Modal and return all other fields to zero
     const closeUpdateModal = () => {
@@ -220,7 +225,9 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                UpdateModal([singleoutput.jobrole_id, singleoutput.jobrole_name])
+                                                                // Actually can just put single output for this
+                                                                UpdateModal([singleoutput.jobrole_id, singleoutput.jobrole_name, singleoutput.department,singleoutput.jobrole_desc,
+                                                                singleoutput.jobrole_status])
                                                             }
                                                         >
                                                             <EditIcon />
@@ -260,23 +267,35 @@ function Hrroles() {
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Update Role Information
                         </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Current Role Name: {current_role_name}
+                        <Typography id="transition-modal-description" sx={{ mt: 3 }} color="primary">
+                            Current Role Name:
+                        </Typography>
+                        <Typography sx={{mt: 1}}>
+                        {current_role_name}
                         </Typography>
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
                             label="New Role Name"
                             helperText="Role name has to be less than 30 characters."
+                            // defaultValue={current_role_name}       
                             onChange={changeinput_name}
                         />
+                        <Typography id="transition-modal-description" sx={{ mt: 3 }} color="primary">Current Department:</Typography>
+                        <Typography sx={{mt: 1}}>
+                        {current_role_department}
+                        </Typography>
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
                             label="New Department"
                             helperText="Department has to be less than 20 characters."
+                            // defaultValue={current_role_department}    
                             onChange={changeinput_department}
                         />
+                        <Typography  id="transition-modal-description" sx={{ mt: 3 }} color="primary">Current Role Description:
+                        </Typography>
+                        <Typography sx={{mt: 1}} fontSize={14}>{current_role_description}</Typography>
                         <TextField
                             sx={{ mt: 2 }}
                             multiline
@@ -284,6 +303,7 @@ function Hrroles() {
                             label="New Role Description"
                             id="fullWidth"
                             helperText="Role Description has to be less than 500 characters."
+                            // defaultValue={current_role_description}
                             onChange={changeinput_description}
                         />
                         <Button

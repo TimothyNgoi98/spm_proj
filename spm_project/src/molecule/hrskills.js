@@ -66,6 +66,7 @@ function Hrskills() {
   const [input_name, setinput_name] = useState("")
   const [input_description, setinput_description] = useState("")
   const [current_skill_name, setcurrent_skill_name] = useState("")
+  const [current_skill_desc, setcurrent_skill_desc] = useState("")
 
   const changeinput_name = (event) => {
     setinput_name(event.target.value)
@@ -89,6 +90,7 @@ function Hrskills() {
     setArchiveModal(true)
     setarchive(data[0])
     setcurrent_skill_name(data[1])
+    setcurrent_skill_desc(data[2])
   }
   // Second OnClick to Close the Modal and return all other fields to zero
   const closeArchiveModal = () => {
@@ -224,7 +226,7 @@ function Hrskills() {
                       <TableCell>{singleoutput.skill_desc}</TableCell>
                       <TableCell>{singleoutput.skill_status}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={()=> ArchiveModal([singleoutput.skill_id, singleoutput.skill_name])}><EditIcon/></IconButton>
+                        <IconButton color="primary" onClick={()=> ArchiveModal([singleoutput.skill_id, singleoutput.skill_name, singleoutput.skill_desc])}><EditIcon/></IconButton>
                       </TableCell>
                       <TableCell>
                         <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><MoveToInboxIcon/></IconButton>
@@ -255,11 +257,25 @@ function Hrskills() {
               <Typography id="transition-modal-title" variant="h6" component="h2">
                 Update Skill Information
               </Typography>
-              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Current Skill Name: {current_skill_name}
+              <Typography id="transition-modal-description" color="primary" sx={{ mt: 2 }}>
+                Current Skill Name:
               </Typography>
-              <TextField sx={{mt:2}} fullWidth label="New Skill Name" helperText="Skill name has to be less than 50 characters." onChange={changeinput_name}/>
-              <TextField sx ={{mt: 2}} fullWidth label="New Skill Description" id="fullWidth" helperText="Skill Description has to be less than 250 characters."onChange={changeinput_description} />
+              <Typography sx={{mt: 1}}>
+                {current_skill_name}  
+              </Typography>
+              <TextField sx={{mt:2}} fullWidth label="New Skill Name" helperText="Skill name has to be less than 50 characters." 
+              // defaultValue={current_skill_name}  
+              onChange={changeinput_name}/>
+              
+              <Typography id="transition-modal-description" color="primary" sx={{ mt: 2 }}>
+                Current Skill Description:
+              </Typography>
+              <Typography sx={{mt: 1}} fontSize={14}>
+                {current_skill_desc}  
+              </Typography>
+              <TextField sx ={{mt: 2}} fullWidth label="New Skill Description" id="fullWidth" helperText="Skill Description has to be less than 250 characters."
+              // defaultValue={current_skill_desc}  
+              onChange={changeinput_description} />
               <Button sx={{mt:2}}variant="contained" color="success" onClick={updatedatabase}>
                 Update Skill 
               </Button>
