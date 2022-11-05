@@ -42,10 +42,12 @@ function Ljcourse() {
 
     const restructureData = (data) => {
         var listCourse = []
+        var courseString = ""
         for (let item of data){
             listCourse.push(item.course_name)
         }
-        return listCourse
+        courseString = listCourse.join(', ')
+        return courseString
     }
 
 
@@ -63,7 +65,9 @@ function Ljcourse() {
         // discard and reset the localstate
         addItemSelected([])
         // discard global state
-        dispatch(setTransfer([]))
+        dispatch(courseSkillTransfer([]))
+        alert("You will now be directed to the course mapping page to map the relevant courses again")
+        navigate('/viewskills')
 
     }
 
@@ -78,9 +82,8 @@ function Ljcourse() {
         // Jobrole_id
         // is_active
         // Append the associated courses
-        // console.log(selectedItemsToAddLJ, "selected items to LJ")
-        // var options = {"staff_id": loginID, "jobrole_id": jobrole_id, "is_active": "Active", "coursemapped": }
         var courseArray= []
+        console.log(selectedItemsToAddLJ)
         for (let item of selectedItemsToAddLJ) {
             // Push the relevant courses into the selectItemsToAddLJ dictionary
             for (let course of item.coursemapped) {
@@ -115,8 +118,9 @@ function Ljcourse() {
                 // dispatch(setTransfer([]))
                 alert("Selected courses has been mapped successfully!")
                 // navigate('/main')
+                dispatch(courseSkillTransfer([]))
+                navigate("/main")
             })
-            dispatch(setTransfer([]))
 
     }
 
@@ -141,16 +145,31 @@ function Ljcourse() {
 
                     </Grid>
 
-                    <Grid container spacing={1}>
+                    <Grid container spacing={5}  direction="row"
+                                alignItems="flex-end"
+                                justifyContent="flex-end">
 
-                        <Grid item xs={12} alignContent="left">
-                            <Typography variant="h8" textAlign="left">
-                            Job role: {jobroleName}
+                        <Grid item xs={12} alignContent="flex-end" align="flex-end">
+                        <Typography variant="h6" fontWeight='fontWeightMedium' textAlign="left" color = "success.primary">
+                            Jobrole selected: {jobroleselected}
                             </Typography>
                         </Grid>
 
                         <Grid item xs={12}>
-                            <TableContainer>
+                            <TableContainer align="center">
+                            {selectedItemsToAddLJ.length != 0? (
+                                <Grid container spacing={5}  direction="row"
+                                alignItems="center"
+                                justifyContent="center">
+                                    <Grid item alignContent="center" align="center">
+                                        {/* <button onClick={() => redirect()}>Back to Home</button> */}
+                                        <Button variant="contained"  color="error" onClick={discardChanges}>Discard all</Button>
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                ""
+                            )}
+                          
                                 <Table sx={{ minWidth: 650 }}>
 
                                     <TableHead>
@@ -166,7 +185,7 @@ function Ljcourse() {
                                         {selectedItemsToAddLJ.map((singleoutputItemLJ) => (
                                             <TableRow>
                                             <TableCell>{singleoutputItemLJ.skill_ids}</TableCell>
-                                            <TableCell>{JSON.stringify(restructureData(singleoutputItemLJ.coursemapped))}</TableCell>
+                                            <TableCell>{restructureData(singleoutputItemLJ.coursemapped)}</TableCell>
                                         </TableRow>
                                         // console.log(singleoutputCourse.course_id)
                                         ))}
@@ -174,18 +193,19 @@ function Ljcourse() {
                                 </Table>
                             </TableContainer>
 
-                            {selectedItemsToAddLJ.length != 0 
-                            ? (<Grid container >
-                                    <Grid item spacing={3} xs={12} align='center'>
-                                        <Button variant="contained" onClick={confirmLJ}>Confirm Mapping</Button>
-                                        {console.log(selectedItemsToAddLJ, 'skillsremoved')}
-                                        <Button variant="contained" onClick={redirect}>Add different skill mapping</Button>
-                                    </Grid>
-                                </Grid>) 
-                            : (<Grid>
-                                    <Button variant="contained" onClick = {reset}>Learning Journey Discarded, Create another Learning Journey!</Button>
-                                </Grid>)
-                            }
+                            <Grid container spacing={5}  direction="row"
+                            alignItems="center"
+                            justifyContent="center">
+                                <Grid item alignContent="center" align="center">
+                                    {/* <button onClick={() => redirect()}>Back to Home</button> */}
+                                    <Button variant="contained" onClick={confirmLJ}>Confirm Mapping</Button>
+                                </Grid>
+                                <Grid item align="center" alignContent="center">
+                                <Button variant="contained" onClick={redirect}>Continue mapping</Button>
+                                </Grid>
+                            </Grid>
+                            
+                        
 
 
                         </Grid>

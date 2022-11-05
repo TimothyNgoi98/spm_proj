@@ -7,9 +7,9 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 learningjourney = Blueprint('learningjourneyroute', __name__)
 # TO CALL API, USE /learningjourney/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@learningjourney.route('/display/')
-def route1():
-    learningjourney = Learningjourney.query.first()
+@learningjourney.route('/display/<string:learningjourneyid>')
+def route1(learningjourneyid):
+    learningjourney = Learningjourney.query.filter_by(learningjourney_id=learningjourneyid).first()
     array = []
     for item in learningjourney.course:
         array.append(
