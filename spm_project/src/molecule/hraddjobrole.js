@@ -56,6 +56,11 @@ function Hraddjobrole() {
         }
     }
 
+    // Navigate back to all Skills
+    const backtoroles = () => {
+        navigate("/Hrjobrole", { replace: true });
+    };
+
     // Function 4 to send a request to database for addition of skill
     // Include validation of inputs. 
 
@@ -152,9 +157,15 @@ function Hraddjobrole() {
 
                     <Grid container marginTop="25px">
                         <Grid item xs={2}></Grid>
-                        <Grid item xs={8} justifyContent="flex-start">
+                        <Grid item xs={4}>
+                            <ButtonGroup variant="contained" color="error" aria-label="outlined primary button group">
+                                <Button onClick={backtoroles}>
+                                Cancel</Button>
+                            </ButtonGroup>
+                        </Grid> 
+                        <Grid item xs={4} justifyContent="flex-start">
                             <Button variant="contained" color="success" onClick={addrole_database}>
-                                Create a Role
+                                Create Role
                             </Button>
                         </Grid>
                         <Grid item xs={2}></Grid>

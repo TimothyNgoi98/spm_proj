@@ -78,6 +78,7 @@ function Hrarchiveskills() {
   // Modal 
   const [archive, setarchive] = useState("")
   const [deleteitem, setDeleteitem] = useState("")
+  const [restore_name, setrestore_name] = useState("")
 
   const [openArchiveModal , setArchiveModal] = useState(false)
   const [openDeleteModal, setDeleteModal] = useState(false)
@@ -124,7 +125,8 @@ function Hrarchiveskills() {
   // Soft Delete OF SKILLS MODAL ############################################################
   const deletebuttonclicked = (data) => {
     setDeleteModal(true)
-    setDeleteitem(data)
+    setDeleteitem(data.skill_id)
+    setrestore_name(data.skill_name)
   }
 
   const closingDeletemodal = (data) => {
@@ -183,14 +185,14 @@ function Hrarchiveskills() {
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Skills Archive Management
+                Archived Skills
               </Typography>
             </Grid>
             <Grid item xs={2}></Grid>
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={skillPage}>Back to Active Skill</Button>
+                <Button onClick={skillPage}>Back to Active Skills</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -225,7 +227,7 @@ function Hrarchiveskills() {
                         <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.skill_id)}><EditIcon/></IconButton>
                       </TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><LibraryAddIcon/></IconButton>
+                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput)}><LibraryAddIcon/></IconButton>
                       </TableCell>
                     </TableRow>
                         )
@@ -274,10 +276,10 @@ function Hrarchiveskills() {
             <Fade in={openDeleteModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Restore Skill? <br></br>Skill_ID: {deleteitem}
+                Restore <strong>{restore_name}</strong>?
               </Typography>
-              <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
-                Change Skill Status
+              <Button sx={{mt:2}} variant="contained" color="primary" onClick={deletefrom_database}>
+                Restore
               </Button>
             </Box>
           </Fade>

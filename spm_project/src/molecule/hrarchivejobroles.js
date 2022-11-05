@@ -59,9 +59,6 @@ function Hrarchivejobroles() {
 
   const [output , handleoutput] = useState([])
 
-  const addbutton = () => {
-    navigate("/Hraddskill", {replace: true})
-  }
   // Modal Archive Input Fields
   const [input_name, setinput_name] = useState("")
   const [input_description, setinput_description] = useState("")
@@ -78,6 +75,7 @@ function Hrarchivejobroles() {
   // Modal 
   const [archive, setarchive] = useState("")
   const [deleteitem, setDeleteitem] = useState("")
+  const [restore_name, setrestore_name] = useState("")
 
   const [openArchiveModal , setArchiveModal] = useState(false)
   const [openDeleteModal, setDeleteModal] = useState(false)
@@ -86,7 +84,8 @@ function Hrarchivejobroles() {
   const ArchiveModal = (data) => {
     console.log("Archive Modal::", data)
     setArchiveModal(true)
-    setarchive(data)
+    setarchive(data.jobrole_id)
+    setrestore_name(data.jobrole_name)
   }
   // Second OnClick to Close the Modal and return all other fields to zero
   const closeArchiveModal = () => {
@@ -121,10 +120,11 @@ function Hrarchivejobroles() {
     }
   }
 
-  // Soft Delete OF SKILLS MODAL ############################################################
+  // Restore MODAL ############################################################
   const deletebuttonclicked = (data) => {
     setDeleteModal(true)
-    setDeleteitem(data)
+    setDeleteitem(data.jobrole_id)
+    setrestore_name(data.jobrole_name)
   }
 
   const closingDeletemodal = (data) => {
@@ -184,14 +184,14 @@ function Hrarchivejobroles() {
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Job Role Archive Management Dashboard
+                Archived Roles
               </Typography>
             </Grid>
             <Grid item xs={2}></Grid>
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={jobrolePage}>Back to Active Job Roles</Button>
+                <Button onClick={jobrolePage}>Back to Active Roles</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -223,10 +223,10 @@ function Hrarchivejobroles() {
                       <TableCell>{singleoutput.jobrole_desc}</TableCell>
                       <TableCell>{singleoutput.jobrole_status}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.jobrole_id)}><EditIcon/></IconButton>
+                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput)}><EditIcon/></IconButton>
                       </TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.jobrole_id)}><LibraryAddIcon/></IconButton>
+                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput)}><LibraryAddIcon/></IconButton>
                       </TableCell>
                     </TableRow>
                         )
@@ -275,10 +275,10 @@ function Hrarchivejobroles() {
             <Fade in={openDeleteModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Restore Jobrole? <br></br>Jobrole_ID: {deleteitem}
+                Restore <strong>{restore_name}</strong>?
               </Typography>
-              <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
-                Change Jobrole Status
+              <Button sx={{mt:2}} variant="contained" color="primary" onClick={deletefrom_database}>
+                Restore
               </Button>
             </Box>
           </Fade>
