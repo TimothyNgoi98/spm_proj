@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 
 // Import All Redux ToolKit here
+// import { useSelector, useDispatch } from 'react-redux';
 
 // Import all the molecules files here
 
@@ -28,29 +29,12 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Accordion from '@mui/material/Accordion';
 import { AccordionDetails, AccordionSummary } from '@mui/material'; 
+import Checkbox from '@mui/material/Checkbox';
 
   // [] - onload (and u can track something that change)
   // course category is redux (one page to another)
 
 function User() {
-
-  // // [course] UseNavigate, for internal routing. 
-  // let navigateCourse = useNavigate()
-  // const [outputCourse, handleoutputCourse] = useState([])
-
-  // // Fetching Async 
-  // useEffect(() => {
-  //   const fetchMyAPI = async () => {
-  //     let response = await fetch("http://127.0.0.1:5000/course/view/all")
-  //     response = await response.json()
-  //     handleoutputCourse(response.data)
-  //   }
-  //   fetchMyAPI()
-  // },[]) 
-  // // console.log(typeof output)
-  // console.log(outputCourse)
-
-    // [skill] UseNavigate, for internal routing. 
 
     // let jobRoles_desc = useSelector((state) => state.jobrole.jobrole_desc)
     // let jobRoles_id = useSelector((state) => state.jobrole.jobrole_id)
@@ -60,7 +44,6 @@ function User() {
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
     const matches2 = useMediaQuery(theme.breakpoints.up('sm'));
 
-
     let skill_ids = useSelector((state) => state.jobrole.skill_ids)
     let navigateSkill = useNavigate()
     const [outputSkill, handleoutputSkill] = useState([])
@@ -68,34 +51,39 @@ function User() {
     // Fetching Async 
     useEffect(() => {
       const fetchMyAPI = async () => {
-        let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse/2")
-        response = await response.json()
-        console.log(response.data)
-        handleoutputSkill(response.data)
+          let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse/2")
+          response = await response.json()
+          // console.log(response.data)
+          handleoutputSkill(response.data)
       }
       fetchMyAPI()
     },[]) 
-    // console.log(typeof outputSkill["0"]["skill_name"])
-    // console.log(outputSkill["0"]["skill_name"])
 
-  const addbutton = () => {
-    navigateSkill("/addJourneyHere", {replace: true})
+  // const addbutton = () => {
+  //   navigateSkill("/addJourneyHere", {replace: true})
+  // }
+
+  const [checked, setChecked] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  function handleClick() {
+    dispatch()
+    navigate("/confirmSelectCoursesHere")
+}
+
+  function handleCheck(event, courseOutput) {
+    var updatedList = [...checked];
+    if (event.target.checked) {
+      updatedList = [...checked, courseOutput]
+    }else {
+      updatedList.splice(checked.indexOf(courseOutput), 1);
+    }
+    setChecked(updatedList);
   }
 
   return (
     <div>
-        {/* UserVIew.
-        <Button variant="text">Text</Button>
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-          </Grid>
-          <Grid item xs={4}>
-          </Grid>
-          <Grid item xs={4}>
-          </Grid>
-          <Grid item xs={8}>
-          </Grid>
-        </Grid> */}
 
       <Container>
         <Box marginTop="5%">
@@ -103,7 +91,7 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard 
+                PLease select all the courses you want to add to your Learning Journey
 
                 {/* {outputSkill["0"]["skill_name"]}
                 {outputSkill[0].map((singleoutputSkill) => (
@@ -120,62 +108,52 @@ function User() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Add to Learning Journey</Button>
+              {checked.length === 0 
+                ? (<Button variant="contained" disabled>Please select a course! </Button>) 
+                : (<Button variant="contained" onClick={handleClick}>Add Course(s) to Learning Journey</Button>)}
               </ButtonGroup>
             </Grid>
 
           </Grid>
 
           <Grid container spacing={1}>
-
             <Grid item xs={12}>
+              {matches &&  
+                  <Grid>
+                    {outputSkill.map((singleoutputSkill) => (
+                        singleoutputSkill.course_status === "Active"
+                        ? 
+                        <Grid>
+                          <Accordion>
+                            <AccordionSummary><b>{singleoutputSkill.course_name}</b></AccordionSummary>
+                            <AccordionDetails>
+                              <TableRow><b>Course ID: </b> {singleoutputSkill.course_id}</TableRow>
+                              <br />
+                              <hr />
+                              <TableRow style={{textAlign: 'left'}}><b >Course Description: </b> {singleoutputSkill.course_desc}</TableRow>
+                              <br />
+                              <hr />
+                              <TableRow><b>Course Status: </b> {singleoutputSkill.course_status}</TableRow>
+                              <br />
+                              <hr />
+                              <TableRow><b>Course Category: </b> {singleoutputSkill.course_category}</TableRow>
+                              <br />
+                              <hr />
+                              <TableRow><b>Course Type: </b> {singleoutputSkill.course_type}</TableRow>
+                              <br />
+                              <hr />
+                              <TableRow><b>Selection of Course: </b></TableRow> <Checkbox onChange = {(event)=>handleCheck(event, singleoutputSkill)}/>
+                              <br />
+                          </AccordionDetails>
+                          </Accordion>
+                        </Grid>
 
-            {matches &&  
-                <Grid>
-
-             
-                  {outputSkill.map((singleoutputSkill) => (
-                      singleoutputSkill.course_status === "Active"
-                      ? 
-                      <Grid>
-                        <Accordion>
-                          <AccordionSummary><b>{singleoutputSkill.course_name}</b></AccordionSummary>
-                         <AccordionDetails>
-                   
-                            <TableRow><b>Course ID: </b> {singleoutputSkill.course_id}</TableRow>
-                     
-                            <br />
-                            <hr />
-                           
-                           
-                            <TableRow style={{textAlign: 'left'}}><b >Course Description: </b> {singleoutputSkill.course_desc}</TableRow>
-                     
-                            <br />
-                            <hr />
-                            <TableRow><b>Course Status: </b> {singleoutputSkill.course_status}</TableRow>
-                      
-                            <br />
-                            <hr />
-                            <TableRow><b>Course Category: </b> {singleoutputSkill.course_category}</TableRow>
-
-                            <br />
-                            <hr />
-
-                            <TableRow><b>Course Type: </b> {singleoutputSkill.course_type}</TableRow>
-                            <br />
-                          
-                        </AccordionDetails>
-                        </Accordion>
-                      </Grid>
-   
-
-                    : <TableRow>
-                        <TableCell> There are no Courses for this Skill </TableCell>
-                      </TableRow>
-                    ))}
-
-                </Grid>
-              }
+                      : <TableRow>
+                          <TableCell> There are no Courses for this Skill </TableCell>
+                        </TableRow>
+                      ))}
+                  </Grid>
+                }
 
               {matches2 &&
               <TableContainer>
@@ -189,21 +167,11 @@ function User() {
                       <TableCell>Course Status</TableCell>
                       <TableCell>Course Category</TableCell>
                       <TableCell>Course Type</TableCell>
+                      <TableCell>Slection of Course</TableCell>
                     </TableRow>
                   </TableHead>
 
                   <TableBody>
-                    {/* {outputSkill.map((singleoutputSkill) => (
-                      singleoutputSkill.course_id
-                      ? 
-                      <TableRow>
-                      <TableCell>{singleoutputSkill.course_id}</TableCell>
-                      <TableCell>{singleoutputCourse.course_name}</TableCell>
-                      <TableCell>{singleoutputCourse.course_desc}</TableCell>
-                      <TableCell>{singleoutputCourse.course_status}</TableCell>
-                  </TableRow>
-                      : console.log(singleoutputSkill.course_id)
-                    ))} */}
 
                     {outputSkill.map((singleoutputSkill) => (
                       singleoutputSkill.course_status === "Active"
@@ -215,6 +183,7 @@ function User() {
                           <TableCell>{singleoutputSkill.course_status}</TableCell>
                           <TableCell>{singleoutputSkill.course_category}</TableCell>
                           <TableCell>{singleoutputSkill.course_type}</TableCell>
+                          <TableCell><Checkbox onChange = {(event)=>handleCheck(event, singleoutputSkill)}/></TableCell>
                       </TableRow>
                       // console.log(singleoutputCourse.course_id)
                     : <TableRow>
@@ -222,27 +191,16 @@ function User() {
                       </TableRow>
                     ))}
                   </TableBody>
-
                 </Table>
               </TableContainer>
               }
-            </Grid>
 
-            <Grid>
   
             </Grid>
-
-              
-              
-              
-              
-              
-
           </Grid>
         </Box>
-        </Container>
+      </Container>
     </div>
-
   );
 }
 
