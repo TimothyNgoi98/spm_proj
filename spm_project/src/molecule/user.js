@@ -44,7 +44,7 @@ function User() {
     let jobRoles_name = useSelector((state) => state.jobrole.jobrole_name)
     console.log(jobRoles_desc)
     console.log(jobRoles_id)
-    console.log(jobRoles_name)
+    console.log(jobRoles_name, "JOB ROLEEEEE")
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -80,7 +80,7 @@ function User() {
     checked.push(jobRoles_id)
     checked.push(jobRoles_name)
     dispatch(setTransfer(checked))
-    navigate("/confirmSelectCoursesHere")
+    navigate("/confirmSelectedCourses")
 }
 
   function handleCheck(event, courseOutput) {
@@ -102,7 +102,7 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard 
+                Selected Job Role: {jobRoles_name}
 
                 {/* {outputSkill["0"]["skill_name"]}
                 {outputSkill[0].map((singleoutputSkill) => (
