@@ -166,7 +166,7 @@ function Hrroles() {
         };
 
         fetchMyAPI();
-    }, [openDeleteModal]);
+    }, [openDeleteModal, openUpdateModal ]);
 
     return (
         <Container>
