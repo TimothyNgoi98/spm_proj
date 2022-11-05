@@ -52,23 +52,22 @@ function App() {
               <Route path="/learningjourney" element = {<Home />} />
               <Route path="/learningjourneyviewcourse" element = {<Ljviewcourse />} />
               <Route path="/learningjourneyaddskills" element={<Ljaddskills/>} />
-
+ 
                 {/* Protected Routes for HR */}
                 <Route element = {<ProtectedRoutesforhr />}>
                   <Route path="/Hradmin" element = {<Hrskills/>}/>
                   <Route path="/Hraddskill" element = {<Hraddskill/>}/>
-
-
                   <Route path="/mappings" element = {<Coursemapping/>}/>
-                  <Route path ="/courseskills" element = {<Courseskills/>}/>
-                  <Route path = "/selectjobrole" element = {<SelectJobRole/>}/>
-                  <Route path = "/selectcourse" element = {<SelectCourse/>}/>
-                  <Route path = "/jobroleskills" element = {<Jobroleskills/>}/>
-                  <Route path = "/confirmcoursemapping" element = {<ConfirmCourseMapping/>}/>
-                  <Route path = "/confirmjobrolemapping" element = {<Confirmjobrolemapping/>}/>
+                  <Route path="/courseskills" element = {<Courseskills/>}/>
+                  <Route path="/selectjobrole" element = {<SelectJobRole/>}/>
+                  <Route path="/selectcourse" element = {<SelectCourse/>}/>
+                  <Route path="/jobroleskills" element = {<Jobroleskills/>}/>
+                  <Route path="/confirmcoursemapping" element = {<ConfirmCourseMapping/>}/>
+                  <Route path="/confirmjobrolemapping" element = {<Confirmjobrolemapping/>}/>
                   <Route path="/hrarchiveskills" element= {<Hrarchiveskills/>}/>
                   <Route path="/Hrjobrole" element = {<Hrroles/>}/>
                   <Route path="/Hraddjobrole" element = {<Hraddjobrole/>}/>
+                  <Route path="/Hrarchivedjobroles" element = {<Hraddjobrole/>}/>
 
                 </Route>
 

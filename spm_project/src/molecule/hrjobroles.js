@@ -67,25 +67,25 @@ function Hrroles() {
     };
 
     // Modal
-    const [archive, setarchive] = useState("");
+    const [update, setupdate] = useState("");
     const [deleteitem, setDeleteitem] = useState("");
-    const [openArchiveModal, setArchiveModal] = useState(false);
+    const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
 
-    // First onClick to open up the Modal for Archive
-    const ArchiveModal = (data) => {
-        console.log("Archive Modal::", data);
-        setArchiveModal(true);
-        setarchive(data);
+    // First onClick to open up the Modal for Update
+    const UpdateModal = (data) => {
+        console.log("Update Modal:", data);
+        setUpdateModal(true);
+        setupdate(data);
     };
     // Second OnClick to Close the Modal and return all other fields to zero
-    const closeArchiveModal = () => {
-        setArchiveModal(false);
+    const closeUpdateModal = () => {
+        setUpdateModal(false);
         setinput_name("");
         setinput_description("");
-        setarchive("");
+        setupdate("");
     };
-    // Upon Clicking on the Submit Button in the Modal, it will update the skill description
+    // Upon Clicking on the Submit Button in the Modal, it will update the role details
     const updatedatabase = () => {
         if (input_name.length == 0 || input_name.length > 50 || input_description.length == 0 || input_description.length > 250 ) {
             alert("Please check if your input fields fulfills the criteria.")
@@ -128,7 +128,7 @@ function Hrroles() {
 
     // Navigate to Archive Skills
     const archivepage = () => {
-        navigate("/hrarchiveskills", { replace: true });
+        navigate("/Hrarchivedjobroles", { replace: true });
     };
 
     // Fetching Async
@@ -146,8 +146,6 @@ function Hrroles() {
 
     return (
         <Container>
-            {/* {archive}
-        {openArchiveModal} */}
 
             <Box marginTop="5%">
                 <Grid container spacing={1}>
@@ -198,7 +196,7 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                ArchiveModal(singleoutput.JobRole_ID)
+                                                                UpdateModal(singleoutput.JobRole_ID)
                                                             }
                                                         >
                                                             <EditIcon />
@@ -230,30 +228,37 @@ function Hrroles() {
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
-                open={openArchiveModal}
-                onClose={closeArchiveModal}
+                open={openUpdateModal}
+                onClose={closeUpdateModal}
             >
-                <Fade in={openArchiveModal}>
+                <Fade in={openUpdateModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Update Role Information
                         </Typography>
                         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Skill_Id : {archive}
+                            Role_Id : {update}
                         </Typography>
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
-                            label="Skill Name"
-                            helperText="Skill name has to be less than 50 characters."
+                            label="Role Name"
+                            helperText="Role name has to be less than 30 characters."
                             onChange={changeinput_name}
                         />
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
-                            label="Skills Description"
+                            label="Department"
+                            helperText="Department has to be less than 20 characters."
+                            onChange={changeinput_name}
+                        />
+                        <TextField
+                            sx={{ mt: 2 }}
+                            fullWidth
+                            label="Role Description"
                             id="fullWidth"
-                            helperText="Skill Description has to be less than 250 characters."
+                            helperText="Role Description has to be less than 500 characters."
                             onChange={changeinput_description}
                         />
                         <Button
@@ -262,7 +267,7 @@ function Hrroles() {
                             color="success"
                             onClick={updatedatabase}
                         >
-                            Update Skill
+                            Update Role
                         </Button>
                     </Box>
                 </Fade>
