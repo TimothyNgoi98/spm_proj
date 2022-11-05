@@ -184,7 +184,7 @@ function Hrarchivejobroles() {
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Jobrole Archive Management
+                Job Role Archive Management Dashboard
               </Typography>
             </Grid>
             <Grid item xs={2}></Grid>
