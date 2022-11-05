@@ -125,6 +125,7 @@ function Viewskills() {
         // <div>
         //     this is the correct skill
         // </div> 
+        
             <Container>
                 <Box marginTop="5%">
                 <Grid container spacing={1}>
@@ -152,6 +153,7 @@ function Viewskills() {
                         {/* The body of the Table Goes here */}
                         <TableBody>
                             {jobroletoskill.skills?.map((singleoutput) => (
+                            singleoutput['skill_status'] === "Active"?
                             <TableRow>
                             <TableCell>{singleoutput['skill_id']}</TableCell>
                             <TableCell>{singleoutput['skill_name']}</TableCell>
@@ -160,6 +162,8 @@ function Viewskills() {
                             <TableCell>
                                 <IconButton color="primary" onClick={()=> redirect_skill([singleoutput['skill_id'], singleoutput['skill_name']])}><AddCircle/></IconButton>
                             </TableCell> 
+                            </TableRow>
+                            : <TableRow>
                             </TableRow>
                             ))}
                         </TableBody>
