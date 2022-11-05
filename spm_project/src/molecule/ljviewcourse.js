@@ -5,6 +5,7 @@ import { useState,useEffect, useCallback } from 'react';
 
 // Import All Redux ToolKit here
 import { useSelector, useDispatch } from 'react-redux';
+import { setsaved_courses} from '../reduxslice/viewlearningjourneySlice'
 
 
 // Import all the molecules files here
@@ -49,8 +50,9 @@ function Ljviewcourse() {
       boxShadow: 24,
       p: 4,
     };
-
+    const dispatch = useDispatch();
     let navigate = useNavigate();
+
     const learningjourney_id = useSelector((state) => state.viewlearningjourney.current_learningjourney)
     const jobrole_id = useSelector((state) => state.viewlearningjourney.jobrole_id)
 
@@ -65,8 +67,10 @@ function Ljviewcourse() {
     const [output, setoutput] = useState([])
     const [jobname, setjobname] = useState([])
 
-    const [ course_id, setcourse_id ] = useState("")
+    const [course_id, setcourse_id ] = useState("")
     const [openArchiveModal , setArchiveModal] = useState(false)
+
+    const [trigger, settrigger] = useState(0)
 
     const ArchiveModal = (data) => {
       setcourse_id(data)
@@ -79,9 +83,10 @@ function Ljviewcourse() {
     }
     // Upon Clicking on the yes button, will proceed to delete the course
     const deletecoursesinlearningjourney = () => {
-      console.log("THis is Fk",course_id)
-      console.log("This is FKFK",learningjourney_id)
-
+      if (output.length == 1) {
+        alert("You are unable to delete this course in the learning journey")
+      }
+      else{
       const result = {'course_id': course_id, "learning_journey_id" : learningjourney_id} 
       const options = {
         method: "DELETE",
@@ -95,7 +100,12 @@ function Ljviewcourse() {
       .then(response => response.json())
       .then(data => {
         alert(data.data)
+        settrigger(trigger+1)
+        setcourse_id("")
+        setArchiveModal(false)
+
       })
+    }
     }
 
     const add_skill = () => {
@@ -143,10 +153,12 @@ function Ljviewcourse() {
           setoutput(response.data)
           console.log("This is from hr Skills: " + response.data)
           console.log(response.data)
+          dispatch(setsaved_courses(response.data))
+
     }
     
     fetchMyAPI()
-  },[])
+  },[trigger])
 
     return (
       <Container>
