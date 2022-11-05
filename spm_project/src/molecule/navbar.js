@@ -211,7 +211,7 @@ const Navbar = () => {
                         </NavLink>
                     </AccordionDetails>
                     <AccordionDetails>
-                        <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hradminrole">
+                        <NavLink style={{ color: 'inherit', textDecoration: 'inherit'}} to="/Hrjobrole">
                             <Typography>Roles Management</Typography>
                         </NavLink>
                     </AccordionDetails>

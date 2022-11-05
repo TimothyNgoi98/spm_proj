@@ -663,7 +663,7 @@ CREATE TABLE IF NOT EXISTS `skill` (
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
 VALUES (1, "Mobile Design Architecture Skill", "Able to create Prototyping frameworks, user flows, mockups.","Active");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired ");
+VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
 VALUES (3, "Computer Skills", "Great computer literacy.","Active");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
@@ -675,7 +675,15 @@ VALUES (6, "Leadership Skill", "Able to lead a team","Active");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
 VALUES (7, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES (8, "Info technology Skill", "Able to design system architecture and code out websites.","Active");
+VALUES (8, "Info Communication Skill", "Able to design system architecture and code out websites.","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (9, "Critical Thinking Skill", "Able to think critically","Retired");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (10, "Design Architecture", "Able to design system architecture","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (11, "Effective Googling Skill", "Able to Google","Active");
+INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
+VALUES (12, "Programming", "Able to program","Active");
 -- End of Mock Data for 'skill'. 
 
 -- ---------------------------------------------------------- --------------------------------------------------------
@@ -755,12 +763,49 @@ ALTER TABLE `job_role_to_skill`
 -- Mock Data for 'job_role_to_skill'.
 INSERT INTO `job_role_to_skill` (`JobRole_ID`, `Skill_ID`) VALUES
 (1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 1),
 (2, 2),
 (2, 3),
+(2, 4),
+(2, 11),
+(2, 12),
+(3, 1),
+(3, 2),
+(3, 3),
 (3, 4),
+(3, 8),
+(3, 6),
+(3, 7),
+(4, 1),
+(4, 2),
+(4, 4),
+(4, 6),
 (4, 7),
+(4, 8),
+(4, 5),
+(5, 2),
+(5, 3),
 (5, 4),
-(6, 3);
+(5, 11),
+(5, 12),
+(5, 8),
+(6, 3),
+(6, 4),
+(6, 7),
+(6, 8),
+(7, 11),
+(7, 12),
+(7, 5),
+(7, 6),
+(8, 1),
+(8, 4),
+(8, 5),
+(8, 7);
+
 
 -- ---------------------------------------------------------- --------------------------------------------------------
 
@@ -809,7 +854,7 @@ ALTER TABLE `learning_journey_detailed`
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('1', 'COR001');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('1', 'COR002');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR001');
-INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR004');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR002');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('3', 'COR001');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('4', 'COR001');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('5', 'COR001');

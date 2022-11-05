@@ -77,6 +77,7 @@ function Hrroles() {
     // Modal
     const [update, setupdate] = useState("");
     const [deleteitem, setDeleteitem] = useState("");
+    const [archive_role_name, setarchive_role_name] = useState("");
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
     // Prepopulating the data for the modal
@@ -126,7 +127,8 @@ function Hrroles() {
     // Soft Delete OF Roles MODAL ############################################################
     const deletebuttonclicked = (data) => {
         setDeleteModal(true);
-        setDeleteitem(data);
+        setDeleteitem(data.jobrole_id);
+        setarchive_role_name(data.jobrole_name);
     };
 
     const closingDeletemodal = (data) => {
@@ -135,17 +137,17 @@ function Hrroles() {
     };
     // Upon Clicking on the delete Button in the Modal, it will Delete the skill from the database.
     const deletefrom_database = () => {
-        console.log("Successfully deleted!");
-        const result = { skill_id: deleteitem };
+        // console.log("Successfully deleted!");
+        const result = { jobrole_id: deleteitem };
         const options = {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:3000/signin",
+                "Access-Control-Allow-Origin": "http://localhost:3000/Hrroles",
             },
             body: JSON.stringify(result),
         };
-        fetch("http://127.0.0.1:5000/skill/archiveskill/", options)
+        fetch("http://127.0.0.1:5000/jobrole/archivejobrole", options)
             .then((response) => response.json())
             .then((data) => {
                 alert(data.message);
@@ -180,19 +182,19 @@ function Hrroles() {
                 <Grid container spacing={1}>
                     <Grid item xs={6} alignContent="left">
                         <Typography variant="h6" textAlign="left">
-                            Job Role Management Dashboard
+                            Role Management Dashboard
                         </Typography>
                     </Grid> 
                     <Grid item xs={2}></Grid>
 
                     <Grid item xs={4}>
-                        <ButtonGroup
+                        {/* <ButtonGroup
                             variant="contained"
                             aria-label="outlined primary button group"
-                        >
-                            <Button onClick={addbutton}>Create new Job Role</Button>
-                            <Button onClick={archivepage}>View Archived Job Role List</Button>
-                        </ButtonGroup>
+                        > */}
+                            <Button style={{margin: 2}} variant="contained" onClick={addbutton}>Create New Role</Button>
+                            <Button style={{margin: 2}}  variant="contained" onClick={archivepage}>Archived Roles</Button>
+                        {/* </ButtonGroup> */}
                     </Grid>
                 </Grid>
 
@@ -237,7 +239,7 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                deletebuttonclicked(singleoutput.jobrole_id)
+                                                                deletebuttonclicked(singleoutput)
                                                             }
                                                         >
                                                             <MoveToInboxIcon />
@@ -327,8 +329,7 @@ function Hrroles() {
                 <Fade in={openDeleteModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Archive Role? <br></br> 
-                            Role_ID: {deleteitem}
+                            Archive <strong>{archive_role_name}</strong>?
                         </Typography>
                         <Button
                             sx={{ mt: 2 }}
@@ -336,7 +337,7 @@ function Hrroles() {
                             color="error"
                             onClick={deletefrom_database}
                         >
-                            Change Skill Status
+                            Archive Role
                         </Button>
                     </Box>
                 </Fade>

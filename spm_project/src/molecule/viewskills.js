@@ -226,7 +226,7 @@ function Viewskills() {
                     justifyContent="center">
                     <Grid item alignContent="center" align="center">
                             {/* <button onClick={() => redirect()}>Back to Home</button> */}
-                            <Button variant="contained"  onClick={() => redirect()}>
+                            <Button variant="contained" align='center' onClick={() => redirect()}>
                                     Back to Home
                             </Button>
                     </Grid>

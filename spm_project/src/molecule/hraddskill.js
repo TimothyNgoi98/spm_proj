@@ -31,6 +31,7 @@ import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { backdropClasses } from '@mui/material';
 
 
 function Hraddskill() {
@@ -60,6 +61,11 @@ function Hraddskill() {
             setactive("Active")
         }
     }
+
+    // Navigate back to all Skills
+    const backtoskills = () => {
+        navigate("/Hradmin", { replace: true });
+    };
 
     // Function 3 to send a request to database for addition of skill
     // Function 3 to include validation of inputs. 
@@ -146,9 +152,15 @@ function Hraddskill() {
 
                     <Grid container marginTop="25px">
                         <Grid item xs={2}></Grid>
-                        <Grid item xs={8} justifyContent="flex-start">
+                        <Grid item xs={4}>
+                            <ButtonGroup variant="contained" color="error" aria-label="outlined primary button group">
+                                <Button onClick={backtoskills}>
+                                Cancel</Button>
+                            </ButtonGroup>
+                        </Grid> 
+                        <Grid item xs={4} justifyContent="flex-start">
                             <Button variant="contained" color="success" onClick={addskill_database}>
-                                Create a Skill
+                                Create Skill
                             </Button>
                         </Grid>
                         <Grid item xs={2}></Grid>

@@ -184,13 +184,22 @@ def viewcoursesinjobrole():
     frontend_input = request.get_json()
 
     jobroleid = frontend_input['jobrole_id']
-    print(jobroleid)
+    saved_courses = frontend_input['course_saved']
+    print(saved_courses)
+
+    # [{'skill_id': 1, 'skill_name': 'Mobile Design Architecture Skill', 'skill_desc': 'Able to create Prototyping frameworks, user flows, mockups.', 'skill_status': 'Active'}]
+    searchup_array = []
+    for course in saved_courses:
+        searchup_array.append(course['course_id'])
+
+    print(searchup_array)
+
 
     jobroles = Jobrole.query.filter_by(jobrole_id=jobroleid).first()
     skills_array = []
     output_array = []
 
-    # print(jobroles)
+    print(jobroles)
     # In one JobRole, print out all the skills
     for skill in jobroles.skill:
         skills_array.append(skill.to_dict())
@@ -202,9 +211,11 @@ def viewcoursesinjobrole():
         skill = Skill.query.filter_by(skill_id=skills['skill_id']).first()
         # print(skill.skills_to_course)
         for one_skill in skill.skills_to_course:
-            output_array.append(one_skill.to_dict())
+            if one_skill.to_dict()['course_id'] not in searchup_array:
+                print("This is one skill",one_skill.to_dict()['course_id'])
+                output_array.append(one_skill.to_dict())
 
-    print(output_array)
+    # print(output_array)
     return jsonify({
         "code": 200,
         "data": output_array

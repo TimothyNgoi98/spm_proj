@@ -22,6 +22,7 @@ import Searchbar from './searchbar';
 import Roles from './roles';
 import RoleCardList from './rolecardlist';
 import Card from './rolecard';
+// import Container from '@mui/material/Container';
 
 
 
@@ -115,7 +116,7 @@ console.log(data)
           <Grid item xs={10}>
 
             {searchField.length === 0 &&
-            <div className="galleryWrapper">
+            <div className="galleryWrapper" marginBottom="50px">
               <div className="filterItem">
                   <button style={{borderRadius: "50px", padding: "8px 40px"}} onClick={()=> {setData(jobroles) ;setFilterParam(true) }}>All Job Roles</button>
                   {
@@ -124,7 +125,7 @@ console.log(data)
               </div>
               <div className="galleryContainer">
                 {
-                  <Grid item xs={10}>
+                  <Grid item xs={12}>
                     <RoleCardList jobroles={data}/>
                   </Grid>
                 }
@@ -154,27 +155,27 @@ console.log(data)
 
         {/* roles card */}
         
-        
-        {searchField.length === 0 && filterParam === false &&
-        <Grid container>
-        <Grid item xs={1}></Grid> 
-          <Grid item xs={10}>
-            <RoleCardList jobroles={filteredJobroles}/>
-          </Grid>
-        <Grid item xs={1}></Grid> 
-        </Grid> 
-        }
+        {/* <Container> */}
+          {searchField.length === 0 && filterParam === false &&
+          <Grid container >
+            <Grid item xs={1}></Grid> 
+              <Grid item xs={10}>
+                <RoleCardList jobroles={filteredJobroles}/>
+              </Grid>
+            <Grid item xs={1}></Grid> 
+          </Grid> 
+          }
 
-        {searchField.length > 0 && 
-        <Grid container>
-        <Grid item xs={1}></Grid> 
-          <Grid item xs={10}>
-            <RoleCardList jobroles={filteredJobroles}/>
-          </Grid>
-        <Grid item xs={1}></Grid> 
-        </Grid> 
-        }
-
+          {searchField.length > 0 && 
+          <Grid container>
+            <Grid item xs={1}></Grid> 
+              <Grid item xs={10}>
+                <RoleCardList jobroles={filteredJobroles}/>
+              </Grid>
+            <Grid item xs={1}></Grid> 
+          </Grid> 
+          }
+      {/* </Container> */}
       </Grid>
   );
   }
