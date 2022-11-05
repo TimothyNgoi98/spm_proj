@@ -190,7 +190,7 @@ function Hrarchiveskills() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={skillPage}>Back to Active Skill</Button>
+                <Button onClick={skillPage}>Back to Active Skills</Button>
               </ButtonGroup>
             </Grid>
           </Grid>

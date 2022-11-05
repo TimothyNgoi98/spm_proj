@@ -191,7 +191,7 @@ function Hrarchivejobroles() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={jobrolePage}>Back to Active Jobroles</Button>
+                <Button onClick={jobrolePage}>Back to Active Roles</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -275,10 +275,10 @@ function Hrarchivejobroles() {
             <Fade in={openDeleteModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Restore Jobrole? <br></br>Jobrole_ID: {deleteitem}
+                Restore Role? <br></br>Role ID: {deleteitem}
               </Typography>
               <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
-                Change Jobrole Status
+                Change Role Status
               </Button>
             </Box>
           </Fade>

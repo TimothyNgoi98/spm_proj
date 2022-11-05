@@ -77,6 +77,7 @@ function Hrroles() {
     // Modal
     const [update, setupdate] = useState("");
     const [deleteitem, setDeleteitem] = useState("");
+    const [archive_role_name, setarchive_role_name] = useState("");
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
     // Prepopulating the data for the modal
@@ -126,7 +127,8 @@ function Hrroles() {
     // Soft Delete OF Roles MODAL ############################################################
     const deletebuttonclicked = (data) => {
         setDeleteModal(true);
-        setDeleteitem(data);
+        setDeleteitem(data.jobrole_id);
+        setarchive_role_name(data.jobrole_name);
     };
 
     const closingDeletemodal = (data) => {
@@ -180,7 +182,7 @@ function Hrroles() {
                 <Grid container spacing={1}>
                     <Grid item xs={6} alignContent="left">
                         <Typography variant="h6" textAlign="left">
-                            Job Role Management Dashboard
+                            Role Management Dashboard
                         </Typography>
                     </Grid> 
                     <Grid item xs={2}></Grid>
@@ -190,8 +192,8 @@ function Hrroles() {
                             variant="contained"
                             aria-label="outlined primary button group"
                         >
-                            <Button onClick={addbutton}>Create Role</Button>
-                            <Button onClick={archivepage}>Archive List</Button>
+                            <Button onClick={addbutton}>Create New Role</Button>
+                            <Button onClick={archivepage}>Archived Roles</Button>
                         </ButtonGroup>
                     </Grid>
                 </Grid>
@@ -237,7 +239,7 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                deletebuttonclicked(singleoutput.jobrole_id)
+                                                                deletebuttonclicked(singleoutput)
                                                             }
                                                         >
                                                             <MoveToInboxIcon />
@@ -327,8 +329,7 @@ function Hrroles() {
                 <Fade in={openDeleteModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Archive Role? <br></br> 
-                            Role_ID: {deleteitem}
+                            Archive {archive_role_name}?
                         </Typography>
                         <Button
                             sx={{ mt: 2 }}
@@ -336,7 +337,7 @@ function Hrroles() {
                             color="error"
                             onClick={deletefrom_database}
                         >
-                            Change Skill Status
+                            Archive Role
                         </Button>
                     </Box>
                 </Fade>

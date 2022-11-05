@@ -80,6 +80,7 @@ function Hrskills() {
   // Modal 
   const [archive, setarchive] = useState("")
   const [deleteitem, setDeleteitem] = useState("")
+  const [archive_skill_name, setarchive_skill_name] = useState("")
 
   const [openArchiveModal , setArchiveModal] = useState(false)
   const [openDeleteModal, setDeleteModal] = useState(false)
@@ -127,7 +128,8 @@ function Hrskills() {
   // Soft Delete OF SKILLS MODAL ############################################################
   const deletebuttonclicked = (data) => {
     setDeleteModal(true)
-    setDeleteitem(data)
+    setDeleteitem(data.skill_id)
+    setarchive_skill_name(data.skill_name)
   }
 
   const closingDeletemodal = (data) => {
@@ -191,8 +193,8 @@ function Hrskills() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Create Skill</Button>
-                <Button onClick={archivepage}>Archive List</Button>
+                <Button onClick={addbutton}>Create New Skill</Button>
+                <Button onClick={archivepage}>Archived Skills</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -227,7 +229,7 @@ function Hrskills() {
                         <IconButton color="primary" onClick={()=> ArchiveModal([singleoutput.skill_id, singleoutput.skill_name, singleoutput.skill_desc])}><EditIcon/></IconButton>
                       </TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><MoveToInboxIcon/></IconButton>
+                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput)}><MoveToInboxIcon/></IconButton>
                       </TableCell>
                     </TableRow>
                         )
@@ -290,11 +292,11 @@ function Hrskills() {
             <Fade in={openDeleteModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Archive Skill? <br></br>Skill_ID: {deleteitem}
+                Archive {archive_skill_name}?
               </Typography>
               <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
-                Change Skill Status
-              </Button>
+                Archive Skill
+              </Button> 
             </Box>
           </Fade>
         </Modal>

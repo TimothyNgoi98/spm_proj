@@ -78,12 +78,12 @@ def archiveSkill():
             db.session.commit()
             return jsonify({
                 "code":200,
-                "message": "Skill has been changed to Retired."
+                "message": "Skill status has been changed to Retired."
             })
         except:
             return jsonify({
                 "code":404,
-                "message": "There has been an error with changing from Active to Retired."
+                "message": "There has been an error with changing from Active to Retired.Please try again"
             })
 
     else:
