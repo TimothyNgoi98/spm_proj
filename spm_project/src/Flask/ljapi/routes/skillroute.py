@@ -112,6 +112,7 @@ def updateDescription():
     front_skill_id = frontend_input['skill_id']
     front_skill_name = frontend_input['skill_name']
     front_skill_description = frontend_input['skill_description']
+    current_skill_name = frontend_input["current_skill_name"]
     # print("This is Skill Name from frotn End ",front_skill_name)
     # print("This is Skill Description from Front End: ",front_skill_description)
 
@@ -123,7 +124,7 @@ def updateDescription():
     checking_name = Skill.query.filter_by(skill_name=front_skill_name).first()
 
     # if None Type is true, means there is no duplicate Name inside
-    if checking_name == None:
+    if checking_name == None or checking_name.skill_name == current_skill_name:
         skill_database.skill_name = front_skill_name
         skill_database.skill_desc = front_skill_description
 
