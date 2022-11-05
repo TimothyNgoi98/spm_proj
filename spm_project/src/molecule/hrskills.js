@@ -65,6 +65,7 @@ function Hrskills() {
   // Modal Archive Input Fields
   const [input_name, setinput_name] = useState("")
   const [input_description, setinput_description] = useState("")
+  const [current_skill_name, setcurrent_skill_name] = useState("")
 
   const changeinput_name = (event) => {
     setinput_name(event.target.value)
@@ -86,7 +87,8 @@ function Hrskills() {
   const ArchiveModal = (data) => {
     console.log("Archive Modal::", data)
     setArchiveModal(true)
-    setarchive(data)
+    setarchive(data[0])
+    setcurrent_skill_name(data[1])
   }
   // Second OnClick to Close the Modal and return all other fields to zero
   const closeArchiveModal = () => {
@@ -222,7 +224,7 @@ function Hrskills() {
                       <TableCell>{singleoutput.skill_desc}</TableCell>
                       <TableCell>{singleoutput.skill_status}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.skill_id)}><EditIcon/></IconButton>
+                        <IconButton color="primary" onClick={()=> ArchiveModal([singleoutput.skill_id, singleoutput.skill_name])}><EditIcon/></IconButton>
                       </TableCell>
                       <TableCell>
                         <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><MoveToInboxIcon/></IconButton>
@@ -254,10 +256,10 @@ function Hrskills() {
                 Update Skill Information
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Skill_Id : {archive}
+                Current Skill Name: {current_skill_name}
               </Typography>
-              <TextField sx={{mt:2}} fullWidth label="Skill Name" helperText="Skill name has to be less than 50 characters." onChange={changeinput_name}/>
-              <TextField sx ={{mt: 2}} fullWidth label="Skills Description" id="fullWidth" helperText="Skill Description has to be less than 250 characters."onChange={changeinput_description} />
+              <TextField sx={{mt:2}} fullWidth label="New Skill Name" helperText="Skill name has to be less than 50 characters." onChange={changeinput_name}/>
+              <TextField sx ={{mt: 2}} fullWidth label="New Skill Description" id="fullWidth" helperText="Skill Description has to be less than 250 characters."onChange={changeinput_description} />
               <Button sx={{mt:2}}variant="contained" color="success" onClick={updatedatabase}>
                 Update Skill 
               </Button>

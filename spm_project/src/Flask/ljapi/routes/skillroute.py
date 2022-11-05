@@ -123,7 +123,7 @@ def updateDescription():
     checking_name = Skill.query.filter_by(skill_name=front_skill_name).first()
 
     # if None Type is true, means there is no duplicate Name inside
-    if checking_name == None:
+    if checking_name == None or checking_name == front_skill_id:
         skill_database.skill_name = front_skill_name
         skill_database.skill_desc = front_skill_description
 

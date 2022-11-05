@@ -58,6 +58,7 @@ function Hrroles() {
     const [input_name, setinput_name] = useState("");
     const [input_department, setinput_department] = useState("");
     const [input_description, setinput_description] = useState("");
+    const [current_role_name, setcurrent_role_name] = useState("");
 
     const changeinput_name = (event) => {
         setinput_name(event.target.value);
@@ -68,7 +69,7 @@ function Hrroles() {
     };
 
     const changeinput_description = (event) => {
-        setinput_name(event.target.value);
+        setinput_description(event.target.value);
     };
 
     // Modal
@@ -81,7 +82,8 @@ function Hrroles() {
     const UpdateModal = (data) => {
         console.log("Update Modal:", data);
         setUpdateModal(true);
-        setupdate(data);
+        setupdate(data[0]);
+        setcurrent_role_name(data[1])
     };
     // Second OnClick to Close the Modal and return all other fields to zero
     const closeUpdateModal = () => {
@@ -97,7 +99,7 @@ function Hrroles() {
             alert("Please check if your updated input fields fulfills the criteria.")
         }
         else {
-            const result = {"role_id": update, "role_name" : input_name, "department" : input_department, "role_description" : input_description } 
+            const result = {"role_id": update, "role_name" : input_name, "department" : input_department, "role_description" : input_description, "current_role_name" : current_role_name} 
             const options = {
                 method: "PUT",
                 headers: {
@@ -109,7 +111,7 @@ function Hrroles() {
             fetch("http://127.0.0.1:5000/jobrole/updateinformation", options)
             .then(response => response.json())
             .then(data => {
-                alert(data.Message)
+                alert(data.Message) 
             })
             setUpdateModal(false)
             setupdate("")
@@ -218,7 +220,7 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                UpdateModal(singleoutput.JobRole_ID)
+                                                                UpdateModal([singleoutput.jobrole_id, singleoutput.jobrole_name])
                                                             }
                                                         >
                                                             <EditIcon />
@@ -228,7 +230,7 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                deletebuttonclicked(singleoutput.JobRole_ID)
+                                                                deletebuttonclicked(singleoutput.jobrole_id)
                                                             }
                                                         >
                                                             <MoveToInboxIcon />
@@ -259,26 +261,27 @@ function Hrroles() {
                             Update Role Information
                         </Typography>
                         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Role Id: {update}
+                            Current Role Name: {current_role_name}
                         </Typography>
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
-                            label="Role Name"
+                            label="New Role Name"
                             helperText="Role name has to be less than 30 characters."
                             onChange={changeinput_name}
                         />
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
-                            label="Department"
+                            label="New Department"
                             helperText="Department has to be less than 20 characters."
                             onChange={changeinput_department}
                         />
                         <TextField
                             sx={{ mt: 2 }}
+                            multiline
                             fullWidth
-                            label="Role Description"
+                            label="New Role Description"
                             id="fullWidth"
                             helperText="Role Description has to be less than 500 characters."
                             onChange={changeinput_description}
