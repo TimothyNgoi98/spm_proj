@@ -33,6 +33,7 @@ import { AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Checkbox from '@mui/material/Checkbox';
 import { setTransfer } from '../reduxslice/courseSlice';
+import { courseSkillTransfer,courseSkillAppend, initialiseJobroleId, initialiseJobroleName } from "../reduxslice/filterskillcourseSlice";
 
   // [] - onload (and u can track something that change)
   // course category is redux (one page to another)
@@ -59,7 +60,7 @@ function User() {
     // Fetching Async 
     useEffect(() => {
       const fetchMyAPI = async () => {
-          let response = await fetch("http://127.0.0.1:5000/skill/skilltocourse/2")
+          let response = await fetch(`http://127.0.0.1:5000/skill/skilltocourse/${skill_ids}`)
           response = await response.json()
           // console.log(response.data)
           handleoutputSkill(response.data)
@@ -77,9 +78,21 @@ function User() {
 
   function handleClick() {
     console.log(checked, "CHECKED 2")
-    checked.push(jobRoles_id)
-    checked.push(jobRoles_name)
-    dispatch(setTransfer(checked))
+    // checked.push(jobRoles_id)
+    // checked.push(jobRoles_name)
+    dispatch(initialiseJobroleId(jobRoles_id))
+    dispatch(initialiseJobroleName(jobRoles_name))
+    var dummyObject = {}
+    // var key = `Skill_${skill_ids}`
+    dummyObject.skill_ids = skill_ids
+    dummyObject.coursemapped = []
+    for (let item of checked) {
+      dummyObject.coursemapped.push(item)
+    }
+    console.log(dummyObject)
+    dispatch(courseSkillAppend(dummyObject))
+
+    // dispatch(setTransfer(checked))
     navigate("/confirmSelectedCourses")
 }
 
@@ -91,6 +104,8 @@ function User() {
       updatedList.splice(checked.indexOf(courseOutput), 1);
     }
     setChecked(updatedList);
+    console.log(checked)
+    console.log(skill_ids)
   }
 
   return (

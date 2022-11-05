@@ -7,7 +7,6 @@ import {useNavigate} from 'react-router-dom';
 // import {setskill_ids} from '../reduxslice/jobrolesSlice'
 import { setjobrole_desc, setjobrole_id, setjobrole_name, setskill_ids, setskill_name} from '../reduxslice/jobrolesSlice'
 
-
 // Import All Router Links here
 
 import {useLocation} from 'react-router-dom';
@@ -115,6 +114,8 @@ function Viewskills() {
     }
 
     const redirect = () => {
+        
+        
         navigate("/learningjourney")
 
     }

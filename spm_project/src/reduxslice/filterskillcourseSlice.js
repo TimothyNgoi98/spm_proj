@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    test: []
+    test: [],
+    jobrole_id: "",
+    jobrole_name: ""
+    // {skill_id: 1, course_map: [1.2.3.4.5]}
 }
 
 export const transfer_existing_skill_slice = createSlice({
@@ -11,7 +14,18 @@ export const transfer_existing_skill_slice = createSlice({
         courseSkillTransfer: (state, action) => {
             // State.<Sth> This sth refers to the initial state one of the ojbect name of the key. 
             state.test = action.payload
+        },
+        courseSkillAppend: (state, action) =>{
+            state.test.push(action.payload)
+        },
+        
+        initialiseJobroleId: (state,action) => {
+            state.jobrole_id = action.payload
+        },
+        initialiseJobroleName: (state,action) => {
+            state.jobrole_name = action.payload
         }
+        // courseAppendTransfer: ()
     }
 })
 
@@ -21,6 +35,6 @@ export const transfer_existing_skill_slice = createSlice({
 // What is return in reducers? 
 // We can change the state directly via state.login = payload.actions 
 
-export const { courseSkillTransfer } = transfer_existing_skill_slice.actions;
+export const { courseSkillTransfer,courseSkillAppend, initialiseJobroleId, initialiseJobroleName}  = transfer_existing_skill_slice.actions;
 
 export default transfer_existing_skill_slice.reducer

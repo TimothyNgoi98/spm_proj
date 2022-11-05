@@ -33,10 +33,26 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 function Ljcourse() {
-    const [selectedItemsToAddLJ, addItemSelected] = useState(useSelector((state) => state.transferselectedskills.transfer))
-    // console.log(selectedItemsToAddLJ, "COURSESSSSSS")
-    // console.log(addItemSelected, "addSkillsDeleted")
     const dispatch = useDispatch()
+    const [selectedItemsToAddLJ, addItemSelected] = useState(useSelector((state) => state.skillfilter.test))
+    const [jobroleselected, addJobSelected] = useState(useSelector((state) => state.skillfilter.jobrole_id))
+    const [jobroleName, addJobroleName] = useState(useSelector((state) => state.skillfilter.jobrole_name))
+    const [cleanedCourse, updateFormat] = useState('')
+    var loginID = useSelector((state)=>state.session.staff_id)
+
+    const restructureData = (data) => {
+        var listCourse = []
+        for (let item of data){
+            listCourse.push(item.course_name)
+        }
+        return listCourse
+    }
+
+
+    // structuredCourse = 
+
+
+    console.log(selectedItemsToAddLJ)
     const navigate = useNavigate();
 
     function reset(){
@@ -51,33 +67,57 @@ function Ljcourse() {
 
     }
 
+    function redirect() {
+        // Redirect so user can select mapping
+        navigate("/viewskills")
+    }
+
     function confirmLJ() {
         // Get from the localstate of selectedSkillsToRemove
-        console.log(selectedItemsToAddLJ, "selected items to LJ")
-        let selectedLJItems = []
-        for (var i = 1; i < selectedItemsToAddLJ.length; i++) {
-            selectedLJItems.push(selectedItemsToAddLJ[i])
+        // Need staff ID
+        // Jobrole_id
+        // is_active
+        // Append the associated courses
+        // console.log(selectedItemsToAddLJ, "selected items to LJ")
+        // var options = {"staff_id": loginID, "jobrole_id": jobrole_id, "is_active": "Active", "coursemapped": }
+        var courseArray= []
+        for (let item of selectedItemsToAddLJ) {
+            // Push the relevant courses into the selectItemsToAddLJ dictionary
+            for (let course of item.coursemapped) {
+                var cleanedObject = Object.fromEntries(
+                    Object.entries(course).slice(0, 6)
+                )
+                courseArray.push(cleanedObject)
+            }
+
         }
-        let courseId = selectedItemsToAddLJ[0]['course_id'];
-        console.log(selectedLJItems, "should have no course details");
-        var url = `http://127.0.0.1:5000/course/update/${courseId}`
+        console.log(courseArray)
+        console.log(loginID)
+        console.log(jobroleselected)
+        // Set up object to post
+
+        var coursedetails = {"staff_id": loginID, "jobrole_id": jobroleselected, "is_active": "Active", "coursemapped":courseArray }
+
+        var url = `http://127.0.0.1:5000/learningjourney/addingcoursesinlearningjourney`
         const options = {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(selectedLJItems)
+            body: JSON.stringify(coursedetails)
         }
 
         fetch(url, options)
             .then(response => response.json())
             .then(data => {
                 // RELOAD PAGE
-                // Remove the localchanges and update state
-                discardChanges()
-                alert("Skill has been added successfully!")
-                navigate('/mappings')
+                console.log(data)
+                // dispatch(setTransfer([]))
+                alert("Selected courses has been mapped successfully!")
+                // navigate('/main')
             })
+            dispatch(setTransfer([]))
+
     }
 
     return (
@@ -105,7 +145,7 @@ function Ljcourse() {
 
                         <Grid item xs={12} alignContent="left">
                             <Typography variant="h8" textAlign="left">
-                            Job role: {selectedItemsToAddLJ.at(-1)}
+                            Job role: {jobroleName}
                             </Typography>
                         </Grid>
 
@@ -115,20 +155,18 @@ function Ljcourse() {
 
                                     <TableHead>
                                         <TableRow>
-                                        <TableCell>Course Name</TableCell>
-                                        <TableCell>Course Description</TableCell>
-                                        <TableCell>Course Category</TableCell>
-                                        <TableCell>Course Type</TableCell>
+                                        <TableCell>Skill Name</TableCell>
+                                        <TableCell>Course Mapped</TableCell>
+                                        {/* <TableCell>Course Category</TableCell>
+                                        <TableCell>Course Type</TableCell> */}
                                         </TableRow>
                                     </TableHead>
 
                                     <TableBody>
                                         {selectedItemsToAddLJ.map((singleoutputItemLJ) => (
                                             <TableRow>
-                                            <TableCell>{singleoutputItemLJ.course_name}</TableCell>
-                                            <TableCell>{singleoutputItemLJ.course_desc}</TableCell>
-                                            <TableCell>{singleoutputItemLJ.course_category}</TableCell>
-                                            <TableCell>{singleoutputItemLJ.course_type}</TableCell>
+                                            <TableCell>{singleoutputItemLJ.skill_ids}</TableCell>
+                                            <TableCell>{JSON.stringify(restructureData(singleoutputItemLJ.coursemapped))}</TableCell>
                                         </TableRow>
                                         // console.log(singleoutputCourse.course_id)
                                         ))}
@@ -141,7 +179,7 @@ function Ljcourse() {
                                     <Grid item spacing={3} xs={12} align='center'>
                                         <Button variant="contained" onClick={confirmLJ}>Confirm Mapping</Button>
                                         {console.log(selectedItemsToAddLJ, 'skillsremoved')}
-                                        <Button variant="contained" onClick={discardChanges}>Discard Current Learning Journey</Button>
+                                        <Button variant="contained" onClick={redirect}>Add different skill mapping</Button>
                                     </Grid>
                                 </Grid>) 
                             : (<Grid>
