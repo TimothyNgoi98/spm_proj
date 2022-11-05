@@ -35,10 +35,13 @@ import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircle from '@mui/icons-material/AddCircle';
 
 
 
 function Ljaddskills() {
+  let navigate = useNavigate();
+
     // I need to fetch back the courses that are tagged to this job role
     const learningjourney_id = useSelector((state) => state.viewlearningjourney.current_learningjourney)
     const jobrole_id = useSelector((state) => state.viewlearningjourney.jobrole_id)
@@ -51,14 +54,33 @@ function Ljaddskills() {
     const role_id = useSelector((state) => state.session.role_id)
     const role_name = useSelector((state) => state.session.rolename)
 
+    const saved_courses = useSelector((state) => state.viewlearningjourney.saved_courses)
+
+
     const [output, setoutput] = useState([])
+    
     const [jobname, setjobname] = useState([])
 
-    const addcourse = () => {
-
+    const addcourse = (courseid) => {
+      const result = {'course_id': courseid, "learning_journey_id" : learningjourney_id} 
+      const options = {
+        method: "POST",
+        headers: {
+              'Content-Type': 'application/json',
+              "Access-Control-Allow-Origin": "http://localhost:3000/learningjourneyviewcourse"
+              },
+        body: JSON.stringify(result)
+      }
+      fetch("http://127.0.0.1:5000/learningjourney/addingcoursesinlearningjourney", options)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.data)
+      })
+      navigate("/learningjourneyviewcourse", {replace: true})
     }
 
 
+    // This is to know the Role Name from the Role Id.
     useEffect(() => {
         // I need to know who have logged in. 
         const result = {"jobrole": jobrole_id}
@@ -79,29 +101,34 @@ function Ljaddskills() {
       fetchMyAPI()
     },[])
 
+    // This part onwards will fetch back all the information
     useEffect(() => {
         // I need to know who have logged in. 
-        const result = {"jobrole_id": jobrole_id}
+        const result1 = {"jobrole_id": jobrole_id, "course_saved": saved_courses}
         const options = {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "http://localhost:3000/learningjourneyaddskills"
             },
-            body: JSON.stringify(result)
+            body: JSON.stringify(result1)
         }
         const fetchMyAPI = async () => {
             let response = await fetch("http://127.0.0.1:5000/learningjourney/viewcoursesinjobrole", options)
             response = await response.json()
+            // console.log(result1)
             setoutput(response.data)
-            console.log("This is the LjViewCourse",response.data['jobrole_name'])
+            // console.log("This is the LjViewCourse",response.data['jobrole_name'])
       }
       fetchMyAPI()
+      // console.log("This is from ljAddskills",result)
+
     },[])
     
-    console.log(output)
+    // console.log(output)
     return (
         <Container>
+          
             <Box marginTop="5%">
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
@@ -140,7 +167,7 @@ function Ljaddskills() {
                       <TableCell>Course Description</TableCell>
                       <TableCell>Course Type</TableCell>
                       <TableCell>Course Category</TableCell>
-                      <TableCell></TableCell>
+                      <TableCell>Track</TableCell>
 
                     </TableRow>
                   </TableHead>
@@ -154,12 +181,15 @@ function Ljaddskills() {
                       <TableCell>{singleoutput.course_type}</TableCell>
                       <TableCell>{singleoutput.course_category}</TableCell>
                       <TableCell>
-                        {/* <IconButton color="primary" onClick={() => ArchiveModal(singleoutput["course_id"])} ><DeleteIcon/></IconButton> */}
+                        <IconButton color="primary" onClick={() => addcourse(singleoutput["course_id"])}><AddCircle/></IconButton>
                       </TableCell>
 
                     </TableRow>
                     )}
+                    {output.length == 0 ? <TableCell colSpan={5}><Typography textAlign="center" color="secondary">There is no skills left to be added to Learning Journey.</Typography></TableCell>  : <></>}
+
                   </TableBody>
+                  
                   {/* End of the Body Table  */}
                 </Table>
               </TableContainer>

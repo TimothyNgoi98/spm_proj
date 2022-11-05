@@ -663,7 +663,7 @@ CREATE TABLE IF NOT EXISTS `skill` (
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
 VALUES (1, "Mobile Design Architecture Skill", "Able to create Prototyping frameworks, user flows, mockups.","Active");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
-VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired ");
+VALUES (2, "Conflict Management Skill", "Able to handle team and customer conflict effectively.","Retired");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
 VALUES (3, "Computer Skills", "Great computer literacy.","Active");
 INSERT INTO Skill (Skill_ID, Skill_Name,Skill_Desc,Skill_Status )
@@ -809,7 +809,7 @@ ALTER TABLE `learning_journey_detailed`
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('1', 'COR001');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('1', 'COR002');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR001');
-INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR004');
+INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('2', 'COR002');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('3', 'COR001');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('4', 'COR001');
 INSERT INTO `learning_journey_detailed` (`LearningJourney_ID`, `Course_ID`) VALUES ('5', 'COR001');
