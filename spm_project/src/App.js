@@ -54,6 +54,7 @@ function App() {
               <Route path="/learningjourney" element = {<Home />} />
               <Route path="/learningjourneyviewcourse" element = {<Ljviewcourse />} />
               <Route path="/learningjourneyaddskills" element={<Ljaddskills/>} />
+              <Route path="/confirmSelectedCourses" element={<Ljcourse/>} />
 
                 {/* Protected Routes for HR */}
                 <Route element = {<ProtectedRoutesforhr />}>
