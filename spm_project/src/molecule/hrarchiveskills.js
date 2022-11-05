@@ -278,7 +278,7 @@ function Hrarchiveskills() {
               <Typography id="transition-modal-title" variant="h6" component="h2">
                 Restore <strong>{restore_name}</strong>?
               </Typography>
-              <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
+              <Button sx={{mt:2}} variant="contained" color="primary" onClick={deletefrom_database}>
                 Restore
               </Button>
             </Box>

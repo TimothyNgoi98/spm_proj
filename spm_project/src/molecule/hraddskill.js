@@ -153,7 +153,7 @@ function Hraddskill() {
                     <Grid container marginTop="25px">
                         <Grid item xs={2}></Grid>
                         <Grid item xs={4}>
-                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                            <ButtonGroup variant="contained" color="error" aria-label="outlined primary button group">
                                 <Button onClick={backtoskills}>
                                 Cancel</Button>
                             </ButtonGroup>
