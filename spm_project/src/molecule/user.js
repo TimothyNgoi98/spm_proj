@@ -1,8 +1,9 @@
 // Import All React Related files here
 import * as React from 'react';
 import { useState,useEffect, useCallback } from 'react';
-import {setskill_ids} from '../reduxslice/jobrolesSlice'
+// import {setskill_ids} from '../reduxslice/jobrolesSlice'
 import {useDispatch, useSelector} from 'react-redux';
+
 
 // Import All Router Links here
 import {useNavigate} from 'react-router-dom';
@@ -29,6 +30,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Accordion from '@mui/material/Accordion';
 import { AccordionDetails, AccordionSummary } from '@mui/material'; 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Checkbox from '@mui/material/Checkbox';
 
   // [] - onload (and u can track something that change)
@@ -44,7 +46,9 @@ function User() {
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
     const matches2 = useMediaQuery(theme.breakpoints.up('sm'));
 
+
     let skill_ids = useSelector((state) => state.jobrole.skill_ids)
+    let skill_name = useSelector((state) => state.jobrole.skill_name)
     let navigateSkill = useNavigate()
     const [outputSkill, handleoutputSkill] = useState([])
   
@@ -91,7 +95,7 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                PLease select all the courses you want to add to your Learning Journey
+                Course Dashboard 
 
                 {/* {outputSkill["0"]["skill_name"]}
                 {outputSkill[0].map((singleoutputSkill) => (
@@ -118,42 +122,53 @@ function User() {
 
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              {matches &&  
-                  <Grid>
-                    {outputSkill.map((singleoutputSkill) => (
-                        singleoutputSkill.course_status === "Active"
-                        ? 
-                        <Grid>
-                          <Accordion>
-                            <AccordionSummary><b>{singleoutputSkill.course_name}</b></AccordionSummary>
-                            <AccordionDetails>
-                              <TableRow><b>Course ID: </b> {singleoutputSkill.course_id}</TableRow>
-                              <br />
-                              <hr />
-                              <TableRow style={{textAlign: 'left'}}><b >Course Description: </b> {singleoutputSkill.course_desc}</TableRow>
-                              <br />
-                              <hr />
-                              <TableRow><b>Course Status: </b> {singleoutputSkill.course_status}</TableRow>
-                              <br />
-                              <hr />
-                              <TableRow><b>Course Category: </b> {singleoutputSkill.course_category}</TableRow>
-                              <br />
-                              <hr />
-                              <TableRow><b>Course Type: </b> {singleoutputSkill.course_type}</TableRow>
-                              <br />
-                              <hr />
-                              <TableRow><b>Selection of Course: </b></TableRow> <Checkbox onChange = {(event)=>handleCheck(event, singleoutputSkill)}/>
-                              <br />
-                          </AccordionDetails>
-                          </Accordion>
-                        </Grid>
 
-                      : <TableRow>
-                          <TableCell> There are no Courses for this Skill </TableCell>
-                        </TableRow>
-                      ))}
-                  </Grid>
-                }
+            {matches &&  
+                <Grid>
+
+             
+                  {outputSkill.map((singleoutputSkill) => (
+                      singleoutputSkill.course_status === "Active"
+                      ? 
+                      <Grid>
+                        <Accordion>
+                          <AccordionSummary><b>{singleoutputSkill.course_name}</b></AccordionSummary>
+                         <AccordionDetails>
+                   
+                            <TableRow><b>Course ID: </b> {singleoutputSkill.course_id}</TableRow>
+                     
+                            <br />
+                            <hr />
+                           
+                           
+                            <TableRow style={{textAlign: 'left'}}><b >Course Description: </b> {singleoutputSkill.course_desc}</TableRow>
+                     
+                            <br />
+                            <hr />
+                            <TableRow><b>Course Status: </b> {singleoutputSkill.course_status}</TableRow>
+                      
+                            <br />
+                            <hr />
+                            <TableRow><b>Course Category: </b> {singleoutputSkill.course_category}</TableRow>
+
+                            <br />
+                            <hr />
+
+                            <TableRow><b>Course Type: </b> {singleoutputSkill.course_type}</TableRow>
+                            <br />
+                          
+                        </AccordionDetails>
+                        </Accordion>
+                      </Grid>
+   
+
+                    : <TableRow>
+                        <TableCell> There are no Courses for this Skill </TableCell>
+                      </TableRow>
+                    ))}
+
+                </Grid>
+              }
 
               {matches2 &&
               <TableContainer>
