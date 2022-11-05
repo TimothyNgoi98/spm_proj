@@ -32,15 +32,19 @@ import Accordion from '@mui/material/Accordion';
 import { AccordionDetails, AccordionSummary } from '@mui/material'; 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Checkbox from '@mui/material/Checkbox';
+import { setTransfer } from '../reduxslice/courseSlice';
 
   // [] - onload (and u can track something that change)
   // course category is redux (one page to another)
 
 function User() {
 
-    // let jobRoles_desc = useSelector((state) => state.jobrole.jobrole_desc)
-    // let jobRoles_id = useSelector((state) => state.jobrole.jobrole_id)
-    // let jobRoles_name = useSelector((state) => state.jobrole.jobrole_name)
+    let jobRoles_desc = useSelector((state) => state.jobrole.jobrole_desc)
+    let jobRoles_id = useSelector((state) => state.jobrole.jobrole_id)
+    let jobRoles_name = useSelector((state) => state.jobrole.jobrole_name)
+    console.log(jobRoles_desc)
+    console.log(jobRoles_id)
+    console.log(jobRoles_name)
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -72,7 +76,10 @@ function User() {
   const dispatch = useDispatch();
 
   function handleClick() {
-    dispatch()
+    console.log(checked, "CHECKED 2")
+    checked.push(jobRoles_id)
+    checked.push(jobRoles_name)
+    dispatch(setTransfer(checked))
     navigate("/confirmSelectCoursesHere")
 }
 
@@ -136,7 +143,8 @@ function User() {
                          <AccordionDetails>
                    
                             <TableRow><b>Course ID: </b> {singleoutputSkill.course_id}</TableRow>
-                     
+                            {console.log(checked, "cheCKED VALUE")}
+
                             <br />
                             <hr />
                            
