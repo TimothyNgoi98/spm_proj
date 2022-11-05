@@ -280,14 +280,13 @@ def route2():
     )
 
 # archivejobrole (Comment out after minjay input his shit)
-@jobrole.route('/archivejobrole/', methods= ['PUT'])
-def archiveSkill():
-    # print("Soft Delete Skill Received -----")
-    frontend_input = request.get_json()
-    print(frontend_input)
-    jobrole_id = frontend_input['jobrole_id']
+@jobrole.route('/archivejobrole', methods= ['PUT'])
+def archiveJobrole():
+    data = request.get_json()
+    # print(data)
+    jobrole_id = data['jobrole_id']
     jobrole_database = Jobrole.query.filter_by(jobrole_id=jobrole_id).first()
-    print(jobrole_database)
+    # print(jobrole_database)
 
     if jobrole_database.jobrole_status == "Active":
         jobrole_database.jobrole_status = "Retired"
@@ -295,12 +294,12 @@ def archiveSkill():
             db.session.commit()
             return jsonify({
                 "code":200,
-                "message": "Job Role status has been changed to Retired."
+                "message": "Role status has been changed to Retired. \n\nRole has been moved to archived list."
             })
         except:
             return jsonify({
                 "code":404,
-                "message": "There has been an error with changing from Active to Retired. Please try again"
+                "message": "There has been an error changing the status from Active to Retired. \n\nPlease try again."
             })
 
     else:
@@ -309,10 +308,10 @@ def archiveSkill():
             db.session.commit()
             return jsonify({
                 "code":200,
-                "message": "Jobrole has been changed to Active."
+                "message": "Role status has been changed to Active."
             })
         except:
             return jsonify({
                 "code":404,
-                "message": "There has been an error with changing from Retired to Active."
+                "message": "There has been an error with changing the role status from Retired to Active."
             })

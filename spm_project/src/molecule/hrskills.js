@@ -292,7 +292,7 @@ function Hrskills() {
             <Fade in={openDeleteModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Archive {archive_skill_name}?
+                Archive <strong>{archive_skill_name}</strong>?
               </Typography>
               <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
                 Archive Skill

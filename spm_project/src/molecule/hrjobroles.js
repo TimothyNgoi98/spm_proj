@@ -137,17 +137,17 @@ function Hrroles() {
     };
     // Upon Clicking on the delete Button in the Modal, it will Delete the skill from the database.
     const deletefrom_database = () => {
-        console.log("Successfully deleted!");
-        const result = { skill_id: deleteitem };
+        // console.log("Successfully deleted!");
+        const result = { jobrole_id: deleteitem };
         const options = {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:3000/signin",
+                "Access-Control-Allow-Origin": "http://localhost:3000/Hrroles",
             },
             body: JSON.stringify(result),
         };
-        fetch("http://127.0.0.1:5000/skill/archiveskill/", options)
+        fetch("http://127.0.0.1:5000/jobrole/archivejobrole", options)
             .then((response) => response.json())
             .then((data) => {
                 alert(data.message);
@@ -329,7 +329,7 @@ function Hrroles() {
                 <Fade in={openDeleteModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Archive {archive_role_name}?
+                            Archive <strong>{archive_role_name}</strong>?
                         </Typography>
                         <Button
                             sx={{ mt: 2 }}
