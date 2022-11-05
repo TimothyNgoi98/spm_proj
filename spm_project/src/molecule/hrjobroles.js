@@ -54,44 +54,73 @@ function Hrroles() {
     const addbutton = () => {
         navigate("/Hraddjobrole", { replace: true });
     };
-    // Modal Archive Input Fields
+    // Modal Update Input Fields
     const [input_name, setinput_name] = useState("");
+    const [input_department, setinput_department] = useState("");
     const [input_description, setinput_description] = useState("");
+    const [current_role_name, setcurrent_role_name] = useState("");
+    const [current_role_description,setcurrent_role_description]= useState("")
+    const [current_role_department,setcurrent_role_department] = useState("")
 
     const changeinput_name = (event) => {
         setinput_name(event.target.value);
     };
+    
+    const changeinput_department = (event) => {
+        setinput_department(event.target.value);
+    };
 
     const changeinput_description = (event) => {
-        setinput_name(event.target.value);
+        setinput_description(event.target.value);
     };
 
     // Modal
-    const [archive, setarchive] = useState("");
+    const [update, setupdate] = useState("");
     const [deleteitem, setDeleteitem] = useState("");
-    const [openArchiveModal, setArchiveModal] = useState(false);
+    const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
+    // Prepopulating the data for the modal
 
-    // First onClick to open up the Modal for Archive
-    const ArchiveModal = (data) => {
-        console.log("Archive Modal::", data);
-        setArchiveModal(true);
-        setarchive(data);
+    // First onClick to open up the Modal for Update
+    const UpdateModal = (data) => {
+        console.log("Update Modal:", data);
+        setUpdateModal(true);
+        setupdate(data[0]);
+        setcurrent_role_name(data[1])
+        setcurrent_role_description(data[3])
+        setcurrent_role_department(data[2])
     };
     // Second OnClick to Close the Modal and return all other fields to zero
-    const closeArchiveModal = () => {
-        setArchiveModal(false);
+    const closeUpdateModal = () => {
+        setUpdateModal(false);
         setinput_name("");
+        setinput_department("");
         setinput_description("");
-        setarchive("");
+        setupdate("");
     };
-    // Upon Clicking on the Submit Button in the Modal, it will update the skill description
+    // Upon Clicking on the Submit Button in the Modal, it will update the role details
     const updatedatabase = () => {
-        if (input_name.length == 0 || input_name.length > 50 || input_description.length == 0 || input_description.length > 250 ) {
-            alert("Please check if your input fields fulfills the criteria.")
+        if (input_name.length === 0 || input_name.length > 30 || input_department.length === 0 || input_department.length > 20 || input_description.length === 0 || input_description.length > 500) {
+            alert("Please check if your updated input fields fulfills the criteria.")
         }
-        console.log("Updated!");
-        // #.fetch + async
+        else {
+            const result = {"role_id": update, "role_name" : input_name, "department" : input_department, "role_description" : input_description, "current_role_name" : current_role_name} 
+            const options = {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "http://localhost:3000/Hrroles"
+                    },
+                body: JSON.stringify(result)
+            }
+            fetch("http://127.0.0.1:5000/jobrole/updateinformation", options)
+            .then(response => response.json())
+            .then(data => {
+                alert(data.Message) 
+            })
+            setUpdateModal(false)
+            setupdate("")
+        }
     };
 
     // Soft Delete OF Roles MODAL ############################################################
@@ -128,7 +157,7 @@ function Hrroles() {
 
     // Navigate to Archive Skills
     const archivepage = () => {
-        navigate("/hrarchiveskills", { replace: true });
+        navigate("/Hrarchivedjobroles", { replace: true });
     };
 
     // Fetching Async
@@ -142,12 +171,10 @@ function Hrroles() {
         };
 
         fetchMyAPI();
-    }, [openDeleteModal]);
+    }, [openDeleteModal, openUpdateModal ]);
 
     return (
         <Container>
-            {/* {archive}
-        {openArchiveModal} */}
 
             <Box marginTop="5%">
                 <Grid container spacing={1}>
@@ -155,7 +182,7 @@ function Hrroles() {
                         <Typography variant="h6" textAlign="left">
                             Job Role Management Dashboard
                         </Typography>
-                    </Grid>
+                    </Grid> 
                     <Grid item xs={2}></Grid>
 
                     <Grid item xs={4}>
@@ -198,7 +225,9 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                ArchiveModal(singleoutput.JobRole_ID)
+                                                                // Actually can just put single output for this
+                                                                UpdateModal([singleoutput.jobrole_id, singleoutput.jobrole_name, singleoutput.department,singleoutput.jobrole_desc,
+                                                                singleoutput.jobrole_status])
                                                             }
                                                         >
                                                             <EditIcon />
@@ -208,7 +237,7 @@ function Hrroles() {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() =>
-                                                                deletebuttonclicked(singleoutput.JobRole_ID)
+                                                                deletebuttonclicked(singleoutput.jobrole_id)
                                                             }
                                                         >
                                                             <MoveToInboxIcon />
@@ -230,30 +259,51 @@ function Hrroles() {
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
-                open={openArchiveModal}
-                onClose={closeArchiveModal}
+                open={openUpdateModal}
+                onClose={closeUpdateModal}
             >
-                <Fade in={openArchiveModal}>
+                <Fade in={openUpdateModal}>
                     <Box sx={Modalstyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Update Role Information
                         </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Skill_Id : {archive}
+                        <Typography id="transition-modal-description" sx={{ mt: 3 }} color="primary">
+                            Current Role Name:
+                        </Typography>
+                        <Typography sx={{mt: 1}}>
+                        {current_role_name}
                         </Typography>
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
-                            label="Skill Name"
-                            helperText="Skill name has to be less than 50 characters."
+                            label="New Role Name"
+                            helperText="Role name has to be less than 30 characters."
+                            // defaultValue={current_role_name}       
                             onChange={changeinput_name}
                         />
+                        <Typography id="transition-modal-description" sx={{ mt: 3 }} color="primary">Current Department:</Typography>
+                        <Typography sx={{mt: 1}}>
+                        {current_role_department}
+                        </Typography>
                         <TextField
                             sx={{ mt: 2 }}
                             fullWidth
-                            label="Skills Description"
+                            label="New Department"
+                            helperText="Department has to be less than 20 characters."
+                            // defaultValue={current_role_department}    
+                            onChange={changeinput_department}
+                        />
+                        <Typography  id="transition-modal-description" sx={{ mt: 3 }} color="primary">Current Role Description:
+                        </Typography>
+                        <Typography sx={{mt: 1}} fontSize={14}>{current_role_description}</Typography>
+                        <TextField
+                            sx={{ mt: 2 }}
+                            multiline
+                            fullWidth
+                            label="New Role Description"
                             id="fullWidth"
-                            helperText="Skill Description has to be less than 250 characters."
+                            helperText="Role Description has to be less than 500 characters."
+                            // defaultValue={current_role_description}
                             onChange={changeinput_description}
                         />
                         <Button
@@ -262,7 +312,7 @@ function Hrroles() {
                             color="success"
                             onClick={updatedatabase}
                         >
-                            Update Skill
+                            Update Role
                         </Button>
                     </Box>
                 </Fade>
