@@ -5,7 +5,7 @@ import { useState,useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 // import {setskill_ids} from '../reduxslice/jobrolesSlice'
-import { setjobrole_desc, setjobrole_id, setjobrole_name, setskill_ids} from '../reduxslice/jobrolesSlice'
+import { setjobrole_desc, setjobrole_id, setjobrole_name, setskill_ids, setskill_name} from '../reduxslice/jobrolesSlice'
 
 
 // Import All Router Links here
@@ -101,13 +101,15 @@ function Viewskills() {
     console.log(jobRoleId)
     console.log(jobRoleObject)
     
-    const redirect_skill = () => {
+    const redirect_skill = (data) => {
 
         setSkills(jobroletoskill.skills)
         dispatch(setjobrole_desc(jobRoles_desc))
         dispatch(setjobrole_id(jobRoles_id))
         dispatch(setjobrole_name(jobRoles_name))
-        dispatch(setskill_ids(Skills))
+        dispatch(setskill_ids(data[0]))
+        dispatch(setskill_name(data[1]))
+        console.log(data)
         navigate("/user")
 
     }
@@ -156,7 +158,7 @@ function Viewskills() {
                             <TableCell>{singleoutput['skill_desc']}</TableCell>
                             <TableCell>{singleoutput['skill_status']}</TableCell>
                             <TableCell>
-                                <IconButton color="primary" onClick={()=> redirect_skill()}><AddCircle/></IconButton>
+                                <IconButton color="primary" onClick={()=> redirect_skill([singleoutput['skill_id'], singleoutput['skill_name']])}><AddCircle/></IconButton>
                             </TableCell> 
                             </TableRow>
                             ))}

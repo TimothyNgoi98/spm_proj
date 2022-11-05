@@ -1,8 +1,9 @@
 // Import All React Related files here
 import * as React from 'react';
 import { useState,useEffect, useCallback } from 'react';
-import {setskill_ids} from '../reduxslice/jobrolesSlice'
+// import {setskill_ids} from '../reduxslice/jobrolesSlice'
 import {useDispatch, useSelector} from 'react-redux';
+
 
 // Import All Router Links here
 import {useNavigate} from 'react-router-dom';
@@ -28,6 +29,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Accordion from '@mui/material/Accordion';
 import { AccordionDetails, AccordionSummary } from '@mui/material'; 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
   // [] - onload (and u can track something that change)
   // course category is redux (one page to another)
@@ -61,7 +63,10 @@ function User() {
     const matches2 = useMediaQuery(theme.breakpoints.up('sm'));
 
 
+
+
     let skill_ids = useSelector((state) => state.jobrole.skill_ids)
+    let skill_name = useSelector((state) => state.jobrole.skill_name)
     let navigateSkill = useNavigate()
     const [outputSkill, handleoutputSkill] = useState([])
   
@@ -103,7 +108,7 @@ function User() {
 
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Course Dashboard 
+                Course Dashboard for {skill_name}
 
                 {/* {outputSkill["0"]["skill_name"]}
                 {outputSkill[0].map((singleoutputSkill) => (
@@ -139,7 +144,7 @@ function User() {
                       ? 
                       <Grid>
                         <Accordion>
-                          <AccordionSummary><b>{singleoutputSkill.course_name}</b></AccordionSummary>
+                          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header"><b>{singleoutputSkill.course_name}</b></AccordionSummary>
                          <AccordionDetails>
                    
                             <TableRow><b>Course ID: </b> {singleoutputSkill.course_id}</TableRow>
