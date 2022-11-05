@@ -164,6 +164,12 @@ function User() {
 
                             <TableRow><b>Course Type: </b> {singleoutputSkill.course_type}</TableRow>
                             <br />
+                            <hr />
+
+                            <TableRow><b>Selection of Course: </b> <Checkbox onChange = {(event)=>handleCheck(event, singleoutputSkill)}/></TableRow>
+                            <br />
+
+                            
                           
                         </AccordionDetails>
                         </Accordion>
