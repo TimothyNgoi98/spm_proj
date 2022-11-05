@@ -83,7 +83,10 @@ function Ljviewcourse() {
     }
     // Upon Clicking on the yes button, will proceed to delete the course
     const deletecoursesinlearningjourney = () => {
-
+      if (output.length == 1) {
+        alert("You are unable to delete this course in the learning journey")
+      }
+      else{
       const result = {'course_id': course_id, "learning_journey_id" : learningjourney_id} 
       const options = {
         method: "DELETE",
@@ -102,6 +105,7 @@ function Ljviewcourse() {
         setArchiveModal(false)
 
       })
+    }
     }
 
     const add_skill = () => {

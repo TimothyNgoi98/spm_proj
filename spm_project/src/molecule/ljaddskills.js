@@ -40,6 +40,8 @@ import AddCircle from '@mui/icons-material/AddCircle';
 
 
 function Ljaddskills() {
+  let navigate = useNavigate();
+
     // I need to fetch back the courses that are tagged to this job role
     const learningjourney_id = useSelector((state) => state.viewlearningjourney.current_learningjourney)
     const jobrole_id = useSelector((state) => state.viewlearningjourney.jobrole_id)
@@ -56,6 +58,7 @@ function Ljaddskills() {
 
 
     const [output, setoutput] = useState([])
+    
     const [jobname, setjobname] = useState([])
 
     const addcourse = (courseid) => {
@@ -73,6 +76,7 @@ function Ljaddskills() {
       .then(data => {
         alert(data.data)
       })
+      navigate("/learningjourneyviewcourse", {replace: true})
     }
 
 
@@ -182,7 +186,10 @@ function Ljaddskills() {
 
                     </TableRow>
                     )}
+                    {output.length == 0 ? <TableCell colSpan={5}><Typography textAlign="center" color="secondary">There is no skills left to be added to Learning Journey.</Typography></TableCell>  : <></>}
+
                   </TableBody>
+                  
                   {/* End of the Body Table  */}
                 </Table>
               </TableContainer>
