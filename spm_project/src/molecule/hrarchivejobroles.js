@@ -34,10 +34,10 @@ import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
-function Hrskills() {
-  
-  // Just to try: 
+function Hrarchivejobroles() {
+// Just to try: 
   // state.transfer (this transfer refers to the store.js , what name you linked it to )
   // 3rd paramter will be the initial state , one of the ojbect name 
 
@@ -65,8 +65,6 @@ function Hrskills() {
   // Modal Archive Input Fields
   const [input_name, setinput_name] = useState("")
   const [input_description, setinput_description] = useState("")
-  const [current_skill_name, setcurrent_skill_name] = useState("")
-  const [current_skill_desc, setcurrent_skill_desc] = useState("")
 
   const changeinput_name = (event) => {
     setinput_name(event.target.value)
@@ -88,9 +86,7 @@ function Hrskills() {
   const ArchiveModal = (data) => {
     console.log("Archive Modal::", data)
     setArchiveModal(true)
-    setarchive(data[0])
-    setcurrent_skill_name(data[1])
-    setcurrent_skill_desc(data[2])
+    setarchive(data)
   }
   // Second OnClick to Close the Modal and return all other fields to zero
   const closeArchiveModal = () => {
@@ -101,11 +97,12 @@ function Hrskills() {
   }
   // Upon Clicking on the Submit Button in the Modal, it will update the skill description
   const updatedatabase = () => {
+
     if (input_name.length === 0 || input_name.length > 50 || input_description.length === 0 || input_description.length > 250 ) {
       alert("Please check if your input fields fulfills the criteria.")
     }
     else {
-    const result = {'skill_id': archive, "skill_name" : input_name, "skill_description" : input_description, "current_skill_name": current_skill_name } 
+    const result = {'jobrole_id': archive, "jobrole_name" : input_name, "jobrole_description" : input_description } 
     const options = {
       method: "PUT",
       headers: {
@@ -114,7 +111,7 @@ function Hrskills() {
             },
       body: JSON.stringify(result)
     }
-    fetch("http://127.0.0.1:5000/skill/updatedescription/", options)
+    fetch("http://127.0.0.1:5000/jobrole/updatedescription/", options)
     .then(response => response.json())
     .then(data => {
       alert(data.Message)
@@ -137,8 +134,9 @@ function Hrskills() {
   }
   // Upon Clicking on the delete Button in the Modal, it will Delete the skill from the database. 
   const deletefrom_database = () => {
-    console.log("Successfully deleted!")
-    const result = {'skill_id': deleteitem} 
+    // console.log("Successfully deleted!")
+    console.log(deleteitem)
+    const result = {'jobrole_id': deleteitem} 
     const options = {
       method: "PUT",
       headers: {
@@ -147,7 +145,7 @@ function Hrskills() {
             },
       body: JSON.stringify(result)
     }
-    fetch("http://127.0.0.1:5000/skill/archiveskill/", options)
+    fetch("http://127.0.0.1:5000/jobrole/archivejobrole/", options)
     .then(response => response.json())
     .then(data => {
       alert(data.message)
@@ -158,8 +156,8 @@ function Hrskills() {
   }
 
   // Navigate to Archive Skills 
-  const archivepage = () => {
-    navigate("/hrarchiveskills", {replace: true})
+  const jobrolePage = () => {
+    navigate("/Hrjobrole", {replace: true})
   }
 
 
@@ -167,10 +165,10 @@ function Hrskills() {
     useEffect(() => {
 
       const fetchMyAPI = async () => {
-        let response = await fetch("http://127.0.0.1:5000/api/viewskills")
+        let response = await fetch("http://127.0.0.1:5000/jobrole/view/alljobroles")
         response = await response.json()
         handleoutput(response.data)
-        console.log("This is from hr Skills: " + response.data)
+        console.log("This is from the jobroles " + response.data)
         console.log(response)
       }
   
@@ -179,20 +177,21 @@ function Hrskills() {
 
   return (
       <Container>
+        {/* {archive}
+        {openArchiveModal} */}
 
         <Box marginTop="5%">
           <Grid container spacing={1}>
             <Grid item xs={6} alignContent="left">
               <Typography variant="h6" textAlign="left">
-                Skills Management Dashboard
+                Job Role Archive Management Dashboard
               </Typography>
             </Grid>
             <Grid item xs={2}></Grid>
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={addbutton}>Create Skill</Button>
-                <Button onClick={archivepage}>Archive List</Button>
+                <Button onClick={jobrolePage}>Back to Active Job Roles</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
@@ -205,8 +204,8 @@ function Hrskills() {
                     <TableRow>
 
                       <TableCell>ID</TableCell>
-                      <TableCell>Skill Name</TableCell>
-                      <TableCell>Skill Description</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Description</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell colSpan={2}></TableCell>
 
@@ -216,18 +215,18 @@ function Hrskills() {
                   {/* The body of the Table Goes here */}
                   <TableBody>
                     {output.map((singleoutput) => {
-                      if (singleoutput.skill_status === "Active") {
+                      if (singleoutput.jobrole_status === "Retired") {
                         return(
                       <TableRow>
-                      <TableCell>{singleoutput.skill_id}</TableCell>
-                      <TableCell>{singleoutput.skill_name}</TableCell>
-                      <TableCell>{singleoutput.skill_desc}</TableCell>
-                      <TableCell>{singleoutput.skill_status}</TableCell>
+                      <TableCell>{singleoutput.jobrole_id}</TableCell>
+                      <TableCell>{singleoutput.jobrole_name}</TableCell>
+                      <TableCell>{singleoutput.jobrole_desc}</TableCell>
+                      <TableCell>{singleoutput.jobrole_status}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={()=> ArchiveModal([singleoutput.skill_id, singleoutput.skill_name, singleoutput.skill_desc])}><EditIcon/></IconButton>
+                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.jobrole_id)}><EditIcon/></IconButton>
                       </TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.skill_id)}><MoveToInboxIcon/></IconButton>
+                        <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput.jobrole_id)}><LibraryAddIcon/></IconButton>
                       </TableCell>
                     </TableRow>
                         )
@@ -243,7 +242,7 @@ function Hrskills() {
 
         </Box>
         {/* This is the modal part for archive and Delete */}
-        {/* Model 1 For Archive of skills. ######################################################### */}
+        {/* Model 1 For Archive of jobroles. ######################################################### */}
         <Modal  
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -253,29 +252,15 @@ function Hrskills() {
           <Fade in={openArchiveModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Update Skill Information
+                Update Jobrole Information
               </Typography>
-              <Typography id="transition-modal-description" color="primary" sx={{ mt: 2 }}>
-                Current Skill Name:
+              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                Jobrole_Id : {archive}
               </Typography>
-              <Typography sx={{mt: 1}}>
-                {current_skill_name}  
-              </Typography>
-              <TextField sx={{mt:2}} fullWidth label="New Skill Name" helperText="Skill name has to be less than 50 characters." 
-              // defaultValue={current_skill_name}  
-              onChange={changeinput_name}/>
-              
-              <Typography id="transition-modal-description" color="primary" sx={{ mt: 2 }}>
-                Current Skill Description:
-              </Typography>
-              <Typography sx={{mt: 1}} fontSize={14}>
-                {current_skill_desc}  
-              </Typography>
-              <TextField sx ={{mt: 2}} fullWidth label="New Skill Description" id="fullWidth" helperText="Skill Description has to be less than 250 characters."
-              // defaultValue={current_skill_desc}  
-              onChange={changeinput_description} />
+              <TextField sx={{mt:2}} fullWidth label="Jobrole Name" helperText="Jobrole name has to be less than 50 characters." onChange={changeinput_name}/>
+              <TextField sx ={{mt: 2}} fullWidth label="Jobrole Description" id="fullWidth" helperText="Jobrole Description has to be less than 250 characters."onChange={changeinput_description} />
               <Button sx={{mt:2}}variant="contained" color="success" onClick={updatedatabase}>
-                Update Skill 
+                Update Jobrole
               </Button>
             </Box>
           </Fade>
@@ -290,10 +275,10 @@ function Hrskills() {
             <Fade in={openDeleteModal}>
             <Box sx={Modalstyle}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
-                Archive Skill? <br></br>Skill_ID: {deleteitem}
+                Restore Jobrole? <br></br>Jobrole_ID: {deleteitem}
               </Typography>
               <Button sx={{mt:2}} variant="contained" color="error" onClick={deletefrom_database}>
-                Change Skill Status
+                Change Jobrole Status
               </Button>
             </Box>
           </Fade>
@@ -303,4 +288,4 @@ function Hrskills() {
   );
 }
 
-export default Hrskills;
+export default Hrarchivejobroles;

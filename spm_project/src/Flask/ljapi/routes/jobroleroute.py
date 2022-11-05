@@ -1,3 +1,4 @@
+from tabnanny import check
 from flask import Blueprint, jsonify, request
 from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Registration
 
@@ -61,6 +62,53 @@ def hraddrole():
             "message": "There is error with creating a new jobrole."
         })
 
+@jobrole.route('/updateinformation', methods= ['PUT'])
+def updateDescription():
+    frontend_input = request.get_json()
+    
+    print(frontend_input)
+    # Inputs from the frontend
+    # {"role_id": update, "role_name" : input_name, "department" : input_department, "role_description" : input_description } 
+    input_role_id = frontend_input["role_id"]
+    input_role_name = frontend_input["role_name"]
+    input_department = frontend_input["department"]
+    input_role_description = frontend_input["role_description"]
+    current_name = frontend_input["current_role_name"]
+
+    # Check Database of the current ID 
+    jobrole_database = Jobrole.query.filter_by(jobrole_id=input_role_id).first()
+    # Check if there is an existing Role_Name already inside the database
+    # Logic: If Role ID is different from the current role_id, if different then flag return
+    checked_name = Jobrole.query.filter_by(jobrole_name=input_role_name).first()
+    # print(checked_name.to_dict())
+    # if None Type is true, means there is no duplicate Name inside
+    if checked_name == None or checked_name.jobrole_name == current_name:
+        
+        jobrole_database.jobrole_name = input_role_name
+        jobrole_database.department = input_department
+        jobrole_database.jobrole_desc = input_role_description
+
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "Message": "Role Information has been updated."
+            })
+        except:
+
+            return jsonify({
+                "code":404,
+                "Message": "There is something wrong with updating the database. Please try again."
+            })
+
+    else:
+        return jsonify({
+            "code": 404,
+            "Message" : "There is a similar role name in the database, role information is not updated!"
+        })
+
+
+
 @jobrole.route('view/jobrolesmapped', methods = ['GET'])
 def viewJobRolesMapped():
     jobroles = Jobrole.query.all()
@@ -106,6 +154,66 @@ def updateParticularJobrole(jobroleid):
         for skill in jobrole.skill:
             array.append(skill.to_dict())
         
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "jobroledetails": jobrole.to_dict(),
+                    "skills": array
+                }
+            }
+        ), 200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": data
+            }
+        ),200
+
+@jobrole.route('/Viewskills/<string:jobroleid>')
+def getSKillsOfParticularJobrole(jobroleid):
+    # data = request.get_json()
+    jobrole = Jobrole.query.filter_by(jobrole_id=jobroleid).first()
+    array = []
+    if jobrole:
+        for item in jobrole.skill:
+            array.append(item.to_dict())
+        
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "jobroledetails": jobrole.to_dict(),
+                    "skills": array
+                }
+            }
+        ), 200
+    
+    else:
+        return jsonify(
+            {
+                "code": 404,
+                "data": 'Jobrole Id not found'
+            }
+        ),200
+
+@jobrole.route('/removemapping/<string:jobroleid>', methods= ['DELETE'])
+def removeSkill(jobroleid):
+    data = request.get_json()
+    jobroleID = data[0]
+    skillID = data[1]
+    jobrole = Jobrole.query.filter_by(jobrole_id=jobroleID).first()
+    if jobrole:
+        skillFrontend = Skill.query.filter_by(skill_id=skillID).first()
+        jobrole.skill.remove(skillFrontend)
+        db.session.commit()
+
+        array = []
+        for skill in jobrole.skill:
+            array.append(skill.to_dict())
+
         return jsonify(
             {
                 "code": 200,
@@ -171,4 +279,40 @@ def route2():
         }
     )
 
+# archivejobrole (Comment out after minjay input his shit)
+@jobrole.route('/archivejobrole/', methods= ['PUT'])
+def archiveSkill():
+    # print("Soft Delete Skill Received -----")
+    frontend_input = request.get_json()
+    print(frontend_input)
+    jobrole_id = frontend_input['jobrole_id']
+    jobrole_database = Jobrole.query.filter_by(jobrole_id=jobrole_id).first()
+    print(jobrole_database)
 
+    if jobrole_database.jobrole_status == "Active":
+        jobrole_database.jobrole_status = "Retired"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Jobrole has been changed to Retired."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Active to Retired."
+            })
+
+    else:
+        jobrole_database.jobrole_status = "Active"
+        try:
+            db.session.commit()
+            return jsonify({
+                "code":200,
+                "message": "Jobrole has been changed to Active."
+            })
+        except:
+            return jsonify({
+                "code":404,
+                "message": "There has been an error with changing from Retired to Active."
+            })
