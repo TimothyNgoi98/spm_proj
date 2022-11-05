@@ -191,7 +191,7 @@ function Hrarchivejobroles() {
 
             <Grid item xs={4}>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={jobrolePage}>Back to Active Jobroles</Button>
+                <Button onClick={jobrolePage}>Back to Active Job Roles</Button>
               </ButtonGroup>
             </Grid>
           </Grid>
