@@ -103,7 +103,7 @@ function Hrskills() {
       alert("Please check if your input fields fulfills the criteria.")
     }
     else {
-    const result = {'skill_id': archive, "skill_name" : input_name, "skill_description" : input_description } 
+    const result = {'skill_id': archive, "skill_name" : input_name, "skill_description" : input_description, "current_skill_name": current_skill_name } 
     const options = {
       method: "PUT",
       headers: {

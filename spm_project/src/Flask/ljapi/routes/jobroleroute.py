@@ -80,7 +80,7 @@ def updateDescription():
     # Check if there is an existing Role_Name already inside the database
     # Logic: If Role ID is different from the current role_id, if different then flag return
     checked_name = Jobrole.query.filter_by(jobrole_name=input_role_name).first()
-    print(checked_name.to_dict())
+    # print(checked_name.to_dict())
     # if None Type is true, means there is no duplicate Name inside
     if checked_name == None or checked_name.jobrole_name == current_name:
         
