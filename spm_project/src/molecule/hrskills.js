@@ -175,8 +175,6 @@ function Hrskills() {
 
   return (
       <Container>
-        {/* {archive}
-        {openArchiveModal} */}
 
         <Box marginTop="5%">
           <Grid container spacing={1}>
