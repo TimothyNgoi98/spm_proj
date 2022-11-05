@@ -54,12 +54,17 @@ function Hrroles() {
     const addbutton = () => {
         navigate("/Hraddjobrole", { replace: true });
     };
-    // Modal Archive Input Fields
+    // Modal Update Input Fields
     const [input_name, setinput_name] = useState("");
+    const [input_department, setinput_department] = useState("");
     const [input_description, setinput_description] = useState("");
 
     const changeinput_name = (event) => {
         setinput_name(event.target.value);
+    };
+    
+    const changeinput_department = (event) => {
+        setinput_department(event.target.value);
     };
 
     const changeinput_description = (event) => {
@@ -82,16 +87,33 @@ function Hrroles() {
     const closeUpdateModal = () => {
         setUpdateModal(false);
         setinput_name("");
+        setinput_department("");
         setinput_description("");
         setupdate("");
     };
     // Upon Clicking on the Submit Button in the Modal, it will update the role details
     const updatedatabase = () => {
-        if (input_name.length == 0 || input_name.length > 50 || input_description.length == 0 || input_description.length > 250 ) {
-            alert("Please check if your input fields fulfills the criteria.")
+        if (input_name.length === 0 || input_name.length > 30 || input_department.length === 0 || input_department.length > 20 || input_description.length === 0 || input_description.length > 500) {
+            alert("Please check if your updated input fields fulfills the criteria.")
         }
-        console.log("Updated!");
-        // #.fetch + async
+        else {
+            const result = {"role_id": update, "role_name" : input_name, "department" : input_department, "role_description" : input_description } 
+            const options = {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "http://localhost:3000/Hrroles"
+                    },
+                body: JSON.stringify(result)
+            }
+            fetch("http://127.0.0.1:5000/jobrole/updateinformation", options)
+            .then(response => response.json())
+            .then(data => {
+                alert(data.Message)
+            })
+            setUpdateModal(false)
+            setupdate("")
+        }
     };
 
     // Soft Delete OF Roles MODAL ############################################################
@@ -153,7 +175,7 @@ function Hrroles() {
                         <Typography variant="h6" textAlign="left">
                             Job Role Management Dashboard
                         </Typography>
-                    </Grid>
+                    </Grid> 
                     <Grid item xs={2}></Grid>
 
                     <Grid item xs={4}>
@@ -237,7 +259,7 @@ function Hrroles() {
                             Update Role Information
                         </Typography>
                         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Role_Id : {update}
+                            Role Id: {update}
                         </Typography>
                         <TextField
                             sx={{ mt: 2 }}
@@ -251,7 +273,7 @@ function Hrroles() {
                             fullWidth
                             label="Department"
                             helperText="Department has to be less than 20 characters."
-                            onChange={changeinput_name}
+                            onChange={changeinput_department}
                         />
                         <TextField
                             sx={{ mt: 2 }}
