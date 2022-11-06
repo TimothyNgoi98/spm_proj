@@ -143,7 +143,7 @@ function User() {
 
              
                   {outputSkill.map((singleoutputSkill) => (
-                      singleoutputSkill.course_status === "Active"
+                      singleoutputSkill.course_status == "Active"
                       ? 
                       <Grid>
                         <Accordion>
@@ -185,7 +185,7 @@ function User() {
    
 
                     : <TableRow>
-                        <TableCell> There are no Courses for this Skill </TableCell>
+                        <TableCell colSpan={6}> There are no Courses for this Skill </TableCell>
                       </TableRow>
                     ))}
 
@@ -224,7 +224,9 @@ function User() {
                       </TableRow>
                       // console.log(singleoutputCourse.course_id)
                     : <TableRow>
-                        <TableCell> There are no Courses for this Skill </TableCell>
+                        <TableCell colSpan={7} align="center"> 
+                          <Typography>There are no Courses for this Skill </Typography>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

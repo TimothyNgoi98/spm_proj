@@ -158,7 +158,7 @@ function Ljviewcourse() {
     }
     
     fetchMyAPI()
-  },[trigger])
+  },[trigger,openArchiveModal,closeArchiveModal])
 
     return (
       <Container>

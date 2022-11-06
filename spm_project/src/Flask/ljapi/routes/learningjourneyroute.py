@@ -79,24 +79,32 @@ def viewcourselearningjourney():
         course_name = object['course_name']
         course_description = object['course_desc']
 
-        # Call out for Registration with filter_by Course_ID and Staff_ID 
-        registration_database = Registration.query.filter_by(course_id = course_id, staff_id=staff_id).first()
-        print(registration_database)
-        registration_database = registration_database.to_dict()
+        registration_database = Registration.query.filter_by(course_id=course_id, staff_id=staff_id).first()
 
-        registration_status = registration_database['reg_status']
-        registration_completion_status = registration_database['completion_status']
-
-        array.append(
+        if registration_database == None:
+            # registration_database = registration_database.to_dict()
+            array.append(
             {
                 "course_id" : course_id,
                 "course_name" : course_name,
                 "course_description" : course_description,
-                "reg_status" : registration_status,
-                "completion_status" : registration_completion_status
-            }
-        )
-
+                "reg_status" : "-",
+                "completion_status" : "-"
+                }
+            )
+        else:
+            registration_database = registration_database.to_dict()
+            registration_status = registration_database['reg_status']
+            registration_completion_status = registration_database['completion_status']
+            array.append(
+                {
+                    "course_id" : course_id,
+                    "course_name" : course_name,
+                    "course_description" : course_description,
+                    "reg_status" : registration_status,
+                    "completion_status" : registration_completion_status
+                }
+            )
     return jsonify(
         {
             "code" : 200,
@@ -221,3 +229,31 @@ def viewcoursesinjobrole():
         "data": output_array
     })
 
+@learningjourney.route("/addcoursesinexistinglj", methods=['POST'])
+def addcoursestoexistinglj():
+    frontend_input = request.get_json()
+
+    frontend_courseid = frontend_input['course_id']
+    frontend_learning_journey_id = frontend_input['learning_journey_id']
+
+    print(frontend_courseid)
+    print(frontend_learning_journey_id)
+
+    jobroledatabase = Learningjourney.query.filter_by(learningjourney_id=frontend_learning_journey_id).first()
+    course_data = Course.query.filter_by(course_id=frontend_courseid).first()
+
+    try:
+        jobroledatabase.course.append(course_data)
+        db.session.commit()
+    
+    except:
+        print(error)
+        return jsonify({
+            "code" :404,
+            "data": "Adding of Skill to learning journey is unsuccessful!"
+        })
+
+    return jsonify({
+            "code" :200,
+            "data": "Add Skill to learning journey is successful!"
+        })

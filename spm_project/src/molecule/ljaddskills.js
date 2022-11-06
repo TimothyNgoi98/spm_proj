@@ -71,7 +71,7 @@ function Ljaddskills() {
               },
         body: JSON.stringify(result)
       }
-      fetch("http://127.0.0.1:5000/learningjourney/addingcoursesinlearningjourney", options)
+      fetch("http://127.0.0.1:5000/learningjourney/addcoursesinexistinglj", options)
       .then(response => response.json())
       .then(data => {
         alert(data.data)
