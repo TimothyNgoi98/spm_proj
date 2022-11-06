@@ -7,9 +7,9 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 learningjourney = Blueprint('learningjourneyroute', __name__)
 # TO CALL API, USE /learningjourney/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@learningjourney.route('/display/')
-def route1():
-    learningjourney = Learningjourney.query.first()
+@learningjourney.route('/display/<string:learningjourneyid>')
+def route1(learningjourneyid):
+    learningjourney = Learningjourney.query.filter_by(learningjourney_id=learningjourneyid).first()
     array = []
     for item in learningjourney.course:
         array.append(
@@ -66,6 +66,7 @@ def viewcourselearningjourney():
     frontend_input = request.get_json()
     jobrole_id = frontend_input['jobroleid']
     staff_id = frontend_input['staff_id']
+    print(staff_id)
 
     learningjourney_id = frontend_input['learningjourneyid']
     jobroledatabase = Learningjourney.query.filter_by(learningjourney_id=learningjourney_id).first()
@@ -74,11 +75,13 @@ def viewcourselearningjourney():
     for item in jobroledatabase.course:
         object = item.to_dict()
         course_id = object['course_id']
+        print("This is the Course ID ",course_id)
         course_name = object['course_name']
         course_description = object['course_desc']
 
         # Call out for Registration with filter_by Course_ID and Staff_ID 
         registration_database = Registration.query.filter_by(course_id = course_id, staff_id=staff_id).first()
+        print(registration_database)
         registration_database = registration_database.to_dict()
 
         registration_status = registration_database['reg_status']
@@ -133,30 +136,48 @@ def deletecoursesinlearningjourney():
 
 @learningjourney.route("/addingcoursesinlearningjourney", methods=['POST'])
 def addingcoursesinlearningjourney():
-    frontend_input = request.get_json()
-    frontend_courseid = frontend_input['course_id']
-    frontend_learning_journey_id = frontend_input['learning_journey_id']
 
-    print(frontend_courseid)
-    print(frontend_learning_journey_id)
+    frontendDetails = request.get_json()
+    # courseID = frontendDetails['course_id']
+    # learningJourneyID = frontendDetails['learning_journey_id']
+    loginID = frontendDetails['staff_id']
+    jobroleID = frontendDetails['jobrole_id']
+    is_active = frontendDetails['is_active']
+    # For the learning journey detailed table
+    coursesmapped = frontendDetails['coursemapped']
+    print(coursesmapped)
+    # post the details to the learning journey first
+    newlearningjourney = Learningjourney( staff_id=loginID,jobrole_id=jobroleID,is_active=is_active)
+    db.session.add(newlearningjourney)
+    db.session.commit()
 
-    jobroledatabase = Learningjourney.query.filter_by(learningjourney_id=frontend_learning_journey_id).first()
-    course_data = Course.query.filter_by(course_id=frontend_courseid).first()
-
-    try:
-        jobroledatabase.course.append(course_data)
+    for objects in coursesmapped:
+        newCourse = Course.query.filter_by(course_id=objects['course_id']).first()
+        newlearningjourney.course.append(newCourse)
         db.session.commit()
+
+    print(newlearningjourney.course)
+        # newlearningjourney.course.append(items)
+    # print(newlearningjourney)
+    try:
+        print("adding session")
+        print(newlearningjourney)
+
+        # db.session.add(newlearningjourney)
+        # db.session.commit()
+        
+
         return jsonify({
             "code" :200,
-            "data": "Add Skill to learning journey is successful!"
-        })
+            "data": "Adding Course to Learning Journey is successful!"
+        },200)
 
     except:
         print(error)
         return jsonify({
             "code" :404,
-            "data": "Adding of Skill to learning journey is unsuccessful!"
-        })
+            "data": "Adding Course to Learning Journey is unsuccessful!"
+        },404)
 
 @learningjourney.route("/viewcoursesinjobrole", methods=['POST'])
 def viewcoursesinjobrole():
@@ -199,3 +220,4 @@ def viewcoursesinjobrole():
         "code": 200,
         "data": output_array
     })
+
