@@ -85,6 +85,7 @@ function User() {
     var dummyObject = {}
     // var key = `Skill_${skill_ids}`
     dummyObject.skill_ids = skill_ids
+    dummyObject.skill_name = skill_name
     dummyObject.coursemapped = []
     for (let item of checked) {
       dummyObject.coursemapped.push(item)
@@ -116,7 +117,7 @@ function User() {
           <Grid container spacing={1}>
 
             <Grid item xs={6} alignContent="left">
-              <Typography variant="h6" textAlign="left">
+              <Typography variant="h6" style={{ fontWeight: 600 }} textAlign="left">
                 Selected Job Role: {jobRoles_name}
 
                 {/* {outputSkill["0"]["skill_name"]}
@@ -130,14 +131,6 @@ function User() {
             </Grid>
 
             <Grid item xs={2}>
-            </Grid>
-
-            <Grid item xs={4}>
-              <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              {checked.length === 0 
-                ? (<Button variant="contained" disabled>Please select a course! </Button>) 
-                : (<Button variant="contained" onClick={handleClick}>Add Course(s) to Learning Journey</Button>)}
-              </ButtonGroup>
             </Grid>
 
           </Grid>
@@ -242,6 +235,14 @@ function User() {
   
             </Grid>
           </Grid>
+
+          <Grid item xs={4}>
+              <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              {checked.length === 0 
+                ? (<Button variant="contained" disabled>Please select a course! </Button>) 
+                : (<Button variant="contained" onClick={handleClick}>Add Course(s) to Learning Journey</Button>)}
+              </ButtonGroup>
+            </Grid>
         </Box>
       </Container>
     </div>

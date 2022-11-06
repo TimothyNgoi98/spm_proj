@@ -165,9 +165,9 @@ function Viewskills() {
                 <Box marginTop="5%">
                 <Grid container spacing={1}>
                     <Grid item xs={6} alignContent="left">
-                    <Typography variant="h6" textAlign="left">
+                    <Typography variant="h6" style={{ fontWeight: 600 }} textAlign="left" >
                         {/* Skills for {jobroleName} */}
-                        Skills for {jobRoles_name}
+                        Skills for: {jobRoles_name}
                     </Typography>
                     </Grid>
                     <Grid item xs={2}></Grid>

@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTransfer } from "../reduxslice/courseSlice";
 import { courseSkillTransfer } from "../reduxslice/filterskillcourseSlice";
+import { setjobrole_desc, setjobrole_id, setjobrole_name, setskill_ids, setskill_name} from '../reduxslice/jobrolesSlice'
 
 // Import all the molecules files here
 
@@ -38,6 +39,7 @@ function Ljcourse() {
     const [jobroleselected, addJobSelected] = useState(useSelector((state) => state.skillfilter.jobrole_id))
     const [jobroleName, addJobroleName] = useState(useSelector((state) => state.skillfilter.jobrole_name))
     const [cleanedCourse, updateFormat] = useState('')
+    var skillName = useSelector((state) => state.jobrole.skill_name)
     var loginID = useSelector((state)=>state.session.staff_id)
 
     const restructureData = (data) => {
@@ -132,7 +134,7 @@ function Ljcourse() {
                     <Grid container spacing={1}>
 
                         <Grid item xs={6} alignContent="left">
-                            <Typography variant="h6" textAlign="left" color = "success.main">
+                            <Typography variant="h6" style={{ fontWeight: 600 }} textAlign="left" color = "success.main">
                             Here is your learning journey so far:
                             </Typography>
                         </Grid>
@@ -150,32 +152,20 @@ function Ljcourse() {
                                 justifyContent="flex-end">
 
                         <Grid item xs={12} alignContent="flex-end" align="flex-end">
-                        <Typography variant="h6" fontWeight='fontWeightMedium' textAlign="left" color = "success.primary">
+                        <Typography variant="h6" style={{ fontWeight: 600 }} textAlign="left" color = "success.primary">
                             Jobrole selected: {jobroleselected}
                             </Typography>
                         </Grid>
 
                         <Grid item xs={12}>
-                            <TableContainer align="center">
-                            {selectedItemsToAddLJ.length != 0? (
-                                <Grid container spacing={5}  direction="row"
-                                alignItems="center"
-                                justifyContent="center">
-                                    <Grid item alignContent="center" align="center">
-                                        {/* <button onClick={() => redirect()}>Back to Home</button> */}
-                                        <Button variant="contained"  color="error" onClick={discardChanges}>Discard all</Button>
-                                    </Grid>
-                                </Grid>
-                            ) : (
-                                ""
-                            )}
-                          
+                            <TableContainer  alignItems="center"
+        justifyContent="center">
                                 <Table sx={{ minWidth: 650 }}>
 
                                     <TableHead>
                                         <TableRow>
-                                        <TableCell>Skill Name</TableCell>
-                                        <TableCell>Course Mapped</TableCell>
+                                        <TableCell align="center">Skill Name</TableCell>
+                                        <TableCell align="center">Course Mapped</TableCell>
                                         {/* <TableCell>Course Category</TableCell>
                                         <TableCell>Course Type</TableCell> */}
                                         </TableRow>
@@ -184,8 +174,8 @@ function Ljcourse() {
                                     <TableBody>
                                         {selectedItemsToAddLJ.map((singleoutputItemLJ) => (
                                             <TableRow>
-                                            <TableCell>{singleoutputItemLJ.skill_ids}</TableCell>
-                                            <TableCell>{restructureData(singleoutputItemLJ.coursemapped)}</TableCell>
+                                            <TableCell align="center">{singleoutputItemLJ.skill_name}</TableCell>
+                                            <TableCell align="center">{restructureData(singleoutputItemLJ.coursemapped)}</TableCell>
                                         </TableRow>
                                         // console.log(singleoutputCourse.course_id)
                                         ))}
@@ -196,12 +186,21 @@ function Ljcourse() {
                             <Grid container spacing={5}  direction="row"
                             alignItems="center"
                             justifyContent="center">
+                                 <Grid item align="center" alignContent="center">
+                                <Button variant="contained" onClick={redirect}> Back to mapping</Button>
+                                </Grid>
+                                {selectedItemsToAddLJ.length != 0? (
+                                    <Grid item alignContent="center" align="center">
+                                        {/* <button onClick={() => redirect()}>Back to Home</button> */}
+                                        <Button  variant="contained"  color="error" onClick={discardChanges}>Discard all</Button>
+                                    </Grid>
+                            ) : (
+                                ""
+                            )}
+
                                 <Grid item alignContent="center" align="center">
                                     {/* <button onClick={() => redirect()}>Back to Home</button> */}
-                                    <Button variant="contained" onClick={confirmLJ}>Confirm Mapping</Button>
-                                </Grid>
-                                <Grid item align="center" alignContent="center">
-                                <Button variant="contained" onClick={redirect}>Continue mapping</Button>
+                                    <Button variant="contained" color="success" onClick={confirmLJ}>Confirm Mapping</Button>
                                 </Grid>
                             </Grid>
                             
