@@ -31,7 +31,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          cd spm_project/src/Flask
+          cd spm_project/src/Flask/testing/unit_testing
           dir
           python -m pytest
 
