@@ -1,5 +1,5 @@
 # Import the relevant classes
-from ljapi.models import Role,Jobrole,Course,Skill,Staff,Learningjourney,Registration
+from ljapi.models import db, Role,Jobrole,Course,Skill,Staff,Learningjourney,Registration
 from ljapi.application import create_app
 import pytest
 
@@ -39,7 +39,7 @@ def new_role():
 # =========================================================================================================
 # For functional_testing (Individual Flask Routes)
 # Setup test_client using fixtures
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='function')
 def test_client():
     app = create_app()
     print(app)

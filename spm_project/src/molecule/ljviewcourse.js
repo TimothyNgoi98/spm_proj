@@ -158,7 +158,7 @@ function Ljviewcourse() {
     }
     
     fetchMyAPI()
-  },[trigger,openArchiveModal,closeArchiveModal])
+  },[trigger,openArchiveModal,course_id,jobname] )
 
     return (
       <Container>

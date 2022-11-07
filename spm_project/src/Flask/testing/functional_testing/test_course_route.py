@@ -36,7 +36,7 @@ def test_course_update_particular_course(test_client):
         mock_headers =  {
         'Content-Type': 'application/json'
         }
-        mock_data = [{'skill_id': 3, 'skill_name': 'Conflict Management Skill', 'skill_desc': 'Able to handle team and customer conflict effectively.', 'skill_status': 'Retired '}]
+        mock_data = [{'skill_id': 4, 'skill_name': 'Conflict Management Skill', 'skill_desc': 'Able to handle team and customer conflict effectively.', 'skill_status': 'Retired '}]
         print(mock_data)
         response = test_client.post(url,data=json.dumps(mock_data),headers=mock_headers)
         data = json.loads(response.get_data(as_text=True))

@@ -43,7 +43,7 @@ def hraddrole():
         return jsonify({
             "code":404,
             "message": "There is an existing Role Name in the Database. Please check your input fields."
-        })
+        }),404
     newjobrole = Jobrole( jobrole_name=jobrole_name,department=department,jobrole_desc=jobrole_desc,jobrole_status=jobrole_status)
     try:
         print("adding session")
@@ -53,14 +53,14 @@ def hraddrole():
         return jsonify({
             "code": 200,
             "message": "Job role has been added successfully!"
-        })
+        }),200
     
     except:
         print("Error")
         return jsonify({
-            "code":500,
+            "code":404,
             "message": "There is error with creating a new jobrole."
-        })
+        },404)
 
 @jobrole.route('/updateinformation', methods= ['PUT'])
 def updateDescription():
@@ -93,19 +93,19 @@ def updateDescription():
             return jsonify({
                 "code":200,
                 "Message": "Role Information has been updated."
-            })
+            }),200
         except:
 
             return jsonify({
                 "code":404,
                 "Message": "There is something wrong with updating the database. Please try again."
-            })
+            }),404
 
     else:
         return jsonify({
             "code": 404,
             "Message" : "There is a similar role name in the database, role information is not updated!"
-        })
+        }),404
 
 
 
@@ -142,6 +142,7 @@ def viewJobRolesMapped():
 @jobrole.route('/update/<string:jobroleid>', methods = ['POST'])
 def updateParticularJobrole(jobroleid):
     data = request.get_json()
+    print(data)
     jobrole = Jobrole.query.filter_by(jobrole_id=jobroleid).first()
     if jobrole:
         for item in data:
@@ -202,6 +203,7 @@ def getSKillsOfParticularJobrole(jobroleid):
 @jobrole.route('/removemapping/<string:jobroleid>', methods= ['DELETE'])
 def removeSkill(jobroleid):
     data = request.get_json()
+    print(data)
     jobroleID = data[0]
     skillID = data[1]
     jobrole = Jobrole.query.filter_by(jobrole_id=jobroleID).first()
@@ -233,51 +235,24 @@ def removeSkill(jobroleid):
         ),200
 
 
-
-@jobrole.route('/jobroleroute')
-def route1():
-    staff = Jobrole.query.first()
-    print(staff)
-    #remove when jp push 
-    skill1 = Skill(skill_id=1,
-        skill_name= "Conflict Management Skill Advanced",
-        skill_desc= "Able to handle team and customer conflict effectively.",
-        skill_status=1
-        )
-
-    skill2 = Skill(skill_id=2,
-        skill_name= "Conflict Management Skill Advanced 2",
-        skill_desc= "Able to handle team and customer conflict effectively.",
-        skill_status=1)
-
-    # Simulate assigning and adding new skills
-    staff.skill.append(skill1)
-    staff.skill.append(skill2)
-
-    array = []
-
-    for item in staff.skill:
-        array.append(
-            item.to_dict()
-        )
-        
-
-    return jsonify(
-        {   
-            "jobrole" : staff.to_dict(),
-            "skillassociated": array
-        }
-    )
-
-
 @jobrole.route('/jobrole/')
 def route2():
     jobroles = Jobrole.query.all()
-    return jsonify(
-        {
-            "data": [jobrole.to_dict() for jobrole in jobroles]
-        }
-    )
+
+    if jobroles:
+        return jsonify(
+            {
+                "code": 200,
+                "data": [jobrole.to_dict() for jobrole in jobroles]
+            }
+        ), 200
+    else:
+         return jsonify(
+            {
+                "code": 404,
+                "data": "Error retrieving from db"
+            }
+        ), 404
 
 # archivejobrole (Comment out after minjay input his shit)
 @jobrole.route('/archivejobrole', methods= ['PUT'])
@@ -295,12 +270,12 @@ def archiveJobrole():
             return jsonify({
                 "code":200,
                 "message": "Role status has been changed to Retired. \n\nRole has been moved to archived list."
-            })
+            }),200
         except:
             return jsonify({
                 "code":404,
                 "message": "There has been an error changing the status from Active to Retired. \n\nPlease try again."
-            })
+            }),404
 
     else:
         jobrole_database.jobrole_status = "Active"
@@ -309,9 +284,9 @@ def archiveJobrole():
             return jsonify({
                 "code":200,
                 "message": "Role status has been changed to Active."
-            })
+            }),200
         except:
             return jsonify({
                 "code":404,
                 "message": "There has been an error with changing the role status from Retired to Active."
-            })
+            }),404
