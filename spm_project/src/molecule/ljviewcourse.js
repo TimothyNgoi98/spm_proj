@@ -152,7 +152,7 @@ function Ljviewcourse() {
           response = await response.json()
           setoutput(response.data)
           console.log("This is from hr Skills: " + response.data)
-          console.log(response.data)
+          console.log(response)
           dispatch(setsaved_courses(response.data))
 
     }

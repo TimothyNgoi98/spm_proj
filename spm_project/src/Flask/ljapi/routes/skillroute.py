@@ -25,7 +25,7 @@ def viewAllSkill():
                 "code": 404,
                 "data": "Error!"
             }
-        ),200
+        ),404
 
 # Created by Yu Xiang, It is used to Add Skills
 # TO CALL API, USE /skill/<hraddskills/
@@ -107,7 +107,6 @@ def archiveSkill():
 def updateDescription():
     # print("update description works -----")
     frontend_input = request.get_json()
-
     # Inputs from the frontend
     front_skill_id = frontend_input['skill_id']
     front_skill_name = frontend_input['skill_name']
@@ -133,19 +132,19 @@ def updateDescription():
             return jsonify({
                 "code":200,
                 "Message": "Skill Information has been updated."
-            })
+            }),200
         except:
 
             return jsonify({
                 "code":404,
                 "Message": "There is something wrong with updating the database. Please try again."
-            })
+            }),404
 
     else:
         return jsonify({
             "code": 404,
             "Message" : "There is a similar skill name in the database, Skill Information is not updated!"
-        })
+        }),404
 
 # get ALL skill course map
 @skill.route('/skilltocourse')
@@ -192,7 +191,7 @@ def viewCourseForSkill():
         return jsonify({   
             "code": 404,
             "data": "Error!"
-            }),200
+            }),404
 
 # get SPECIFIC skill course map
 @skill.route('/skilltocourse/<string:skillid>')
@@ -241,43 +240,7 @@ def viewCourseForSpecificSkill(skillid):
         return jsonify({   
             "code": 404,
             "data": "Error!"
-            }),200
-
-# # get specific skill course map
-# @skill.route('/skilltocourse/<string:skillid>')
-# def viewCourseForSpecificSkill(skillid):
-#     skilltocourse = SkillToCourse.query.filter_by(skill_id =skillid)
-#     skilltocoursearray = []
-
-#     course = Course.query.all()
-#     coursearray = []
-
-#     for item in skilltocourse:
-#         skilltocoursearray.append(item.to_dict())
-
-#     for item2 in course:
-#         coursearray.append(item2.to_dict())
-
-#     x = range(len(skilltocoursearray))
-#     y = range(len(coursearray))
-#     for i in x:
-#         for j in y:
-#             if skilltocoursearray[i]["course_id"] == coursearray[j]["course_id"]:
-#                 skilltocoursearray[i]["course_name"] = coursearray[j]["course_name"]
-#                 skilltocoursearray[i]["course_desc"] = coursearray[j]["course_desc"]
-#                 skilltocoursearray[i]["course_status"] = coursearray[j]["course_status"]
-
-#     if skilltocourse:
-#         return jsonify({
-#             "code": 200,
-#             "data": skilltocoursearray
-#             }), 200
-#     else:
-#         return jsonify({   
-#             "code": 404,
-#             "data": "Error!"
-#             }),200
-
+            }),404
 
 
 

@@ -224,7 +224,7 @@ function Hrarchiveskills() {
                       <TableCell>{singleoutput.skill_desc}</TableCell>
                       <TableCell>{singleoutput.skill_status}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.skill_id)}><EditIcon/></IconButton>
+                        {/* <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput.skill_id)}><EditIcon/></IconButton> */}
                       </TableCell>
                       <TableCell>
                         <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput)}><LibraryAddIcon/></IconButton>

@@ -188,9 +188,10 @@ function Viewskills() {
                         {/* The body of the Table Goes here */}
                         <TableBody>
                             {jobroletoskill.skills?.map((singleoutput) => {
-                                if (checking_list.includes(singleoutput.skill_id)) {
+                                if (checking_list.includes(singleoutput.skill_id) && singleoutput.skill_status == 'Active') {
                                     return(
                                     <TableRow>
+                                        {console.log(singleoutput.skill_status)}
                                         <TableCell>{singleoutput.skill_id}</TableCell>
                                         <TableCell>{singleoutput.skill_name}</TableCell>
                                         <TableCell>{singleoutput.skill_desc}</TableCell>
@@ -201,7 +202,7 @@ function Viewskills() {
                                     </TableRow>
                                     )
                                 }
-                                else{
+                                else if(singleoutput.skill_status == 'Active'){
                                     return(
                                     <TableRow>
                                         <TableCell>{singleoutput.skill_id}</TableCell>
