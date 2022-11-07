@@ -152,13 +152,13 @@ function Ljviewcourse() {
           response = await response.json()
           setoutput(response.data)
           console.log("This is from hr Skills: " + response.data)
-          console.log(response.data)
+          console.log(response)
           dispatch(setsaved_courses(response.data))
 
     }
     
     fetchMyAPI()
-  },[trigger,openArchiveModal,closeArchiveModal])
+  },[trigger,openArchiveModal,course_id,jobname] )
 
     return (
       <Container>
@@ -174,7 +174,7 @@ function Ljviewcourse() {
             <Grid item xs={2}></Grid>
 
             <Grid item xs={4}>
-                <Button onClick={() => add_skill()}>Add Course</Button>
+                <Button variant="contained" onClick={() => add_skill()}>Add Course</Button>
             </Grid>
           </Grid>
           
@@ -240,7 +240,7 @@ function Ljviewcourse() {
           <Fade in={openArchiveModal}>
             <Box sx={Modalstyle}>
               <Typography>Are you sure you want to delete this course from your learning journey?</Typography>
-              <Button variant="contained" color="warning" onClick={() => deletecoursesinlearningjourney()}>Yes</Button>
+              <Button variant="contained" color="error" onClick={() => deletecoursesinlearningjourney()}>Yes</Button>
             </Box>
           </Fade>
         </Modal>

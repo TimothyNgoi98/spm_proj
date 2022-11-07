@@ -204,7 +204,7 @@ function User() {
                       <TableCell>Course Status</TableCell>
                       <TableCell>Course Category</TableCell>
                       <TableCell>Course Type</TableCell>
-                      <TableCell>Slection of Course</TableCell>
+                      <TableCell>Selection of Course</TableCell>
                     </TableRow>
                   </TableHead>
 

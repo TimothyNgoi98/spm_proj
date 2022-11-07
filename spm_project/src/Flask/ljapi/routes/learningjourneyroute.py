@@ -7,25 +7,24 @@ from ..models import db, Role, Jobrole,Course,Skill,Staff,Learningjourney,Regist
 learningjourney = Blueprint('learningjourneyroute', __name__)
 # TO CALL API, USE /learningjourney/<route>
 # Replace and change this. This is just dummy data for you to follow the format
-@learningjourney.route('/display/<string:learningjourneyid>')
-def route1(learningjourneyid):
-    learningjourney = Learningjourney.query.filter_by(learningjourney_id=learningjourneyid).first()
-    array = []
-    for item in learningjourney.course:
-        array.append(
-            item.to_dict()
-        )
-    return jsonify(
-        {   
-            "jobrole" : learningjourney.to_dict(),
-            "skillassociated": array
-        }
-    )
+# @learningjourney.route('/display/<string:learningjourneyid>')
+# def route1(learningjourneyid):
+#     learningjourney = Learningjourney.query.filter_by(learningjourney_id=learningjourneyid).first()
+#     array = []
+#     for item in learningjourney.course:
+#         array.append(
+#             item.to_dict()
+#         )
+#     return jsonify(
+#         {   
+#             "jobrole" : learningjourney.to_dict(),
+#             "skillassociated": array
+#         }
+#     )
 
 @learningjourney.route("/displaymain", methods=['POST'])
 def displaymain():
     frontend_input = request.get_json()
-
     staff_id = frontend_input['staff_id']
     # print("This is from Learning: ",staff_id)
     # Success! 
@@ -36,12 +35,22 @@ def displaymain():
         result_arr.append(item.to_dict())
 
     print(learning_journey_database)
-    return jsonify(
-        {
-            "code" : 200,
-            "data" : result_arr
-        }
-    )
+
+    if result_arr:
+        return jsonify(
+            {
+                "code" : 200,
+                "data" : result_arr
+            }
+        ),200
+    else:
+        return jsonify(
+            {
+                "code" : 404,
+                "data" : "Error fetching user's learning journey"
+            }
+        ),404
+
 
 @learningjourney.route("/jobrole_name", methods=['POST'])
 def displayjobname():
@@ -53,12 +62,21 @@ def displayjobname():
     # Success! 
     jobroledatabase = Jobrole.query.filter_by(jobrole_id=jobrole_id).first().to_dict()
 
-    return jsonify(
-        {
-            "code" : 200,
-            "data" : jobroledatabase
-        }
-    )
+    if jobroledatabase:
+        return jsonify(
+            {
+                "code" : 200,
+                "data" : jobroledatabase
+            }
+        ),200
+    else:
+        return jsonify(
+            {
+                "code" : 404,
+                "data" : "Error filtering by job role"
+            }
+        ),404
+
 
 
 @learningjourney.route("/viewcourselearningjourney", methods=['POST'])
@@ -105,17 +123,26 @@ def viewcourselearningjourney():
                     "completion_status" : registration_completion_status
                 }
             )
-    return jsonify(
-        {
-            "code" : 200,
-            "data" : array
-        }
-    )
+    try: 
+        return jsonify(
+            {
+                "code" : 200,
+                "data" : array
+            }
+        )
+    except:
+        return jsonify(
+            {
+                "code" : 404,
+                "data" : "Error fetching courses"
+            }
+        )
 
 
 @learningjourney.route("/deletecoursesinlearningjourney", methods=['DELETE'])
 def deletecoursesinlearningjourney():
     frontend_input = request.get_json()
+    print(frontend_input)
     courseid = frontend_input['course_id']
     learningjourney_id = frontend_input['learning_journey_id']
 
@@ -146,6 +173,7 @@ def deletecoursesinlearningjourney():
 def addingcoursesinlearningjourney():
 
     frontendDetails = request.get_json()
+    print(frontendDetails)
     # courseID = frontendDetails['course_id']
     # learningJourneyID = frontendDetails['learning_journey_id']
     loginID = frontendDetails['staff_id']
@@ -232,7 +260,7 @@ def viewcoursesinjobrole():
 @learningjourney.route("/addcoursesinexistinglj", methods=['POST'])
 def addcoursestoexistinglj():
     frontend_input = request.get_json()
-
+    print(frontend_input,"addcoursesintoexistinglj")
     frontend_courseid = frontend_input['course_id']
     frontend_learning_journey_id = frontend_input['learning_journey_id']
 

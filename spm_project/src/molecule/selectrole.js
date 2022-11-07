@@ -68,7 +68,7 @@ function SelectJobRole() {
                     <Grid item xs={12}>
                         <TableContainer component={Paper}>
                             <Typography component='h1' variant="overline" color="success.main" align="left" gutterBottom sx={{ p: 2, fontWeight: 'bold' }}>
-                                Please select the course that you want to map
+                                Please select the job role that you want to map
                             </Typography>
                             <Table stickyheader size="small" sx={{
                                 backgroundColor: "white",

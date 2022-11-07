@@ -62,6 +62,8 @@ function Hrarchivejobroles() {
   // Modal Archive Input Fields
   const [input_name, setinput_name] = useState("")
   const [input_description, setinput_description] = useState("")
+  const [department, setinput_department] = useState("")
+  const [current_name, setcurrent_name] = useState("")
 
   const changeinput_name = (event) => {
     setinput_name(event.target.value)
@@ -85,7 +87,10 @@ function Hrarchivejobroles() {
     console.log("Archive Modal::", data)
     setArchiveModal(true)
     setarchive(data.jobrole_id)
+    setcurrent_name(data.jobrole_name)
     setrestore_name(data.jobrole_name)
+    setrestore_name(data.jobrole_name)
+
   }
   // Second OnClick to Close the Modal and return all other fields to zero
   const closeArchiveModal = () => {
@@ -95,32 +100,36 @@ function Hrarchivejobroles() {
     setarchive("")
   }
   // Upon Clicking on the Submit Button in the Modal, it will update the skill description
-  const updatedatabase = () => {
+  // const updatedatabase = () => {
 
-    if (input_name.length === 0 || input_name.length > 50 || input_description.length === 0 || input_description.length > 250 ) {
-      alert("Please check if your input fields fulfills the criteria.")
-    }
-    else {
-    const result = {'jobrole_id': archive, "jobrole_name" : input_name, "jobrole_description" : input_description } 
-    const options = {
-      method: "PUT",
-      headers: {
-            'Content-Type': 'application/json',
-            "Access-Control-Allow-Origin": "http://localhost:3000/Hradmin"
-            },
-      body: JSON.stringify(result)
-    }
-    fetch("http://127.0.0.1:5000/jobrole/updatedescription/", options)
-    .then(response => response.json())
-    .then(data => {
-      alert(data.Message)
-    })
-    setArchiveModal(false)
-    setarchive("")
-    }
-  }
+  //   if (input_name.length === 0 || input_name.length > 50 || input_description.length === 0 || input_description.length > 250 ) {
+  //     alert("Please check if your input fields fulfills the criteria.")
+  //   }
+  //   else {
+  //   const result = {'role_id': archive, "role_name" : input_name, "role_description" : input_description,"department": } 
+  //   const options = {
+  //     method: "PUT",
+  //     headers: {
+  //           'Content-Type': 'application/json',
+  //           "Access-Control-Allow-Origin": "http://127.0.0.1:3000/hrarchivejobroles/"
+  //           },
+  //     body: JSON.stringify(result)
+  //   }
+  //   fetch("http://127.0.0.1:5000/jobrole/updateinformation", options)
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log(data)
+  //     alert(data.Message)
+  //   })
+  //   .catch(error=>{
+  //     console.log(error)
+  //   })
+  //   setArchiveModal(false)
+  //   setarchive("")
+  //   }
+  // }
 
-  // Restore MODAL ############################################################
+  // // Restore MODAL ############################################################
   const deletebuttonclicked = (data) => {
     setDeleteModal(true)
     setDeleteitem(data.jobrole_id)
@@ -141,14 +150,18 @@ function Hrarchivejobroles() {
       method: "PUT",
       headers: {
             'Content-Type': 'application/json',
-            "Access-Control-Allow-Origin": "http://localhost:3000/signin"
+            "Access-Control-Allow-Origin": "http://127.0.0.1:3000/hrarchivejobroles/"
             },
       body: JSON.stringify(result)
     }
-    fetch("http://127.0.0.1:5000/jobrole/archivejobrole/", options)
+    fetch("http://127.0.0.1:5000/jobrole/archivejobrole", options)
     .then(response => response.json())
     .then(data => {
+      console.log(data)
       alert(data.message)
+    })
+    .catch(error=>{
+      console.log(error)
     })
 
     setDeleteModal(false)
@@ -223,7 +236,7 @@ function Hrarchivejobroles() {
                       <TableCell>{singleoutput.jobrole_desc}</TableCell>
                       <TableCell>{singleoutput.jobrole_status}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput)}><EditIcon/></IconButton>
+                        {/* <IconButton color="primary" onClick={()=> ArchiveModal(singleoutput)}><EditIcon/></IconButton> */}
                       </TableCell>
                       <TableCell>
                         <IconButton color="primary" onClick={() => deletebuttonclicked(singleoutput)}><LibraryAddIcon/></IconButton>
@@ -259,9 +272,9 @@ function Hrarchivejobroles() {
               </Typography>
               <TextField sx={{mt:2}} fullWidth label="Jobrole Name" helperText="Jobrole name has to be less than 50 characters." onChange={changeinput_name}/>
               <TextField sx ={{mt: 2}} fullWidth label="Jobrole Description" id="fullWidth" helperText="Jobrole Description has to be less than 250 characters."onChange={changeinput_description} />
-              <Button sx={{mt:2}}variant="contained" color="success" onClick={updatedatabase}>
+              {/* <Button sx={{mt:2}}variant="contained" color="success" onClick={updatedatabase}>
                 Update Jobrole
-              </Button>
+              </Button> */}
             </Box>
           </Fade>
         </Modal>
