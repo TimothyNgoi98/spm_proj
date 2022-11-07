@@ -53,7 +53,6 @@ def viewParticularCourse(courseid):
                 "code": 200,
                 "data": {
                     "coursedetails": course.to_dict(),
-                    # .skill is referencing the backref from class Skill
                     "skills": array
                 }
             }
@@ -65,7 +64,7 @@ def viewParticularCourse(courseid):
                 "code": 404,
                 "data": "Particular Course Not FOUND!"
             }
-        ),200
+        ),404
 
 @course.route('/view/coursesmapped', methods=['GET'])
 def viewCoursesMapped():
@@ -79,10 +78,6 @@ def viewCoursesMapped():
                 for skill in course.skill:
                     course_skill.append(skill.to_dict())
                 courseDict['skills'] = course_skill
-                    # if skill not in courseDict:
-                    #     courseDict['skills'] = [skill.to_dict()]
-                    # else:
-                    #     courseDict['skills'].append(skill.to_dict())
                 mappedCourseArray.append(courseDict)
 
         return jsonify(
@@ -103,17 +98,10 @@ def viewCoursesMapped():
             }
         )
 
-
-
-
-
-
 @course.route('/update/<string:courseid>', methods=['POST'])
 def UpdateParticularCourse(courseid):
-    # Get relevant post request
     data = request.get_json()
-    # Testing purposes
-    # return data[0]
+    print(data, "input data printed here")
     course = Course.query.filter_by(course_id=courseid).first()
     print(course.to_dict(), "COURSEEEEE DEETS")
     if course.skill:
@@ -123,18 +111,15 @@ def UpdateParticularCourse(courseid):
         print("NO SKILLS TO SHOW")
     if course:
         for item in data:
-            # Find the skill and append it to course
             skillid = item['skill_id']
             print(skillid, "SKILLID DEETS")
             skillFrontend = Skill.query.filter_by(skill_id=skillid).first()
-            print(skillFrontend.skills_to_course, "SKILL TO COURSE")
-            print(skillFrontend.to_dict(), "SKILLFRONTEND DEETS")
-            print(course.skill, "COURSESKILLS")
+            # print(skillFrontend.skills_to_course, "SKILL TO COURSE")
+            # print(skillFrontend.to_dict(), "SKILLFRONTEND DEETS")
+            # print(course.skill, "COURSESKILLS")
             course.skill.append(skillFrontend)
             print(course.skill, "AFTER SKILLS APPEND DEETSS")
         db.session.commit()
-
-        # Initialise a data array
         array = []
 
         for skill in course.skill:
@@ -142,13 +127,11 @@ def UpdateParticularCourse(courseid):
                 skill.to_dict()
             )
 
-
         return jsonify(
             {   
                 "code": 200,
                 "data": {
                     "coursedetails": course.to_dict(),
-                    # .skill is referencing the backref from class Skill
                     "skills": array
                 }
             }
@@ -187,11 +170,10 @@ def removeSkill(courseid):
                 }
             }
         ), 200
-    
     else:
         return jsonify(
             {
                 "code": 404,
                 "data": data
             }
-        ),200
+        ),404
