@@ -60,7 +60,7 @@ NEXT RELEASE
 3. CRUD of Roles/Learning Journey 
 4. Update of Skills of staff 
 
-## Members/Authors of Project
+## Members/Authors of Project (G10T7)
 - Wong Jie Peng 
 - Song Yu Xiang 
 - Lau Wei Ting 
