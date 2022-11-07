@@ -174,7 +174,7 @@ function Ljviewcourse() {
             <Grid item xs={2}></Grid>
 
             <Grid item xs={4}>
-                <Button onClick={() => add_skill()}>Add Course</Button>
+                <Button variant="contained" onClick={() => add_skill()}>Add Course</Button>
             </Grid>
           </Grid>
           
