@@ -41,7 +41,7 @@ def test_course_update_particular_course(test_client):
         response = test_client.post(url,data=json.dumps(mock_data),headers=mock_headers)
         data = json.loads(response.get_data(as_text=True))
         print(data)
-        assert type(data["data"]["coursedetails"]) == list
+        assert type(data["data"]["coursedetails"]) == dict
         assert response.status_code == 200
 
 def test_course_delete_particular_route(test_client):
