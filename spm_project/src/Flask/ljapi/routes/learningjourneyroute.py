@@ -42,14 +42,14 @@ def displaymain():
                 "code" : 200,
                 "data" : result_arr
             }
-        ),200
+        )
     else:
         return jsonify(
             {
                 "code" : 404,
                 "data" : []
             }
-        ),404
+        )
 
 
 @learningjourney.route("/jobrole_name", methods=['POST'])
