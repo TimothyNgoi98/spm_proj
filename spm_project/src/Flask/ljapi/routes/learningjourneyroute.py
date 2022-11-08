@@ -47,7 +47,7 @@ def displaymain():
         return jsonify(
             {
                 "code" : 404,
-                "data" : "Error fetching user's learning journey"
+                "data" : []
             }
         ),404
 
