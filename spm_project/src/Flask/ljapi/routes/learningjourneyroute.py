@@ -206,14 +206,14 @@ def addingcoursesinlearningjourney():
         return jsonify({
             "code" :200,
             "data": "Adding Course to Learning Journey is successful!"
-        },200)
+        }),200
 
     except:
         print(error)
         return jsonify({
             "code" :404,
             "data": "Adding Course to Learning Journey is unsuccessful!"
-        },404)
+        }),404
 
 @learningjourney.route("/viewcoursesinjobrole", methods=['POST'])
 def viewcoursesinjobrole():
@@ -252,10 +252,16 @@ def viewcoursesinjobrole():
                 output_array.append(one_skill.to_dict())
 
     # print(output_array)
-    return jsonify({
-        "code": 200,
-        "data": output_array
-    })
+    try: 
+        return jsonify({
+            "code": 200,
+            "data": output_array
+        }),200
+    except:
+        return jsonify({
+            "code": 404,
+            "data": "Error!"
+        }),404
 
 @learningjourney.route("/addcoursesinexistinglj", methods=['POST'])
 def addcoursestoexistinglj():
@@ -279,9 +285,9 @@ def addcoursestoexistinglj():
         return jsonify({
             "code" :404,
             "data": "Adding of Skill to learning journey is unsuccessful!"
-        })
+        }),404
 
     return jsonify({
             "code" :200,
             "data": "Add Skill to learning journey is successful!"
-        })
+        }),200
