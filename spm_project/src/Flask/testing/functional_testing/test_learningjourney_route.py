@@ -82,32 +82,33 @@ def test_learningjourney_deletecoursesinlearningjourney(test_client):
     assert data["data"]== "Delete is successful!"
     assert response.status_code == 200
 # COME BACK AGIJ
-# def test_learningjourney_addingcoursesinlearningjourney(test_client):
-#     url = "learningjourney/addingcoursesinlearningjourney"
-#     mock_headers =  {
-#     'Content-Type': 'application/json'
-#     }
-#     coursesdictionary = {'course_id': 'COR001','course_name': "Systems Thinking and Design","course_desc": 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,',"course_status":'Active', 'course_type': 'Internal', 'course_category': 'Core'}
-#     mock_data = {'staff_id':'COR001', 'jobrole_id': 1, 'learningjourney_id':1001, 'is_active': 'Active', 'coursemapped':coursesdictionary}
-#     newlearningjourney = Learningjourney(learningjourney_id=1001, staff_id=130001,jobrole_id=1,is_active='Active')
-#     response = test_client.post(url,data=json.dumps(mock_data),headers=mock_headers)
-#     data = json.loads(response.get_data(as_text=True))
-#     print(data)
-#     deleteresponse = test_client.delete("learningjourney/deletecoursesinlearningjourney",data={"jobroleid":1 , "learningjourneyid": 1001, "staff_id":13001},headers=mock_headers)
-#     db.session.delete(newlearningjourney)
-#     db.session.commit()
-#     assert data["data"]== "Adding Course to Learning Journey is successful!"
-#     assert response.status_code == 200
-
-def test_learningjourney_deletecoursesinlearningjourney(test_client):
- # app = create_app()
-    # print(app)
-    # Creating a test client based on the Flask application
-    url = "learningjourney/deletecoursesinlearningjourney"
+def test_learningjourney_addingcoursesinlearningjourney(test_client):
+    url = "learningjourney/addingcoursesinlearningjourney"
     mock_headers =  {
     'Content-Type': 'application/json'
     }
-    mock_data = {'course_id':'COR001', 'learning_journey_id':1001}
+    coursesdictionary = {'course_id': 'COR001','course_name': "Systems Thinking and Design","course_desc": 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,',"course_status":'Active', 'course_type': 'Internal', 'course_category': 'Core'}
+    mock_data = {'staff_id':'COR001', 'jobrole_id': 1, 'is_active': 'Testing', 'coursemapped':coursesdictionary}
+    # newlearningjourney = Learningjourney.query.filter_by.(is_active="(staff_id=130001,jobrole_id=1,is_active='Testing')
+    response = test_client.post(url,data=json.dumps(mock_data),headers=mock_headers)
+    data = json.loads(response.get_data(as_text=True))
+    print(data)
+    newlearningjourney = Learningjourney.query.filter_by(is_active="Testing")
+    deleteresponse = test_client.delete("learningjourney/deletecoursesinlearningjourney",data={"jobroleid":1 , "learningjourneyid": newlearningjourney.learningjourney_id, "staff_id":130001},headers=mock_headers)
+    db.session.delete(newlearningjourney)
+    db.session.commit()
+    assert data["data"]== "Adding Course to Learning Journey is successful!"
+    assert response.status_code == 200
+
+# def test_learningjourney_deletecoursesinlearningjourney(test_client):
+# # app = create_app()
+#     # print(app)
+#     # Creating a test client based on the Flask application
+#     url = "learningjourney/deletecoursesinlearningjourney"
+#     mock_headers =  {
+#     'Content-Type': 'application/json'
+#     }
+#     mock_data = {'course_id':'COR001', 'learning_journey_id':1001}
 
 # def test_jobrole_hraddjobrole(test_client):
 #     # app = create_app()
