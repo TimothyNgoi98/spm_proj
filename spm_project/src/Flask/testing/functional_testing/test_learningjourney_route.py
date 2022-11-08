@@ -81,24 +81,57 @@ def test_learningjourney_deletecoursesinlearningjourney(test_client):
     db.session.commit()
     assert data["data"]== "Delete is successful!"
     assert response.status_code == 200
-# COME BACK AGIJ
+
 def test_learningjourney_addingcoursesinlearningjourney(test_client):
     url = "learningjourney/addingcoursesinlearningjourney"
     mock_headers =  {
     'Content-Type': 'application/json'
     }
-    coursesdictionary = {'course_id': 'COR001','course_name': "Systems Thinking and Design","course_desc": 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,',"course_status":'Active', 'course_type': 'Internal', 'course_category': 'Core'}
-    mock_data = {'staff_id':'COR001', 'jobrole_id': 1, 'is_active': 'Testing', 'coursemapped':coursesdictionary}
+    coursesdictionary = [{'course_id': 'COR001','course_name': "Systems Thinking and Design","course_desc": 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,',"course_status":'Active', 'course_type': 'Internal', 'course_category': 'Core'}]
+    mock_data = {'staff_id':'130001', 'jobrole_id': 1, 'is_active': 'Testing', 'coursemapped':coursesdictionary}
     # newlearningjourney = Learningjourney.query.filter_by.(is_active="(staff_id=130001,jobrole_id=1,is_active='Testing')
     response = test_client.post(url,data=json.dumps(mock_data),headers=mock_headers)
     data = json.loads(response.get_data(as_text=True))
     print(data)
-    newlearningjourney = Learningjourney.query.filter_by(is_active="Testing")
-    deleteresponse = test_client.delete("learningjourney/deletecoursesinlearningjourney",data={"jobroleid":1 , "learningjourneyid": newlearningjourney.learningjourney_id, "staff_id":130001},headers=mock_headers)
+    newlearningjourney = Learningjourney.query.filter_by(is_active="Testing").first()
+    newlearningjourney.course = []
+    db.session.commit()
     db.session.delete(newlearningjourney)
     db.session.commit()
     assert data["data"]== "Adding Course to Learning Journey is successful!"
     assert response.status_code == 200
+
+def test_learningjourney_viewcoursesinjobrole(test_client):
+    url = "learningjourney/viewcoursesinjobrole"
+    mock_headers =  {
+    'Content-Type': 'application/json'
+    }
+    coursesdictionary = [{'course_id': 'COR001','course_name': "Systems Thinking and Design","course_desc": 'This foundation module aims to introduce students to the fundamental concepts and underlying principles of systems thinking,',"course_status":'Active', 'course_type': 'Internal', 'course_category': 'Core'}]
+    mock_data = {"jobrole_id": 1, "course_saved": coursesdictionary}
+    response = test_client.post(url,data=json.dumps(mock_data),headers=mock_headers)
+    data = json.loads(response.get_data(as_text=True))
+    assert type(data["data"]) == list
+    assert response.status_code == 200
+    
+def test_learningjourney_addcoursesinexistinglj(test_client):
+    url = "learningjourney/addcoursesinexistinglj"
+    mock_headers =  {
+    'Content-Type': 'application/json'
+    }
+    newlearningjourney = Learningjourney(learningjourney_id=1001,staff_id=130001,jobrole_id=1,is_active='Testing')
+    db.session.add(newlearningjourney)
+    db.session.commit()
+    mock_data = {'course_id':'COR001','learning_journey_id': 1001}
+    response = test_client.post(url,data=json.dumps(mock_data),headers=mock_headers)
+    data = json.loads(response.get_data(as_text=True))
+    newlearningjourney.course = []
+    db.session.commit()
+    db.session.delete(newlearningjourney)
+    db.session.commit()
+    assert data["data"] == "Add Skill to learning journey is successful!"
+    assert response.status_code == 200
+
+
 
 # def test_learningjourney_deletecoursesinlearningjourney(test_client):
 # # app = create_app()
